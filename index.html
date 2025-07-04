@@ -330,17 +330,61 @@
         line-height: 1.6;
         transition: color 0.18s;
       }
-      .project-card a {
-        color: #1e90ff;
-        text-decoration: underline;
-        font-weight: 700;
-        font-size: 1.01rem;
-        text-shadow: 0 0 8px #1976d2, 0 0 16px #1565c0;
-        transition: color 0.18s;
+      .project-actions {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: auto;
       }
-      .project-card a:hover {
+      .project-btn {
+        padding: 0.55rem 1.2rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1rem;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.18s;
+        box-shadow: 0 2px 8px 0 rgba(25,118,210,0.07);
+        background: #232b3e;
         color: #fff;
-        text-shadow: 0 0 16px #1976d2, 0 0 32px #1565c0;
+        border: 1.5px solid #1976d2;
+        display: inline-block;
+      }
+      .project-btn.demo {
+        background: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
+        color: #fff;
+        border: none;
+      }
+      .project-btn.code {
+        background: #232b3e;
+        color: #1e90ff;
+        border: 1.5px solid #1976d2;
+      }
+      .project-btn:hover, .project-btn:focus {
+        background: #fff;
+        color: #1976d2;
+        box-shadow: 0 0 0 4px #1976d2, 0 8px 32px #1565c0;
+        transform: scale(1.07);
+        outline: none;
+      }
+      .project-card:hover, .project-card:focus-within {
+        background: linear-gradient(120deg, #1976d2 0%, #1565c0 100%);
+        box-shadow: 0 0 0 5px #1976d2, 0 8px 32px 0 #1565c0;
+        transform: scale(1.06) rotate(-2deg);
+        z-index: 2;
+      }
+      .project-card:hover h3,
+      .project-card:hover p,
+      .project-card:hover a {
+        color: #fff;
+        filter: brightness(1.25);
+      }
+      .project-card:focus-within h3,
+      .project-card:focus-within p,
+      .project-card:focus-within a {
+        color: #fff;
+        filter: brightness(1.25);
       }
       .project-card::before {
         content: '';
@@ -366,21 +410,33 @@
         pointer-events: none;
         transition: opacity 0.22s;
       }
-      .project-card:hover, .project-card:focus {
-        background: linear-gradient(120deg, #1976d2 0%, #1565c0 100%);
-        box-shadow: 0 0 0 5px #1976d2, 0 8px 32px 0 #1565c0;
-        transform: scale(1.06) rotate(-2deg);
-        z-index: 2;
-      }
-      .project-card:hover h3,
-      .project-card:hover p,
-      .project-card:hover a {
-        color: #fff;
-        filter: brightness(1.25);
-      }
       .project-card:hover::before,
-      .project-card:hover::after {
+      .project-card:hover::after,
+      .project-card:focus-within::before,
+      .project-card:focus-within::after {
         opacity: 0.28;
+      }
+      @media (max-width: 900px) {
+        .portfolio-cards {
+          grid-template-columns: 1fr;
+          gap: 1.2rem;
+        }
+        .project-card {
+          padding: 1.1rem 0.7rem 1rem 0.7rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .portfolio-cards {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .project-card {
+          padding: 0.7rem 0.3rem 0.7rem 0.3rem;
+        }
+        .project-btn {
+          font-size: 0.98rem;
+          padding: 0.5rem 0.8rem;
+        }
       }
       /* Contact */
       #contact form {
@@ -566,6 +622,215 @@
           grid-template-columns: 1fr;
         }
       }
+      /* Chatbot responsive fix & proportions */
+      #fake-chatbot-widget {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        z-index: 9999;
+        font-family: 'Inter', 'Poppins', Arial, sans-serif;
+      }
+      #fake-chatbot-toggle {
+        background: linear-gradient(135deg, #1976d2 60%, #1565c0 100%);
+        border: none;
+        border-radius: 50%;
+        width: 56px;
+        height: 56px;
+        box-shadow: 0 4px 24px rgba(25,118,210,0.18);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: box-shadow 0.2s, transform 0.2s;
+        outline: none;
+        position: relative;
+      }
+      #fake-chatbot-toggle:hover {
+        box-shadow: 0 0 0 4px #1976d2, 0 8px 32px #1565c0;
+        transform: scale(1.07);
+      }
+      .bot-pulse {
+        position: absolute;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(25,118,210,0.18);
+        animation: bot-pulse 1.6s infinite;
+        z-index: 0;
+      }
+      @keyframes bot-pulse {
+        0% { transform: scale(1); opacity: 0.7;}
+        70% { transform: scale(1.25); opacity: 0;}
+        100% { transform: scale(1); opacity: 0;}
+      }
+      #fake-chatbot-window {
+        position: absolute;
+        bottom: 70px;
+        right: 0;
+        width: 340px;
+        max-width: 95vw;
+        background: rgba(16,19,26,0.97);
+        border-radius: 18px;
+        box-shadow: 0 8px 40px 0 rgba(25,118,210,0.18), 0 1.5px 24px 0 rgba(25,118,210,0.10);
+        border: 1.5px solid rgba(25,118,210,0.18);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        opacity: 1;
+        transform: translateY(24px) scale(1);
+        pointer-events: auto;
+        transition: opacity 0.25s, transform 0.25s;
+        animation: chatbot-pop-in 0.35s cubic-bezier(.77,0,.18,1);
+      }
+      #fake-chatbot-window.closed {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(40px) scale(0.97);
+      }
+      @keyframes chatbot-pop-in {
+        0% { opacity: 0; transform: translateY(60px) scale(0.95);}
+        100% { opacity: 1; transform: translateY(24px) scale(1);}
+      }
+      .fake-chatbot-header {
+        background: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
+        color: #fff;
+        font-weight: 700;
+        padding: 1rem 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #1565c0;
+      }
+      #fake-chatbot-close {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        margin-left: 0.5rem;
+        transition: color 0.2s;
+      }
+      #fake-chatbot-close:hover {
+        color: #ff5252;
+      }
+      #fake-chatbot-messages {
+        flex: 1;
+        padding: 1.1rem 1rem 0.5rem 1rem;
+        overflow-y: auto;
+        max-height: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        background: none;
+      }
+      .fake-chatbot-message {
+        padding: 0.7rem 1rem;
+        border-radius: 14px;
+        max-width: 90%;
+        font-size: 1.04rem;
+        line-height: 1.5;
+        box-shadow: 0 2px 12px 0 rgba(25,118,210,0.08);
+        word-break: break-word;
+        animation: chatbot-msg-in 0.32s cubic-bezier(.77,0,.18,1);
+      }
+      @keyframes chatbot-msg-in {
+        0% { opacity: 0; transform: translateY(24px) scale(0.97);}
+        100% { opacity: 1; transform: translateY(0) scale(1);}
+      }
+      .fake-chatbot-message.user {
+        background: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
+        color: #fff;
+        align-self: flex-end;
+        box-shadow: 0 2px 12px 0 #1976d2;
+      }
+      .fake-chatbot-message.bot {
+        background: #181c26;
+        color: #b3d1f7;
+        align-self: flex-start;
+        border: 1px solid #1976d2;
+      }
+      .fake-chatbot-questions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.7rem;
+      }
+      .fake-chatbot-question {
+        background: rgba(25,118,210,0.13);
+        color: #1976d2;
+        border: none;
+        border-radius: 12px;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.18s, color 0.18s, transform 0.18s;
+        margin-bottom: 0.2rem;
+        box-shadow: 0 2px 8px 0 rgba(25,118,210,0.07);
+      }
+      .fake-chatbot-question:hover, .fake-chatbot-question:focus {
+        background: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
+        color: #fff;
+        transform: scale(1.07);
+        outline: none;
+      }
+      #fake-chatbot-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.7rem 0 1rem 0;
+      }
+      #fake-chatbot-loading.hidden {
+        display: none;
+      }
+      .fake-chatbot-loader {
+        border: 3px solid #1565c0;
+        border-top: 3px solid #1976d2;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        animation: chatbot-spin 0.8s linear infinite;
+      }
+      @keyframes chatbot-spin {
+        0% { transform: rotate(0deg);}
+        100% { transform: rotate(360deg);}
+      }
+      @media (max-width: 600px) {
+        #fake-chatbot-widget {
+          right: 6px;
+          bottom: 6px;
+        }
+        #fake-chatbot-window {
+          width: 98vw;
+          min-width: 0;
+          right: -6px;
+          bottom: 60px;
+          max-width: 99vw;
+        }
+        .fake-chatbot-header {
+          font-size: 1rem;
+          padding: 0.7rem 0.7rem;
+        }
+        #fake-chatbot-messages {
+          padding: 0.7rem 0.5rem 0.3rem 0.5rem;
+          max-height: 220px;
+        }
+        .fake-chatbot-message {
+          font-size: 0.97rem;
+          padding: 0.5rem 0.7rem;
+        }
+        .fake-chatbot-question {
+          font-size: 0.97rem;
+          padding: 0.4rem 0.7rem;
+        }
+      }
+      @media (max-width: 400px) {
+        #fake-chatbot-window {
+          width: 100vw;
+          right: 0;
+        }
+      }
     </style>
   </head>
   <body data-theme="dark" class="loading">
@@ -605,7 +870,7 @@ Web Developer con una forte passione per UI moderne, animazioni fluide e svilupp
 🚀 Sono alla ricerca di uno stage formativo e stimolante, dove poter crescere, imparare e mettere le basi per una carriera solida come sviluppatore.
 <br>
 
-🎯 Dai un’occhiata ai miei progetti<br>
+🎯 Dai un’occhiata ai miei progetti.<br>
           Esplora il mio portfolio per scoprire i miei progetti!</p>
           <button class="cta-btn" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
             Guarda i Progetti
@@ -633,21 +898,33 @@ Web Developer con una forte passione per UI moderne, animazioni fluide e svilupp
       <section id="projects" data-aos="fade-up" data-aos-duration="1200">
         <div class="container">
           <h2 style="text-align:center;">Progetti</h2>
-          <div class="projects-grid">
+          <div class="projects-grid portfolio-cards">
+            <!-- Smartphone Interattivo -->
             <article class="project-card">
-              <h3>Project One</h3>
-              <p>Landing page animata con GSAP e ScrollTrigger.</p>
-              <a href="#" target="_blank">Demo</a>
+              <h3>Smartphone Interattivo</h3>
+              <p>App con interfaccia smartphone, mappe Google Maps integrate e funzioni simulate.</p>
+              <div class="project-actions">
+                <a class="project-btn demo" href="smartphone/index.html" target="_blank">Demo</a>
+                <a class="project-btn code" href="https://github.com/enryyg/smartphone-repo" target="_blank">Codice</a>
+              </div>
             </article>
+            <!-- Calcolatrice Integrali -->
             <article class="project-card">
-              <h3>Project Two</h3>
-              <p>Portfolio responsive con tema dark/light e animazioni custom.</p>
-              <a href="#" target="_blank">Demo</a>
+              <h3>Calcolatrice Integrali</h3>
+              <p>Web app in JavaScript che calcola integrali definiti e indefiniti.</p>
+              <div class="project-actions">
+                <a class="project-btn demo" href="integrali/index.html" target="_blank">Demo</a>
+                <a class="project-btn code" href="https://github.com/enryyg/integrali-repo" target="_blank">Codice</a>
+              </div>
             </article>
+            <!-- Negozio di Vestiti -->
             <article class="project-card">
-              <h3>Project Three</h3>
-              <p>Web app interattiva con effetti di parallasse e transizioni fluide.</p>
-              <a href="#" target="_blank">Demo</a>
+              <h3>Negozio di Vestiti</h3>
+              <p>Sito responsive per un negozio di moda con design curato e UI moderna.</p>
+              <div class="project-actions">
+                <a class="project-btn demo" href="negozio-vestiti/index.html" target="_blank">Demo</a>
+                <a class="project-btn code" href="https://github.com/enryyg/negozio-vestiti-repo" target="_blank">Codice</a>
+              </div>
             </article>
           </div>
         </div>
@@ -890,6 +1167,83 @@ Web Developer con una forte passione per UI moderne, animazioni fluide e svilupp
       });
 
       // Versionamento: Ricorda di usare Git e pubblicare su GitHub Pages!
+
+      // Chatbot open/close logic fix + Q&A logic (tutto in index.html)
+      document.addEventListener('DOMContentLoaded', function() {
+        // Open/close logic
+        const toggleBtn = document.getElementById('fake-chatbot-toggle');
+        const windowEl = document.getElementById('fake-chatbot-window');
+        const closeBtn = document.getElementById('fake-chatbot-close');
+        toggleBtn.addEventListener('click', () => {
+          windowEl.classList.toggle('closed');
+        });
+        closeBtn.addEventListener('click', () => {
+          windowEl.classList.add('closed');
+        });
+        document.addEventListener('keydown', e => {
+          if (e.key === "Escape") windowEl.classList.add('closed');
+        });
+
+        // Q&A logic
+        const QA = [
+          {
+            q: "Chi sei?",
+            a: "Sono Giovanni Polimeni, appassionato di sviluppo web, UI moderne e nuove tecnologie. Ho una formazione in Informatica e Telecomunicazioni e mi piace creare progetti digitali creativi!"
+          },
+          {
+            q: "Che studi hai fatto?",
+            a: "Ho conseguito il diploma in Informatica e Telecomunicazioni e sto per iniziare un corso di laurea in Informatica. Durante il mio percorso ho approfondito sia la programmazione che le reti e la sicurezza."
+          },
+          {
+            q: "Quali linguaggi conosci?",
+            a: "Conosco HTML, CSS, JavaScript, un po' di Python e C. Mi piace lavorare con framework moderni e sono sempre curioso di imparare nuove tecnologie!"
+          },
+          {
+            q: "Quali progetti hai realizzato?",
+            a: "Ho realizzato landing page animate, portfolio responsive, web app interattive e piccoli tool personali. Puoi vedere alcuni esempi nella sezione Progetti qui sul sito!"
+          },
+          {
+            q: "Come posso contattarti?",
+            a: "Puoi scrivermi tramite il form nella sezione Contattami, oppure su <a href='mailto:giovanni.polimeni932@email.com'>giovanni.polimeni932@email.com</a> o su <a href='https://github.com/EnryyG' target='_blank'>GitHub</a>."
+          }
+        ];
+        const messages = document.getElementById('fake-chatbot-messages');
+        const questions = document.querySelectorAll('.fake-chatbot-question');
+        const loading = document.getElementById('fake-chatbot-loading');
+
+        function addMessage(content, sender = "bot") {
+          const msg = document.createElement('div');
+          msg.className = `fake-chatbot-message ${sender}`;
+          msg.innerHTML = content;
+          messages.appendChild(msg);
+          messages.scrollTop = messages.scrollHeight;
+        }
+        function showLoading() {
+          loading.classList.remove('hidden');
+        }
+        function hideLoading() {
+          loading.classList.add('hidden');
+        }
+
+        questions.forEach(btn => {
+          btn.addEventListener('click', function() {
+            const domanda = btn.textContent;
+            const risposta = QA.find(item => item.q === domanda)?.a || "Non ho una risposta per questa domanda!";
+            addMessage(domanda, "user");
+            showLoading();
+            setTimeout(() => {
+              hideLoading();
+              addMessage(risposta, "bot");
+            }, 900 + Math.random() * 600);
+          });
+        });
+
+        // Scroll sempre in basso sui nuovi messaggi
+        const observer = new MutationObserver(() => {
+          messages.scrollTop = messages.scrollHeight;
+        });
+        observer.observe(messages, { childList: true });
+      });
     </script>
   </body>
 </html>
