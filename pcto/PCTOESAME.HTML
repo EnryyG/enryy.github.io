@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCTO Presentazione</title>
+    <link href="https://fonts.googleapis.com/css2?family=Grand9K+Pixel&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Opening animation overlay -->
+    <div id="opening-animation">
+        <canvas id="opening-particles"></canvas>
+        <div class="opening-logo">
+            <span>PCTO</span>
+            <span class="opening-sub">Book</span>
+        </div>
+        <audio id="opening-sound" src="https://cdn.pixabay.com/audio/2022/10/16/audio_12b6b3b3b3.mp3"></audio>
+    </div>
+    <!-- Video background -->
+    <video id="bg-video" autoplay loop muted playsinline style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:-2;">
+        <source src="HACKATON2.mp4" type="video/mp4">
+        Il tuo browser non supporta il video HTML5.
+    </video>
+    <!-- Animated overlay for depth -->
+    <div class="animated-overlay"></div>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>PCTO <span class="highlight">Presentazione</span></h1>
+            <p>Il mio percorso formativo nelle esperienze PCTO</p>
+            <button class="scroll-down-btn" onclick="scrollToBook()">Scorri al libro ↓</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="intro-section">
+            <h2 class="pixel-title">Le Mie Esperienze</h2>
+            <p>Scorri il libro per scoprire il mio percorso PCTO</p>
+            <div class="scroll-indicator">
+                <span>▼</span>
+            </div>
+        </div>
+        <div class="sprite-wrapper" id="book-section">
+            <div class="book">
+                <div class="carousel" style="--slides: 6;">
+                    <div class="sprite"></div>
+                    <!-- Pagina di presentazione iniziale -->
+                    <div class="carousel-item">
+                        <div class="page-container">
+                            <div class="page left-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        📖 <b>PCTO Book Presentation</b>
+                                        <br>
+                                        Un progetto di presentazione interattiva delle esperienze PCTO, SCORRI IL LIBRO PER SCOPRIRE TUTTI I MIEI PCTO 2023/2025.
+                                    </p>
+                                    <img src="https://assets.codepen.io/36869/brilliant.gif" alt="" style="width: 100%">
+                                </div>
+                            </div>
+                            <div class="page right-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        🚀 <b>Core Features</b>
+                                    </p>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        📚 Book-like Page Flipping
+                                    </p>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        Ogni sezione del libro corrisponde a un PCTO reale svolto negli anni scolastici 2022-2025.
+                                    </p><br>
+                                    <p style="margin: 0; text-indent: 1rem">🔧 Tecnologie Utilizzate</p>
+                                    <ul style="padding: 0; list-style: auto; list-style-position: inside; margin: 0">
+                                        <li>Scroll Snap</li>
+                                        <li>View Timeline + Scroll Timeline</li>
+                                        <li>Sprite Sheets</li>
+                                        <li>Dynamic Sizing</li>
+                                    </ul><br>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        🧠 Tutte le animazioni sono dinamiche e responsive.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tutti i PCTO (come già inserito) -->
+                    <!-- 1. PCTO “Certificazione delle competenze di cittadinanza per lo sviluppo sostenibile” -->
+                    <div class="carousel-item">
+                        <div class="page-container">
+                            <div class="page left-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        📅 <b>2024/2025</b><br>
+                                        <b>Certificazione Competenze di Cittadinanza per lo Sviluppo Sostenibile</b><br>
+                                        <span style="font-size:0.95em;">30 ore | Febbraio-Aprile 2025</span><br>
+                                        <b>Promotore:</b> Unioncamere e Camere di commercio
+                                    </p>
+                                    <img src="unioncam.jpg" alt="Sostenibilità" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                            <div class="page right-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        <b>Obiettivo:</b> Acquisizione e certificazione di competenze su sostenibilità e digitalizzazione.<br>
+                                        <b>Corso 1:</b> GreenComp (Ecodesign, Economia Circolare, 4R)<br>
+                                        <b>Corso 2:</b> DigComp (Digital storytelling, video editing OpenShot)<br>
+                                        <b>Project Work:</b> Video educativo sulla sostenibilità (18 ore)
+                                    </p>
+                              
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 2. CORSI G&I – Giovani & Impresa -->
+                    <div class="carousel-item">
+                        <div class="page-container">
+                            <div class="page left-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        📅 <b>Ottobre 2024</b><br>
+                                        <b>CORSI G&I – Giovani & Impresa</b><br>
+                                        <span style="font-size:0.95em;">17 ore</span><br>
+                                        <b>Promotore:</b> Seniores Italia, Fondazione Sodalitas, MIUR
+                                    </p>
+                                    <img src="seniores.jpg" alt="Impresa" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                            <div class="page right-page">
+                                <div>
+                                    <ul style="margin:0 0 0 1em;padding:0;font-size:0.95em;">
+                                        <li>Impresa, responsabilità sociale, intelligenza emotiva</li>
+                                        <li>Comunicazione aziendale, innovazione, teamwork</li>
+                                        <li>Colloquio di lavoro, CV, prove simulate</li>
+                                    </ul>
+                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGxiN2V6cTdhYzQ4bXJzd3FwYTk5eDBrZGJnaHp5bmM5N2F6NzI0diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l3V0megwbBeETMgZa/giphy.gif" alt="Teamwork" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 3. Start Up and Business Plan & Coding Girls -->
+                    <div class="carousel-item">
+                        <div class="page-container">
+                            <div class="page left-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        📅 <b>Gennaio 2024</b><br>
+                                        <b>Start Up and Business Plan</b> – 15 ore<br>
+                                        <b>Promotore:</b> Seniores Italia Lazio
+                                    </p>
+                                    <ul style="margin:0 0 0 1em;padding:0;font-size:0.95em;">
+                                        <li>Business Model Canvas</li>
+                                        <li>Business Plan Finanziario</li>
+                                        <li>Soft skills: teamwork, comunicazione, public speaking</li>
+                                    </ul>
+                                    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80" alt="Business Plan" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                            <div class="page right-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        <b>Coding Girls – Competenze digitali europee</b><br>
+                                        <span style="font-size:0.95em;">10/18 ore | Aprile-Maggio 2024</span><br>
+                                        <b>Luogo:</b> Università Roma Tre<br>
+                                        <b>Contenuto:</b> Formazione sul coding e partecipazione all’Hackathon finale
+                                    </p>
+                                    <img src="coding-girlsù.jpg" alt="Coding Girls" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 4. Robotica Lab2Go & Start Up Your Life -->
+                    <div class="carousel-item">
+                        <div class="page-container">
+                            <div class="page left-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        <b>Robotica Lab2Go – Rover su Marte</b><br>
+                                        <b>Promotore:</b> Università La Sapienza<br>
+                                        <b>Obiettivo:</b> Diffusione della pratica laboratoriale e rete scuola-università-lavoro
+                                    </p>
+                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXM4OWx6d2JobGZ1ZThlaTd2Ym5iYndiYWNuOGJrNXgyNTNiMDFmNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/BWdgfiUZ0f6isJnABJ/giphy.gif" alt="Robotica" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                            <div class="page right-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        📅 <b>2022/2023</b><br>
+                                        <b>Start Up Your Life</b> – 60 ore<br>
+                                        <b>Promotore:</b> Unicredit Spa<br>
+                                        <b>Competenze:</b> Educazione finanziaria, orientamento al risultato, comunicazione, economia bancaria, cyber security
+                                    </p>
+                                    <img src="startup.jpg" alt="Start Up Your Life" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 5. Corso Sicurezza -->
+                    <div class="carousel-item">
+                        <div class="page-container">
+                            <div class="page left-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        <b>Corso Sicurezza</b> – 4 ore<br>
+                                        <b>Contenuti:</b> Prevenzione e gestione del rischio, sicurezza sul lavoro, gestione emergenze
+                                    </p>
+                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjF0aDBldHhmdXA2azBxdGRqYXR0emsxc2sxcWI4b3p0ZzZicmh1eiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/LFt3TldRI9nXU6f1lK/giphy.gif" alt="Sicurezza" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                            <div class="page right-page">
+                                <div>
+                                    <!-- Pagina destra rimossa (Orientamento Next Generation) -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 6. Stage di Robotica, Giornata Nazionale Orientamento, Le botteghe diffuse, Cambridge -->
+                    <div class="carousel-item">
+                        <div class="page-container">
+                            <div class="page left-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        <b>Stage di Robotica – Ericsson Roma</b><br>
+                                        <b>Attività:</b> Laboratorio pratico presso la sede aziendale
+                                    </p>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        <b>Giornata Nazionale dell’Orientamento</b> – 10 ore<br>
+                                        <b>Luogo:</b> Stadio Benito Stirpe di Frosinone<br>
+                                        <b>Tema:</b> Confindustria - “Stati Generali dell’Orientamento”
+                                    </p>
+                                    <img src="eric.jpg" alt="Orientamento Nazionale" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                            <div class="page right-page">
+                                <div>
+                                    <p style="margin: 0; text-indent: 1rem">
+                                   
+                                    <p style="margin: 0; text-indent: 1rem">
+                                        <b>Certificazioni Cambridge (B1)</b><br>
+                                        <b>Attività:</b> Corsi di mobilità europea e superamento esami di certificazione<br>
+                                        <b>Partecipanti:</b> 10 studenti
+                                    </p>
+                                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3M5bGVhcnRmcWsxaHlxa3FiMzUwaWhydmprZWp5Y2Z1bWtyYzEzeSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4Uttd8S4dsjYVmQgdO/giphy.gif" alt="Cambridge" style="width:100%;border-radius:8px;margin-top:0.5em;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page flip sound -->
+            <audio id="flip-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9c8b3b.mp3"></audio>
+            <!-- Progress bar -->
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id="progress-bar-inner"></div>
+            </div>
+        </div>
+        <div class="legend-box">
+            <h3>Legenda Icone</h3>
+            <ul>
+                <li>📖 Introduzione</li>
+                <li>🚀 Caratteristiche</li>
+                <li>🔧 Tecnologie</li>
+                <li>🧠 Dinamica</li>
+                <li>🖼️ Visual</li>
+                <li>📦 Use Case</li>
+            </ul>
+        </div>
+    </div>
+    <footer class="pixel-footer">
+        <div class="footer-content">
+            <span>© 2024 | PCTO Book |
+            <span class="footer-socials">
+                <a href="#" title="Instagram" class="footer-icon">📸</a>
+                <a href="#" title="GitHub" class="footer-icon">🐙</a>
+            </span>
+        </div>
+    </footer>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Grand9K+Pixel&display=swap');
+        @font-face {
+            font-family: PixelText;
+            src: url(https://assets.codepen.io/36869/Grand9KPixel.ttf);
+        }
+
+
+
+
+
+
+
+
+        :root {
+            font-family: 'PixelText', serif;
+            font-optical-sizing: auto;
+            line-height: 1.5;
+            font-weight: 400;
+            color-scheme: light dark;
+            color: rgba(255, 255, 255, 0.87);
+            background-color: #242424;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+            --sprite-image: url(https://assets.codepen.io/36869/book.webp);
+            --sprite-as: .8s;
+            --sprite-ad: normal;
+            --sprite-af: none;
+            --sprite-ap: running;
+            --sprite-ai: infinite;
+            --sprite-at: linear;
+            --sprite-fr: 12;
+        }
+
+
+
+
+
+
+
+
+        @layer base {
+            *{
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                height: 100vh;
+                width: 100vw;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                padding: 1rem;
+                /* Rimuovi background-image qui */
+                background: none;
+                /* Assicurati che il file sia nella stessa cartella del progetto */
+            }
+            .sprite-wrapper {
+                position: relative;
+                width: 100%;
+                margin: 0 auto;
+                /* Fix: aggiungi uno sfondo semi-trasparente e padding per far risaltare il libro */
+                background: rgba(36,36,36,0.92);
+                border-radius: 18px;
+                box-shadow: 0 0 32px 8px #000a;
+                padding: 2rem 0;
+                z-index: 1;
+                max-width: 700px;
+                margin: 2rem auto;
+                border: 3px solid #bfa76f;
+                box-shadow: 0 8px 32px #000a, 0 0 0 4px #fff2;
+            }
+        }
+
+
+
+
+
+
+
+
+        @layer main {
+            @property --sprite-fs {
+                syntax: "<integer>";
+                initial-value: 0;
+                inherits: true
+            }
+            @property --_progress {
+                syntax: "<percentage>";
+                inherits: false;
+                initial-value: 0%;
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                gap: 3rem;
+                --sprite-c: 5;
+                --sprite-h: 3000;
+                --sprite-w: 9600;
+                --sprite-f: 7;
+                --sprite-as: calc(var(--sprite-f) / var(--sprite-fr) * 1s);
+                --sprite-r: round(up, calc(var(--sprite-f) / var(--sprite-c)), 1);
+                --sprite-sh: calc(var(--sprite-h) / var(--sprite-r));
+                --sprite-th: calc(var(--sprite-sh) / 2);
+                --sprite-ar: calc(var(--sprite-th) / var(--sprite-sh));
+                --sprite-uh: calc(var(--sprite-h) * var(--sprite-ar));
+                --sprite-uw: calc(var(--sprite-w) * var(--sprite-ar));
+                --sprite-tw: calc(var(--sprite-uw) / var(--sprite-c));
+                > h1 {
+                    color: #d2d4e1;
+                    margin: 0;
+                    width: fit-content;
+                    font-weight: 500;
+                    font-size: 1.75rem;
+                    text-align: center;
+                }
+                .book {
+                    position: relative;
+                    display: grid;
+                    grid-template-areas:
+                        "scroll scroll scroll"
+                        "left markers right";
+                    gap: 1rem;
+                    .sprite {
+                        position: absolute;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: calc(1px * var(--sprite-th));
+                        width: calc(1px * var(--sprite-tw));
+                        margin: calc(-1px * calc((var(--sprite-th) - (var(--sprite-th) * 0.6107)) / 2)) calc(-1px * calc((var(--sprite-tw) - (var(--sprite-tw) * 0.7042)) / 2));
+                        background-image: var(--sprite-image);
+                        transform-origin: center center;
+                        background-repeat: no-repeat;
+                        background-size: calc(1px * var(--sprite-uw)) calc(1px * var(--sprite-uh));
+                        z-index: -1;
+                        --sprite-fe: calc(var(--sprite-f) * (var(--slides) - 1));
+                        --sprite-fs-n: mod(var(--sprite-fs), var(--sprite-f));
+                        --row: calc(round(down, calc(calc(var(--sprite-tw) * var(--sprite-fs-n)) / var(--sprite-uw)), 1) * var(--sprite-th));
+                        --col: mod(calc(var(--sprite-tw) * var(--sprite-fs-n)), var(--sprite-uw));
+                        background-position: calc(-1px * var(--col)) calc(-1px * var(--row));
+                        /* Fix: usa --sprite-fe-anim per animazione completa */
+                        --sprite-fe-anim: calc(var(--sprite-f) * var(--slides));
+                        animation: frame var(--sprite-as) var(--sprite-at) 0s var(--sprite-ad) var(--sprite-af) var(--sprite-ap);
+                        animation-timeline: --carousel-timeline;
+                    }
+                    .carousel {
+                        counter-increment: curpage;
+                        grid-area: scroll;
+                        overflow-x: auto;
+                        scroll-snap-type: x mandatory;
+                        overscroll-behavior-x: contain;
+                        display: grid;
+                        margin: 0 auto;
+                        width: calc(1px * (var(--sprite-tw) * 0.7042));
+                        height: calc(1px * (var(--sprite-th) * 0.6107));
+                        grid: 1fr / auto-flow 100%;
+                        scroll-timeline: --carousel-timeline x;
+                        scroll-behavior: smooth;
+                        scrollbar-width: none;
+                        scroll-marker-group: after;
+                        /* Fix: ogni .carousel-item deve essere largo quanto la viewport della carousel */
+                        display: flex;
+                        flex-direction: row;
+                    }
+                    .carousel-item {
+                        flex: 0 0 100%;
+                        max-width: 100%;
+                    }
+                    .carousel {
+                        counter-increment: curpage;
+                        grid-area: scroll;
+                        overflow-x: auto;
+                        scroll-snap-type: x mandatory;
+                        overscroll-behavior-x: contain;
+                        display: grid;
+                        margin: 0 auto;
+                        width: calc(1px * (var(--sprite-tw) * 0.7042));
+                        height: calc(1px * (var(--sprite-th) * 0.6107));
+                        grid: 1fr / auto-flow 100%;
+                        scroll-timeline: --carousel-timeline x;
+                        scroll-behavior: smooth;
+                        scrollbar-width: none;
+                        scroll-marker-group: after;
+                        &::scroll-button(*) {
+                            inline-size: 64px;
+                            aspect-ratio: 1;
+                            border-radius: 0;
+                            border: 0;
+                            background-color: transparent;
+                            cursor: pointer;
+                        }
+                        &::scroll-button(*):disabled{
+                            filter: invert(1);
+                            opacity: 0.5;
+                        }
+                        &::scroll-button(*):not(:disabled):is(:hover, :active) {
+                            filter: drop-shadow(2px 4px 6px black);
+                        }
+                        &::scroll-button(*):not(:disabled):active {
+                            scale: 90%;
+                        }
+                        &::scroll-button(left) {
+                            content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiB2aWV3Qm94PSIwIDAgMjMyLjAwMDAwMCAyNTYuMDAwMDAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdHJhbnNmb3JtPSJtYXRyaXgoLTEsMCwwLDEsMCwwKSI+Cgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwyNTYuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIiBmaWxsPSIjZmZmIiBzdHJva2U9Im5vbmUiPgo8cGF0aCBkPSJNMTE4MCAyMTEwIGwwIC0xODAgLTU0MCAwIC01NDAgMCAwIC03MjUgMCAtNzI1IDU0MCAwIDU0MCAwIDAgLTE4MCAwIC0xODAgMTIwIDAgMTIwIDAgMCA2MCAwIDYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgNjAgMCA2MCAwIDAgNjAgMCA2MCA2MCAwIDYwIDAgMCA2MCAwIDYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgNjAgMCA2MCAwIDAgNjAgMCA2MCA2MCAwIDYwIDAgMCA1MyBjMCAyOSA1IDU4IDEyIDY1IDcgNyAzNCAxMiA2MCAxMiBsNDggMCAwIDIzNSAwIDIzNSAtNjAgMCAtNjAgMCAwIDY1IDAgNjUgLTQ3IDAgYy02OCAwIC03NSAtNyAtNzEgLTcxIGwzIC01NCA1OCAtMyA1NyAtMyAwIC0xMTkgMCAtMTIwIC01NSAwIC01NCAwIC0zIC01NyAtMyAtNTggLTYwIC01IC02MCAtNSAtMyAtNTcgLTMgLTU3IC01NyAtMyAtNTcgLTMgLTMgLTU3IC0zIC01NyAtNTcgLTMgLTU3IC0zIC0zIC01NyAtMyAtNTcgLTU3IC0zIC01NyAtMyAtMyAtNTcgLTMgLTU3IC01NyAtMyAtNTcgLTMgLTMgLTU4IC0zIC01OCAtNTcgMyAtNTcgMyAtMyAxNzggLTIgMTc3IC01NDAgMCAtNTQwIDAgMiA0ODMgMyA0ODIgNTM3IDMgNTM2IDIgNyAzMiBjNCAxNyA2IDk3IDQgMTc3IGwtNCAxNDYgNTggMyA1NyAzIDAgLTYxIDAgLTYwIDYwIDAgNjAgMCAwIC02MCAwIC02MCA2MCAwIDYwIDAgMCAtNjAgMCAtNjAgNjAgMCA2MCAwIDAgLTYwIDAgLTYwIDYwIDAgNjAgMCAwIDYwIDAgNjAgLTYwIDAgLTYwIDAgMCA2MCAwYDYwIC02MCAwIC02MCAwIDAgNjAgMCA2MCAtNjAgMCAtNjAgMCAwIDYwIDAgNjAgLTYwIDAgLTYwIDAgMCA2MCAwIDYwIC02MCAwIC02MCAwIDAgNjAgMCA2MCAtMTIwIDAgLTEyMCAwIDAgLTE4MHoiPjwvcGF0aD4KPC9nPgo8L3N2Zz4=") / "Scroll Left";
+                            grid-area: left;
+                        }
+                        &::scroll-button(right) {
+                            /* Freccia destra: identica a quella sinistra ma specchiata, stesso stile e dimensioni */
+                            content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 232 256'><g fill='%23bfa76f'><path d='M112 45l-90 83 90 83' stroke='%23bfa76f' stroke-width='24' fill='none' stroke-linecap='round' stroke-linejoin='round'/></g></svg>");
+                            transform: scaleX(-1);
+                            grid-area: right;
+                            justify-self: flex-end;
+                            margin-left: 8px;
+                            margin-right: 8px;
+                            width: 48px;
+                            height: 48px;
+                            filter: drop-shadow(0 2px 4px #0008);
+                            transition: filter 0.2s;
+                            background: none;
+                        }
+                        &::scroll-marker-group {
+                            content: "";
+                            width: 100%;
+                            height: 8px;
+                            padding: 2px 0;
+                            display: grid;
+                            position: absolute;
+                            grid-area: markers;
+                            grid-auto-flow: column;
+                            place-self: center;
+                            overflow: hidden;
+                            border: 1px solid #000;
+                            background: linear-gradient(90deg, #f1e2b2 0%) no-repeat left center;
+                            --_progress: calc(calc(100 / var(--slides)) * 1%);
+                            background-size: var(--_progress, 20%) 100%;
+                            animation: progress linear both;
+                            animation-timeline: --carousel-timeline;
+                        }
+                        & > .carousel-item {
+                            scroll-snap-stop: always;
+                            scroll-snap-align: start;
+                            animation: count-before linear forwards;
+                            animation-range: exit;
+                            counter-increment: page;
+                            animation-timeline: view(x);
+                            position: relative;
+                            box-sizing: border-box;
+                            color: #333;
+                            &::scroll-marker {
+                                content: '';
+                                position: relative;
+                                left: -1px;
+                                width: 100%;
+                                height: 100%;
+                                display: block;
+                                box-sizing: border-box;
+                                box-shadow: 2px 0 0 #000;
+                            }
+                            &:last-of-type{
+                                &::scroll-marker {
+                                    box-shadow: none;
+                                }
+                            }
+                            .page-container {
+                                display: flex;
+                                gap: 3rem;
+                                height: 100%;
+                                animation: stay-centered 0.7s cubic-bezier(.4,1.4,.6,1);
+                                animation-timeline: view(x);
+                                timeline-scope: --parallax-item;
+                            }
+                            .left-page, .right-page {
+                                flex: 1;
+                                font-size: small;
+                                overflow: hidden;
+                                display: grid;
+                                grid-template-rows: 1fr auto;
+                                &:after {
+                                    bottom: 15px;
+                                    color: hsl(45.71deg 69.23% 30%);
+                                }
+                                > div {
+                                    text-align: justify;
+                                    hyphens: auto;
+                                    line-height: normal;
+                                    display: block;
+                                    word-wrap: break-word;
+                                }
+                            }
+                            .left-page {
+                                padding: 20px 0 20px 20px;
+                                &:after {
+                                    content: counter(curpage);
+                                }
+                            }
+                            .right-page {
+                                padding: 20px 20px 20px 0;
+                                counter-increment: curpage;
+                                &:after {
+                                    content: counter(curpage);
+                                    place-self: self-end;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+        @media (width < 748px) {
+            .container {
+                --sprite-th: calc(var(--sprite-sh) / 2.5);
+                > h1 {
+                    font-size: 1.25rem;
+                }
+                .page {
+                    > div {
+                        font-size: .6rem;
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+        @media (width < 560px) {
+            .container {
+                --sprite-th: calc(var(--sprite-sh) / 4);
+                > h1 {
+                    font-size: 1rem;
+                }
+                .page {
+                    > div {
+                        font-size: .35rem;
+                    }
+                    &:after {
+                        font-size: .5rem;
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+        @media (max-width: 900px) {
+            .sprite-wrapper { max-width: 98vw; }
+            .page-container { gap: 1rem; }
+        }
+
+
+
+
+
+
+
+
+        @media (max-width: 600px) {
+            .sprite-wrapper { padding: 0.5rem 0; }
+            .page-container { flex-direction: column; }
+            .left-page, .right-page { padding: 10px; }
+        }
+
+
+
+
+
+
+
+
+        @keyframes stay-centered {
+            0% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            20% {
+                opacity: 0.3;
+                transform: translateX(-25%);
+            }
+            40% {
+                opacity: 1;
+                transform: translateX(0%);
+            }
+            60% {
+                opacity: 1;
+                transform: translateX(0%);
+            }
+            80% {
+                opacity: 0.3;
+                transform: translateX(25%);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+
+
+
+
+
+
+
+        @keyframes count-before {
+            1%,
+            100% {
+                counter-increment: page curpage;
+            }
+        }
+
+
+
+
+
+
+
+
+        @keyframes progress {
+            100% {
+                --_progress: 100%;
+            }
+        }
+
+
+
+
+
+
+
+
+        @keyframes frame {
+            /* Fix: animazione completa su tutti i frame */
+            to {
+                --sprite-fs: var(--sprite-fe-anim);
+            }
+        }
+
+
+
+
+
+
+
+
+        @media (prefers-reduced-motion) {
+            * {
+                animation: none;
+            }
+        }
+        .animated-overlay {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: repeating-linear-gradient(120deg, #ffe9a011 0 2px, transparent 2px 40px);
+            animation: overlayMove 12s linear infinite;
+        }
+        @keyframes overlayMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 200px; }
+        }
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 30vh;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content {
+            background: rgba(36,36,36,0.85);
+            border-radius: 18px;
+            padding: 2rem 2.5rem 1.5rem 2.5rem;
+            box-shadow: 0 4px 32px #000a, 0 0 0 2px #bfa76f33;
+            display: inline-block;
+            position: relative;
+        }
+        .scroll-down-btn {
+            margin-top: 1.2rem;
+            font-family: inherit;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, #ffe9a0 60%, #bfa76f 100%);
+            color: #222;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #bfa76f44;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .scroll-down-btn:hover {
+            background: linear-gradient(90deg, #fffbe6 80%, #ffe9a0 100%);
+            transform: scale(1.06);
+        }
+        .pixel-title {
+            font-family: 'Grand9K Pixel', 'PixelText', monospace;
+            color: #ffe9a0;
+            font-size: 2rem;
+            text-shadow: 0 2px 8px #000a, 0 0 0.5rem #bfa76f;
+            margin-bottom: 0.5rem;
+        }
+        .legend-box {
+            background: rgba(36,36,36,0.85);
+            border-radius: 12px;
+            padding: 1.2rem 2rem;
+            margin: 2rem auto 0 auto;
+            color: #ffe9a0;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 12px #0004;
+            max-width: 350px;
+        }
+        .legend-box h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .legend-box ul {
+            padding-left: 1.2em;
+        }
+        .progress-bar {
+            width: 90%;
+            height: 8px;
+            background: #fff2;
+            border-radius: 6px;
+            margin: 1.5rem auto 0 auto;
+            overflow: hidden;
+            box-shadow: 0 1px 8px #bfa76f22;
+        }
+        .progress-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #ffe9a0 60%, #bfa76f 100%);
+            width: 0%;
+            transition: width 0.3s cubic-bezier(.4,1.4,.6,1);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(36,36,36,0.85);
+            border-radius: 12px 12px 0 0;
+            padding: 1rem 2rem;
+            color: #ffe9a0;
+            font-family: 'Grand9K Pixel', 'PixelText', monospace;
+            font-size: 1rem;
+            box-shadow: 0 -2px 12px #0004;
+            margin-top: 2rem;
+        }
+        .footer-content a {
+            color: #ffe9a0;
+            text-decoration: underline dotted;
+            transition: color 0.15s;
+        }
+        .footer-content a:hover {
+            color: #fffbe6;
+        }
+        .footer-socials .footer-icon {
+            font-size: 1.3em;
+            margin-left: 1em;
+            text-decoration: none;
+        }
+        /* Migliora la scrollbar per la carousel */
+        .carousel::-webkit-scrollbar {
+            height: 10px;
+            background: #222a;
+            border-radius: 6px;
+        }
+        .carousel::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, #ffe9a0 60%, #bfa76f 100%);
+            border-radius: 6px;
+        }
+        /* Tooltip per le icone social */
+        .footer-icon[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            background: #222;
+            color: #ffe9a0;
+            font-size: 0.9em;
+            padding: 2px 8px;
+            border-radius: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 2.2em;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        #opening-animation {
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: linear-gradient(120deg, #242424 60%, #bfa76f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.2s cubic-bezier(.4,1.4,.6,1);
+            opacity: 1;
+            pointer-events: all;
+            overflow: hidden;
+        }
+        #opening-particles {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .opening-logo {
+            font-family: 'Grand9K Pixel', 'PixelText', monospace;
+            font-size: 3.5rem;
+            color: #ffe9a0;
+            text-shadow: 0 4px 32px #000a, 0 0 0.5rem #bfa76f, 0 0 2px #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: logo-pop 1.7s cubic-bezier(.4,1.4,.6,1), logo-zoom 2.2s cubic-bezier(.4,1.4,.6,1);
+            z-index: 2;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        .opening-logo .opening-sub {
+            font-size: 2rem;
+            color: #fffbe6;
+            letter-spacing: 0.2em;
+            margin-top: 0.2em;
+            text-shadow: 0 0 8px #bfa76f, 0 0 2px #fff;
+            animation: logo-fadein 1.2s 0.7s both;
+        }
+        @keyframes logo-pop {
+            0% { transform: scale(0.7) rotate(-8deg); opacity: 0; }
+            40% { opacity: 0.5; }
+            60% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        @keyframes logo-zoom {
+            0% { filter: blur(8px); }
+            100% { filter: blur(0); }
+        }
+        @keyframes logo-fadein {
+            0% { opacity: 0; transform: translateY(30px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        body.opening-done #opening-animation {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s cubic-bezier(.4,1.4,.6,1);
+        }
+        body.opening-done #opening-animation .opening-logo {
+            animation: none;
+        }
+    </style>
+    <script>
+    // Scroll to book section
+    function scrollToBook() {
+        document.getElementById('book-section').scrollIntoView({behavior: 'smooth'});
+    }
+
+
+    // Opening particles animation
+    function openingParticles() {
+        const canvas = document.getElementById('opening-particles');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let w = window.innerWidth, h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+        let particles = [];
+        for (let i = 0; i < 48; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 2.5 + 1.5,
+                dx: (Math.random() - 0.5) * 0.7,
+                dy: (Math.random() - 0.5) * 0.7,
+                alpha: Math.random() * 0.5 + 0.5
+            });
+        }
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            for (let p of particles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(255, 233, 160,${p.alpha})`;
+                ctx.shadowColor = "#ffe9a0";
+                ctx.shadowBlur = 16;
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > w) p.dx *= -1;
+                if (p.y < 0 || p.y > h) p.dy *= -1;
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+        window.addEventListener('resize', () => {
+            w = window.innerWidth;
+            h = window.innerHeight;
+            canvas.width = w;
+            canvas.height = h;
+        });
+    }
+
+
+    // Migliora la dissolvenza e aggiungi suono
+    window.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            document.querySelector('.opening-logo').style.opacity = 1;
+            // Play opening sound
+            const openingSound = document.getElementById('opening-sound');
+            if (openingSound) {
+                openingSound.volume = 0.25;
+                openingSound.play().catch(()=>{});
+            }
+            setTimeout(function() {
+                document.body.classList.add('opening-done');
+                setTimeout(function() {
+                    const anim = document.getElementById('opening-animation');
+                    if (anim) anim.style.display = 'none';
+                }, 1200);
+            }, 1400); // Durata visibile dopo logo
+        }, 400); // Ritardo prima di mostrare logo
+        openingParticles();
+    });
+
+
+    // Aggiorna la progress bar in base allo scroll della carousel
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.querySelector('.carousel');
+        const progressBar = document.getElementById('progress-bar-inner');
+        const flipSound = document.getElementById('flip-sound');
+        if (carousel && progressBar) {
+            carousel.addEventListener('scroll', function() {
+                const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                const percent = maxScroll > 0 ? (carousel.scrollLeft / maxScroll) * 100 : 0;
+                progressBar.style.width = percent + '%';
+            });
+        }
+        // Suono flip pagina su scroll
+        let lastPage = 0;
+        if (carousel && flipSound) {
+            carousel.addEventListener('scroll', function() {
+                const pageWidth = carousel.clientWidth;
+                const curPage = Math.round(carousel.scrollLeft / pageWidth);
+                if (curPage !== lastPage) {
+                    flipSound.currentTime = 0;
+                    flipSound.play();
+                    lastPage = curPage;
+                }
+            });
+        }
+        // Animazione scroll-indicator
+        const indicator = document.querySelector('.scroll-indicator span');
+        if (indicator) {
+            setInterval(() => {
+                indicator.style.transform = 'translateY(10px)';
+                setTimeout(() => indicator.style.transform = 'translateY(0)', 400);
+            }, 1200);
+        }
+    });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
