@@ -1,0 +1,158 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  background: #0a0e1a;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.mdt-root {
+  display: flex;
+  height: 100vh;
+}
+
+.mdt-sidebar {
+  width: 240px;
+  background: #10162a;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #1e2c4a;
+}
+
+.mdt-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.mdt-logo img {
+  width: 80px;
+  height: 80px;
+}
+
+.mdt-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mdt-nav li {
+  padding: 12px 24px;
+  color: #b6c3e0;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: 0.2s;
+}
+
+.mdt-nav li:hover {
+  background: #181f36;
+  color: #4defff;
+}
+
+.mdt-nav li.active {
+  background: #181f36;
+  color: #4defff;
+  border-left: 3px solid #4defff;
+}
+
+.mdt-nav li i {
+  width: 20px;
+  text-align: center;
+}
+
+.mdt-main {
+  flex: 1;
+  padding: 24px 32px;
+  overflow-y: auto;
+}
+
+.mdt-header {
+  margin-bottom: 24px;
+}
+
+.mdt-header h1 {
+  font-size: 28px;
+  margin: 0;
+  color: #4defff;
+}
+
+.mdt-header-desc {
+  color: #b6c3e0;
+  font-size: 15px;
+}
+
+.mdt-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.mdt-card {
+  background: #10162a;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 200px;
+}
+
+.mdt-chat-title, .mdt-search-title, .mdt-dispatch-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4defff;
+  margin-bottom: 16px;
+}
+
+.mdt-chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.mdt-chat-input {
+  display: flex;
+  gap: 8px;
+}
+
+.mdt-chat-input input {
+  flex: 1;
+  background: #181f36;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.mdt-chat-input button {
+  background: #4defff;
+  color: #10162a;
+  border: none;
+  width: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mdt-search-input {
+  width: 100%;
+  background: #181f36;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.mdt-search-empty, .mdt-dispatch-empty {
+  text-align: center;
+  color: #b6c3e0;
+  padding: 32px 0;
+}
+
+.mdt-search-empty i, .mdt-dispatch-empty i {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #4defff;
+}

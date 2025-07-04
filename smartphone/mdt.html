@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MDT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="mdt2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+</head>
+<body>
+  <div class="mdt-root">
+    <aside class="mdt-sidebar">
+      <div class="mdt-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/US-DeptOfJustice-Seal.svg/200px-US-DeptOfJustice-Seal.svg.png" alt="DOJ">
+      </div>
+      <nav class="mdt-nav">
+        <ul>
+          <li class="active"><i class="fa fa-home"></i> Homepage</li>
+          <li><i class="fa fa-bullhorn"></i> Announcements</li>
+          <li><i class="fa fa-shield-alt"></i> Patrols</li>
+          <li><i class="fa fa-users"></i> Citizens</li>
+          <li><i class="fa fa-car"></i> Vehicles</li>
+          <li><i class="fa fa-headset"></i> Dispatch</li>
+          <li><i class="fa fa-archive"></i> Weapon Registry</li>
+          <li><i class="fa fa-folder-open"></i> Evidence</li>
+          <li><i class="fa fa-briefcase"></i> Cases</li>
+          <li><i class="fa fa-video"></i> Cameras</li>
+          <li><i class="fa fa-sticky-note"></i> Notes</li>
+          <li><i class="fa fa-cog"></i> Settings</li>
+        </ul>
+      </nav>
+      <button class="mdt-exit"><i class="fa fa-sign-out-alt"></i> Exit</button>
+    </aside>
+    <main class="mdt-main">
+      <header class="mdt-header">
+        <h1>Homepage</h1>
+        <span class="mdt-header-desc">Welcome, Officer</span>
+      </header>
+      <div class="mdt-content">
+        <section class="mdt-card">
+          <div class="mdt-chat-title">Live Chat</div>
+          <div class="mdt-chat-messages" id="chat-messages"></div>
+          <form class="mdt-chat-input" id="chat-form">
+            <input type="text" id="chat-input" placeholder="Type a message..." />
+            <button type="submit"><i class="fa fa-paper-plane"></i></button>
+          </form>
+        </section>
+        <section class="mdt-card">
+          <div class="mdt-search-title">Quick Search</div>
+          <input type="text" class="mdt-search-input" placeholder="Search citizens, vehicles, weapons...">
+          <div class="mdt-search-empty">
+            <i class="fa fa-search"></i>
+            <span>Enter search terms</span>
+          </div>
+        </section>
+        <section class="mdt-card">
+          <div class="mdt-dispatch-title">Active Dispatch</div>
+          <div class="mdt-dispatch-empty">
+            <i class="fa fa-bell-slash"></i>
+            <span>No active calls</span>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="mdt.js"></script>
+</body>
+</html>

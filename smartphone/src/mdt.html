@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>MDT</title>
+  <meta name="viewport" content="width=1024, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/mdt2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    /* Animazioni generali */
+    .mdt-card, .mdt-header, .mdt-logo img, .mdt-officer, .mdt-chat-message {
+      animation: fadeInUp 0.7s cubic-bezier(.4,1.4,.4,1) both;
+    }
+    .mdt-card { animation-delay: 0.1s; }
+    .mdt-header { animation-delay: 0.05s; }
+    .mdt-logo img { animation-delay: 0.2s; }
+    .mdt-officer { animation-delay: 0.3s; }
+    .mdt-chat-message { animation-delay: 0.2s; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(32px) scale(0.98);}
+      to { opacity: 1; transform: none;}
+    }
+    /* Animazione chiamata dispatch */
+    .dispatch-call {
+      animation: dispatchPop 0.7s cubic-bezier(.4,1.4,.4,1), dispatchPulse 1.2s infinite alternate;
+      background: linear-gradient(90deg,#ff4d4d22 0%,#4defff22 100%);
+      border-left: 5px solid #ff4d4d;
+      box-shadow: 0 4px 24px #ff4d4d33;
+    }
+    @keyframes dispatchPop {
+      0% { opacity: 0; transform: scale(0.85) translateY(32px);}
+      60% { opacity: 1; transform: scale(1.05) translateY(-4px);}
+      100% { opacity: 1; transform: scale(1) translateY(0);}
+    }
+    @keyframes dispatchPulse {
+      0% { box-shadow: 0 0 0 0 #ff4d4d44;}
+      100% { box-shadow: 0 0 16px 8px #ff4d4d22;}
+    }
+    /* Pulsante animato */
+    .mdt-exit {
+      transition: background 0.18s, color 0.18s, transform 0.18s;
+    }
+    .mdt-exit:hover {
+      transform: scale(1.07) rotate(-2deg);
+      box-shadow: 0 4px 24px #ff4d4d33;
+    }
+    /* Animazione badge */
+    .mdt-badge, .mdt-radio {
+      animation: badgeGlow 2.5s infinite alternate;
+    }
+    @keyframes badgeGlow {
+      0% { box-shadow: 0 0 0 0 #4defff33;}
+      100% { box-shadow: 0 0 8px 2px #4defff99;}
+    }
+    /* Animazione officers online */
+    .mdt-officer {
+      transition: box-shadow 0.18s, transform 0.18s;
+    }
+    .mdt-officer:hover {
+      box-shadow: 0 4px 24px #4defff33;
+      transform: scale(1.04) translateY(-2px);
+    }
+    .cams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 18px;
+      margin-bottom: 12px;
+    }
+    .cam-feed {
+      background: #181f36;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px #4defff22;
+      border: 2px solid #23243a;
+      display: flex;
+      flex-direction: column;
+      animation: camFadeIn 0.8s cubic-bezier(.4,1.4,.4,1) both;
+      transition: box-shadow 0.18s, transform 0.18s;
+    }
+    .cam-feed:hover {
+      box-shadow: 0 8px 32px #4defff44;
+      transform: scale(1.03) translateY(-4px);
+      z-index: 2;
+    }
+    .cam-title {
+      background: #1e3955;
+      color: #4defff;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-bottom: 1.5px solid #4defff33;
+      letter-spacing: 0.5px;
+    }
+    .cam-feed iframe {
+      width: 100%;
+      height: 220px;
+      border: none;
+      display: block;
+      background: #000;
+      filter: grayscale(0.15) brightness(0.93) contrast(1.05);
+      transition: filter 0.3s;
+    }
+    .cam-feed:hover iframe {
+      filter: grayscale(0) brightness(1.05) contrast(1.1);
+    }
+    @keyframes camFadeIn {
+      0% { opacity: 0; transform: scale(0.95) translateY(32px);}
+      100% { opacity: 1; transform: none;}
+    }
+    .cam-animate { animation: camFadeIn 0.8s cubic-bezier(.4,1.4,.4,1) both; }
+  </style>
+</head>
+<body>
+  <div class="mdt-root">
+    <aside class="mdt-sidebar">
+      <div class="mdt-logo">
+        <img src="assets/mdtlogo.png" alt="LSPD">
+      </div>
+      <nav class="mdt-nav">
+        <ul>
+          <li class="active"><i class="fa fa-home"></i> Home</li>
+          <li><i class="fa fa-bullhorn"></i> Annunci</li>
+          <li id="nav-pattuglie"><i class="fa fa-shield-alt"></i> Pattuglie</li>
+          <li><i class="fa fa-users"></i> Cittadini</li>
+          <li><i class="fa fa-car"></i> Veicoli</li>
+          <li><i class="fa fa-headset"></i> Centrale</li>
+          <li><i class="fa fa-archive"></i> Registro Armi</li>
+          <li><i class="fa fa-folder-open"></i> Prove</li>
+          <li><i class="fa fa-briefcase"></i> Casi</li>
+          <li id="nav-cams"><i class="fa fa-video"></i> Telecamere</li>
+          <li><i class="fa fa-sticky-note"></i> Note</li>
+          <li><i class="fa fa-cog"></i> Impostazioni</li>
+        </ul>
+      </nav>
+      <button class="mdt-exit"><i class="fa fa-sign-out-alt"></i> Esci</button>
+    </aside>
+    <main class="mdt-main">
+      <header class="mdt-header">
+        <h1>Home</h1>
+        <span class="mdt-header-desc">Benvenuto Agente!</span>
+      </header>
+      <div class="mdt-content" id="mdt-content">
+        <section class="mdt-card mdt-chat-card">
+          <div class="mdt-chat-title">Chat <span>Chatta con altri agenti</span></div>
+          <div class="mdt-chat-messages" id="chat-messages">
+            <div class="mdt-chat-message">
+              <img src="assets/matteo.png" alt="John Smith">
+              <div>
+                <b>Matteo Mastrangelo</b>
+                <div>Ho appena visto un gatto guidare un'auto in Via Roma. Sto sognando o qualcun altro lo vede?</div>
+              </div>
+            </div>
+            <div class="mdt-chat-message">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Emily Davis">
+              <div>
+                <b>Elisa Bianchi</b>
+                <div>Matteo, credo tu abbia bisogno di un caffè. Ma controllerò le telecamere per sicurezza.</div>
+              </div>
+            </div>
+            <div class="mdt-chat-message">
+              <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Mike Johnson">
+              <div>
+                <b>Michele Verdi</b>
+                <div>Se il gatto guida meglio di te, Matteo, forse dobbiamo dargli un distintivo.</div>
+              </div>
+            </div>
+            <div class="mdt-chat-message">
+              <img src="assets/matteo.png" alt="John Smith">
+              <div>
+                <b>Matteo Mastrangelo</b>
+                <div>Molto divertente, Michele.</div>
+              </div>
+            </div>
+          </div>
+          <form class="mdt-chat-input" id="chat-form" autocomplete="off">
+            <input type="text" id="chat-input" placeholder="Invia un messaggio..." autocomplete="off" />
+            <button type="submit"><i class="fa fa-paper-plane"></i></button>
+          </form>
+        </section>
+        <section class="mdt-card mdt-search-card">
+          <div class="mdt-search-title">Ricerca <span>Cerca qualsiasi cosa nel MDT</span></div>
+          <input type="text" class="mdt-search-input" placeholder="Cerca">
+          <div class="mdt-search-empty">
+            <span class="mdt-search-empty-icon"><i class="fa fa-times-circle"></i></span>
+            <span>Inizia una ricerca</span>
+            <small>Cerca per cittadini, veicoli, armi, prove, casi o note</small>
+          </div>
+          <div class="mdt-officers-title">Agenti online</div>
+          <div class="mdt-officers-list" id="officers-list">
+            <div class="mdt-officer">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Giovanni Rossi">
+              <div>
+                <b>Giovanni Rossi</b>
+                <span class="mdt-rank sergeant">Sergente</span>
+                <span class="mdt-badge">21-267</span>
+                <span class="mdt-radio">1.00 MHz</span>
+              </div>
+            </div>
+            <div class="mdt-officer">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Elisa Bianchi">
+              <div>
+                <b>Elisa Bianchi</b>
+                <span class="mdt-rank recruit">Allieva</span>
+                <span class="mdt-badge">00-310</span>
+                <span class="mdt-radio">1.00 MHz</span>
+              </div>
+            </div>
+            <div class="mdt-officer">
+              <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Michele Verdi">
+              <div>
+                <b>Michele Verdi</b>
+                <span class="mdt-rank chief">Capo della Polizia</span>
+                <span class="mdt-badge">10-163</span>
+                <span class="mdt-radio">1.00 MHz</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="mdt-card mdt-dispatch-card">
+          <div class="mdt-dispatch-title">Centrale <span>Visualizza le ultime segnalazioni</span></div>
+          <div class="mdt-dispatch-list" id="mdt-dispatch-list">
+          <!-- Le chiamate di emergenza animate verranno inserite qui -->
+        </div>
+        </section>
+        <!-- Mappa pattuglie nascosta di default -->
+        <section class="mdt-card mdt-pattuglie-card" id="pattuglie-map-section" style="display:none;grid-column:1/-1;">
+          <div class="mdt-chat-title">Mappa Pattuglie <span>Posizione GPS delle pattuglie a Roma</span></div>
+          <div id="pattuglie-map" style="width:100%;height:420px;border-radius:18px;overflow:hidden;"></div>
+        </section>
+        <!-- Sezione telecamere esterne, nascosta di default -->
+        <section class="mdt-card mdt-cams-card" id="cams-section" style="display:none;grid-column:1/-1;">
+          <div class="mdt-chat-title">Telecamere Live <span>Flussi video da telecamere pubbliche</span></div>
+          <div class="cams-grid">
+            <div class="cam-feed cam-animate">
+              <div class="cam-title">Roma - Piazza Venezia</div>
+              <iframe src="https://www.youtube.com/watch?v=jXYQoWAKgFE" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="cam-feed cam-animate" style="animation-delay:0.15s;">
+              <div class="cam-title">Roma - Colosseo</div>
+              <iframe src="https://www.youtube.com/embed/8QnMmpfKWvo?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="cam-feed cam-animate" style="animation-delay:0.3s;">
+              <div class="cam-title">Roma - Piazza di Spagna</div>
+              <iframe src="https://www.youtube.com/embed/3A2QvA1Jp7A?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="cam-feed cam-animate" style="animation-delay:0.45s;">
+              <div class="cam-title">Roma - Via del Corso</div>
+              <iframe src="https://www.youtube.com/embed/8vQw6Q5p1l8?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="scripts/mdt.js"></script>
+  <script>
+    // Mappa pattuglie - Leaflet
+    let pattuglieMap = null;
+    let pattuglieMarkers = [];
+
+    // Custom marker icon
+    const pattugliaIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    function updatePattugliePositions() {
+      // Simula aggiornamento posizioni in tempo reale
+      const pattuglie = [
+        { nome: "Unità Alfa", lat: 41.9109 + Math.random()*0.01, lng: 12.4818 + Math.random()*0.01, stato: "In pattuglia" },
+        { nome: "Unità Bravo", lat: 41.8986 + Math.random()*0.01, lng: 12.4768 + Math.random()*0.01, stato: "Fermo" },
+        { nome: "Unità Charlie", lat: 41.8892 + Math.random()*0.01, lng: 12.4922 + Math.random()*0.01, stato: "Inseguimento" },
+        { nome: "Unità Delta", lat: 41.9131 + Math.random()*0.01, lng: 12.5450 + Math.random()*0.01, stato: "In pattuglia" },
+        { nome: "Unità Echo", lat: 41.9272 + Math.random()*0.01, lng: 12.5176 + Math.random()*0.01, stato: "Pausa" }
+      ];
+
+      // Aggiorna i marker esistenti
+      pattuglie.forEach((p, i) => {
+        if (pattuglieMarkers[i]) {
+          pattuglieMarkers[i].setLatLng([p.lat, p.lng])
+            .setPopupContent(`
+              <div style="font-family:Arial;padding:5px;">
+                <b style="color:#1e3955;font-size:14px;">${p.nome}</b><br>
+                <span style="color:#666;font-size:12px;">Stato: <b style="color:#4defff">${p.stato}</b></span><br>
+                <span style="color:#666;font-size:12px;">GPS: ${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}</span>
+              </div>
+            `);
+        }
+      });
+    }
+
+    function showPattuglieMap() {
+      // Mostra la sezione mappa e nascondi le altre
+      document.querySelectorAll('.mdt-card').forEach(card => {
+        if (!card.classList.contains('mdt-pattuglie-card')) card.style.display = 'none';
+      });
+      document.getElementById('pattuglie-map-section').style.display = 'block';
+
+      // Inizializza la mappa solo la prima volta
+      if (!pattuglieMap) {
+        pattuglieMap = L.map('pattuglie-map', {
+          zoomControl: true,
+          minZoom: 11,
+          maxZoom: 18
+        }).setView([41.9028, 12.4964], 12);
+
+        // Stile mappa scuro personalizzato
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          attribution: '©OpenStreetMap, ©CartoDB'
+        }).addTo(pattuglieMap);
+
+        // Aggiungi markers iniziali
+        const pattuglie = [
+          { nome: "Unità Alfa", lat: 41.9109, lng: 12.4818, stato: "In pattuglia" },
+          { nome: "Unità Bravo", lat: 41.8986, lng: 12.4768, stato: "Fermo" },
+          { nome: "Unità Charlie", lat: 41.8892, lng: 12.4922, stato: "Inseguimento" },
+          { nome: "Unità Delta", lat: 41.9131, lng: 12.5450, stato: "In pattuglia" },
+          { nome: "Unità Echo", lat: 41.9272, lng: 12.5176, stato: "Pausa" }
+        ];
+
+        pattuglie.forEach(p => {
+          const marker = L.marker([p.lat, p.lng], {icon: pattugliaIcon})
+            .bindPopup(`
+              <div style="font-family:Arial;padding:5px;">
+                <b style="color:#1e3955;font-size:14px;">${p.nome}</b><br>
+                <span style="color:#666;font-size:12px;">Stato: <b style="color:#4defff">${p.stato}</b></span><br>
+                <span style="color:#666;font-size:12px;">GPS: ${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}</span>
+              </div>
+            `)
+            .addTo(pattuglieMap);
+          pattuglieMarkers.push(marker);
+        });
+
+        // Aggiorna posizioni ogni 5 secondi
+        setInterval(updatePattugliePositions, 5000);
+      }
+
+      // Forza ridimensionamento mappa
+      setTimeout(() => {
+        pattuglieMap.invalidateSize();
+      }, 100);
+    }
+    // Torna alla home o altre sezioni
+    function hidePattuglieMap() {
+      document.getElementById('pattuglie-map-section').style.display = 'none';
+      document.querySelectorAll('.mdt-card').forEach(card => {
+        if (!card.classList.contains('mdt-pattuglie-card')) card.style.display = '';
+      });
+    }
+    // Listener menu
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('nav-pattuglie').addEventListener('click', function() {
+        showPattuglieMap();
+      });
+      // Quando clicchi su Home, Annunci ecc. nascondi la mappa
+      document.querySelectorAll('.mdt-nav li:not(#nav-pattuglie)').forEach(li => {
+        li.addEventListener('click', hidePattuglieMap);
+      });
+    });
+    // --- Dispatch animato ---
+    const dispatchList = document.getElementById('mdt-dispatch-list');
+    const emergencyCalls = [
+      {
+        type: "🚨 Rapina in corso",
+        desc: "Segnalata rapina presso Banca Nazionale, Via Nazionale 12.",
+        time: "Adesso",
+        color: "#ff4d4d"
+      },
+      {
+        type: "🔥 Incendio",
+        desc: "Incendio segnalato in Via Appia 45. Vigili del fuoco in arrivo.",
+        time: "1 min fa",
+        color: "#ffb84d"
+      },
+      {
+        type: "🚗 Incidente stradale",
+        desc: "Incidente tra due veicoli in Piazza Venezia. Possibili feriti.",
+        time: "2 min fa",
+        color: "#4defff"
+      },
+      {
+        type: "🔫 Spari uditi",
+        desc: "Colpi d'arma da fuoco uditi in Via del Corso.",
+        time: "3 min fa",
+        color: "#ff4d4d"
+      },
+      {
+        type: "👮 Richiesta supporto",
+        desc: "Agente richiede supporto in Via Tiburtina 101.",
+        time: "4 min fa",
+        color: "#4defff"
+      }
+    ];
+    let dispatchIndex = 0;
+    function addDispatchCall(call) {
+      const el = document.createElement('div');
+      el.className = 'dispatch-call';
+      el.style.margin = "18px 0";
+      el.style.padding = "18px 18px 12px 18px";
+      el.style.borderRadius = "12px";
+      el.style.borderLeft = `5px solid ${call.color}`;
+      el.innerHTML = `
+        <div style="font-size:18px;font-weight:700;color:${call.color};margin-bottom:4px;">${call.type}</div>
+        <div style="font-size:15px;color:#fff;margin-bottom:6px;">${call.desc}</div>
+        <div style="font-size:13px;color:#b6c3e0;text-align:right;">${call.time}</div>
+      `;
+      dispatchList.prepend(el);
+      // Rimuovi le chiamate vecchie dopo 5
+      while (dispatchList.children.length > 5) {
+        dispatchList.lastChild.classList.add('dispatch-remove');
+        setTimeout(() => {
+          if(dispatchList.lastChild) dispatchList.removeChild(dispatchList.lastChild);
+        }, 600);
+      }
+      dispatchCalls.push(call); // Aggiunto alla coda delle chiamate
+    }
+    // Animazione uscita
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .dispatch-remove {
+        animation: dispatchRemove 0.6s cubic-bezier(.4,1.4,.4,1) forwards;
+      }
+      @keyframes dispatchRemove {
+        0% { opacity: 1; transform: scale(1);}
+        100% { opacity: 0; transform: scale(0.85) translateY(32px);}
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Ciclo chiamate ogni 4 secondi
+    setInterval(() => {
+      addDispatchCall(emergencyCalls[dispatchIndex]);
+      dispatchIndex = (dispatchIndex + 1) % emergencyCalls.length;
+    }, 4000);
+
+    // All'avvio, mostra una chiamata
+    addDispatchCall(emergencyCalls[0]);
+    // Telecamere: mostra/nascondi sezione
+    document.addEventListener('DOMContentLoaded', function() {
+      var navCams = document.getElementById('nav-cams');
+      var camsSection = document.getElementById('cams-section');
+      navCams.addEventListener('click', function() {
+        // Nascondi tutte le altre card
+        document.querySelectorAll('.mdt-card').forEach(card => {
+          if (!card.classList.contains('mdt-cams-card')) card.style.display = 'none';
+        });
+        camsSection.style.display = 'block';
+        // Animazione su ogni feed
+        document.querySelectorAll('.cam-feed').forEach((el, i) => {
+          el.style.animationDelay = (i * 0.15) + 's';
+          el.classList.remove('cam-animate');
+          void el.offsetWidth; // trigger reflow
+          el.classList.add('cam-animate');
+        });
+      });
+      // Quando clicchi su altre sezioni, nascondi cams
+      document.querySelectorAll('.mdt-nav li:not(#nav-cams)').forEach(li => {
+        li.addEventListener('click', function() {
+          camsSection.style.display = 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+.maps-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #181c23;
+  z-index: 1000; /* Aumentato per essere sopra tutto */
+  display: none;
+  flex-direction: column;
+  border-radius: 40px;
+  pointer-events: auto; /* Assicurati che catturi gli eventi */
+}
+
+.maps-screen.active {
+  display: flex;
+  pointer-events: auto;
+}
+
+.maps-header {
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  background: #fff;
+  z-index: 2;
+}
+
+.maps-searchbar {
+  background: #f2f2f7;
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.maps-searchbar input {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  width: 100%;
+  padding: 8px;
+  color: #000;
+}
+
+.maps-searchbar svg {
+  opacity: 0.4;
+}
+
+.maps-categories {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: auto;
+  padding: 0 4px;
+}
+
+.maps-category {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #000;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.maps-category img {
+  width: 18px;
+  height: 18px;
+}
+
+.maps-content {
+  flex: 1;
+  background: #fff;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  background: #f8f9fa;
+}
+
+.maps-actions {
+  position: absolute;
+  right: 16px;
+  bottom: 80px;
+  z-index: 2;
+}
+
+.maps-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background: #fff;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.maps-btn:active {
+  background: #f1f1f4;
+}
+
+.maps-homebar {
+  width: 120px;
+  height: 6px;
+  background: #ddd;
+  border-radius: 4px;
+  margin: 12px auto 8px auto;
+  cursor: pointer;
+  pointer-events: auto; /* Assicurati che la homebar catturi i click */
+  z-index: 1002; /* Sopra tutto il resto */
+  box-shadow: 0 1px 8px #0002;
+  transition: background 0.2s;
+}
+
+.maps-homebar:active {
+  background: #bbb;
+}
+
+/* iOS style close button */
+#maps-close-btn {
+  border-radius: 50%;
+  background: rgba(255,255,255,0.13);
+  transition: background 0.2s;
+  pointer-events: auto;
+  z-index: 1002;
+}
+#maps-close-btn:hover {
+  background: #fff2;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .maps-screen {
+    border-radius: 24px;
+  }
+  .maps-header {
+    border-radius: 24px 24px 0 0;
+  }
+  .maps-content {
+    border-radius: 0 0 24px 24px;
+  }
+}

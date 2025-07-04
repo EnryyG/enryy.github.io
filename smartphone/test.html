@@ -1,0 +1,5904 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Sloth MDT</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <!-- <script src="nui://game/ui/jquery.js" type="text/javascript"></script> -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script  src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <!-- Markdown -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css" integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/colors/ui/trumbowyg.colors.min.css" integrity="sha512-vw0LMar38zTSJghtmUo0uw000TBbzhsxLZkOgXZG+U4GYEQn+c+FmVf7glhSZUQydrim3pI+/m7sTxAsKhObFA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js" integrity="sha512-YJgZG+6o3xSc0k5wv774GS+W1gx0vuSI/kr0E0UylL/Qg/noNspPtYwHPN9q6n59CTR/uhgXfjDXLTRI+uIryg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/fontsize/trumbowyg.fontsize.min.js" integrity="sha512-eFYo+lmyjqGLpIB5b2puc/HeJieqGVD+b8rviIck2DLUVuBP1ltRVjo9ccmOkZ3GfJxWqEehmoKnyqgQwxCR+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/fontfamily/trumbowyg.fontfamily.min.js" integrity="sha512-oATdSCPRZu3qFFyxrZ66ma2QbQybLqpRqwLRp2IQEaIABnEHcs2qDf6UOVA/V5LhBvxFxKCNvyVb/yQfwDkFhQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/colors/trumbowyg.colors.min.js" integrity="sha512-SHpxBJFbCaHlqGpH13FqtSA+QQkQfdgwtpmcWedAXFCDxAYMgrqj9wbVfwgp9+HgIT6TdozNh2UlyWaXRkiurw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/indent/trumbowyg.indent.min.js" integrity="sha512-N89zRHLWXok+vH182YWrgGljMTqIw3lUfseand3N4OqzTtIXkObsRoq3l1vMBkp008c1fb+KGYU/DwJO783cug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+    <ul class="contextmenu"></ul>
+    <ul class="ccontextmenu"></ul>
+    <div id="draggedItem">
+    </div>
+    <img src="" class="gallery-image-enlarged">
+    <div class="callsign-container" style="display: none">
+        <div class="callsign-inner-container" style="display: none">
+            <div class="callsign-title">Enter Callsign</div>
+            <input type="text" maxlength="5" class="callsign-input" placeholder="6969">
+            <div class="callsign-buttons">
+                <div class="callsign-cancel">Cancel</div>
+                <div class="callsign-submit">Submit</div>
+            </div>
+        </div>
+    </div>
+    <div class="radio-container" style="display: none">
+        <div class="radio-inner-container" style="display: none">
+            <div class="radio-title">Enter Radio</div>
+            <input type="number" maxlength="3" class="radio-input" placeholder="0">
+            <div class="radio-buttons">
+                <div class="radio-cancel">Cancel</div>
+                <div class="radio-submit">Submit</div>
+            </div>
+        </div>
+    </div>
+    <div class="dispatch-attached-units">
+        <div class="dispatch-attached-units-container">
+            <div class="dispatch-attached-units-title" data-id="0">Attached Units</div>
+            <div class="dispatch-attached-units-holder">
+            </div>
+        </div>
+    </div>
+
+    <div class="respond-calls" style="display:none;">
+        <div class="respond-calls-container" style="display:none;">
+            <div class="respond-calls-title">Call Response</div>
+            <div class="respond-calls-responses">
+            </div>
+            <textarea class="respond-calls-input" type="text" id="respondcalls" name="respondcalls" placeholder="What would you like to respond?"></textarea>
+        </div>
+    </div>
+
+    <div class="incidents-person-search">
+        <div class="incidents-person-search-container">
+            <div class="incidents-person-search-title">Person Search</div>
+            <div class="incidents-person-search-name-title">Name</div>
+            <div style="width: 95%; margin: auto; border-bottom: 2px solid #2C537B;"><input class="incidents-person-search-name-input"></div>
+            <div class="incidents-person-search-holder">
+            </div>
+        </div>
+    </div>
+
+    <div class="convictions-known">
+        <div class="convictions-known-container">
+            <div class="convictions-known-title">Convictions</div>
+            <div class="convictions-holder">
+            </div>
+        </div>
+    </div>
+
+    <div class="incidents-known">
+        <div class="incidents-known-container">
+            <div class="incidents-known-title">Known Incidents</div>
+            <div class="profile-incidents-holder">
+            </div>
+        </div>
+    </div>
+    <div class="incidents-charges-table" style="display: none;">
+        <div class="incidents-charges-table-container">
+            <div class="incidents-charges-title-container">
+                <div class="incidents-charges-title">Charges</div>
+                <div class="incidents-charges-title-description">Search and left-click charges from the larger list that you want to add to the suspect. Right-click charges from the larger list that you want to remove.</div>
+            </div>
+            <div class="current-charges-container">
+                <div class="current-charges-inner-container">
+                    <div class="current-charges-title">Current Charges</div>
+                </div>
+                <div id="current-charges-holder">
+                    <div class="current-charges-tag">test</div>
+                </div>
+            </div>
+            <div class="offenses-search-area">
+                <input type="text" class="offenses-search" placeholder="Search for charges" id="offenses-search" name="offenses-search">
+            </div>
+            <div class="offenses-main-container"></div>
+        </div>
+    </div>
+    <div class="container-load">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="loader"></div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item">Dashboard</div>
+                <div class="nav-item">Profiles</div>
+                <div class="nav-item incidents-nav-item">Incidents</div>
+                <div class="nav-item">Reports</div>
+                <div class="nav-item map-nav-item">Map</div>
+                <div class="nav-item bolo-nav-item">BOLOs</div>
+                <div class="nav-item">Roster</div>
+                <div class="nav-item">SOPs</div>
+                <div class="nav-item dmv-nav-item">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item">Cameras</div>
+                <div class="nav-item">Staff Logs</div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item active-nav" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <div class="dispatch-comms-container">
+                    <div style="display: flex;" class="reports-search-title-holder">
+                        <div class="reports-search-title dispatch-title-ofsomesort">Dispatch</div>
+                        <div class="dispatch-comms-refresh">Refresh</div>
+                    </div>
+                    <div class="dispatch-items"> </div>
+                    <textarea class="dispatch-input" type="text" id="dispatchmsg" name="dispatchmsg" placeholder="Message #dispatch"></textarea>
+                </div>
+                <div class="reports-container" id="home-reports-container" style="display:none">
+                    <div style="display: flex;" class="reports-search-title-holder">
+                        <div class="reports-search-title">Reports</div>
+                        <div class="reports-search-refresh">Refresh</div>
+                    </div>
+                    <div class="reports-items">
+                    </div>
+                </div>
+                <div class="warrants-container" id="home-warrants-container">
+                    <div class="warrants-title"> <span class="fas fa-search"></span> Warrants</div>
+                    <div class="warrants-items">
+
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <div class="quotes-container">
+                    <div class="quote-title"><span style="color: #caa95d;">Quote</span> of the Day</div>
+                    <div class="quote"><span class="quote-span">The DOJ is not the enemy, but is clearly not an ally</span></div>
+                </div>
+                <div class="bulletin-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="bulletin-title">Bulletin Board</div>
+                        <div class="bulletin-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="bulletin-items-continer"> </div>
+                </div>
+            </div>
+            <div class="dispatch-container">
+                <div class="dispatch-title"><span class="fas fa-search"></span> Dispatch</div>
+                <div style="display: flex; align-items: center;">
+                    <div class="active-unit-title">Active Units</div>
+                    <div class="active-unit-count" id="police-count">0</div>
+                    <div class="active-unit-count" id="bcso-count">0</div> 
+                    <div class="active-unit-count" id="sasp-count">0</div>
+                    <div class="active-unit-count" id="ems-count">0</div>
+                    <div class="active-unit-count" id="doj-count">0</div>
+                    <!-- <div class="active-unit-count" id="fire-count">0</div>  -->
+                </div>
+                <div class="active-unit-list">
+                </div>
+                <div class="calls-title">Recent Calls</div>
+                <div class="active-calls-list">
+                    <div class="active-calls-item">
+                        <div class="active-call-inner-container">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item active-nav" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="profile-container">
+                <div class="profile-title"> <span class="fas fa-search"></span> Profiles</div>
+                <div class="profile-search-input"><input id="profile-search-input" type="text"
+                        placeholder="Search Person..."></div>
+                <div class="profile-items">
+                </div>
+            </div>
+            <div class="manage-profile-container">
+                <div class="manage-profile-title">Manage Profile</div>
+                <div style="display: flex;">
+                    <div class="manage-profile-editing-title">You are currently editing ...</div>
+                    <div class="manage-profile-save">Save</div>
+                </div>
+                <div class="manage-profile-active-warrant">ACTIVE WARRANT</div>
+                <div class="manage-profile-info-container">
+                    <img src="img/male.png" class="manage-profile-pic" onerror="this.src='img/not-found.webp'">
+                    <div class="manage-profile-info-inner-container">
+                        <div class="manage-profile-citizenid">Citizen ID</div>
+                        <div><span class="fas fa-address-card manage-cid-pic"></span><input type="text" readonly class="manage-profile-citizenid-input"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-name">Forename</div>
+                        <div><span class="fas fa-user manage-cid-pic"></span><input type="text" readonly class="manage-profile-name-input manage-profile-name-input-1"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-name">Surname</div>
+                        <div><span class="fas fa-user manage-cid-pic"></span><input type="text" readonly class="manage-profile-name-input manage-profile-name-input-2"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-dob">DOB</div>
+                        <div><span class="far fa-calendar-alt manage-cid-pic"></span><input type="text" readonly class="manage-profile-dob-input"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-fingerprint">Fingerprint</div>
+                        <div><span class="fas fa-fingerprint manage-cid-pic"></span><input type="text" class="manage-profile-fingerprint-input"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-phonenumber">Phone Number</div>
+                        <div><span class="fas fa-phone-volume manage-cid-pic"></span><input type="text" readonly class="manage-profile-phonenumber-input"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-job">Profession</div>
+                        <div><span class="fas fa-briefcase manage-cid-pic"></span><input type="text" readonly class="manage-profile-job-input"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-apartment">Apartment</div>
+                        <div><span class="fas fa-building manage-cid-pic"></span><input type="text" readonly class="manage-profile-apartment-input"></div>
+                        <div class="line"></div>
+                        <div class="manage-profile-url">Profile Image URL</div>
+                        <div><span class="fas fa-images manage-cid-pic"></span><input type="text" class="manage-profile-url-input"></div>
+                        <div class="line" style="margin-bottom: 0px;"></div>
+                    </div>
+                </div>
+                <textarea class="manage-profile-info" placeholder="Place user information here..." disabled></textarea>
+            </div>
+            <div class="manage-profile-right-container">
+                <div class="manage-profile-licenses-container display_hidden">
+                    <div class="license-title">Licenses <span class="licenses-amount"></span></div>
+                    <div class="licenses-holder"></div>
+                </div>
+                <div class="manage-profile-vehs-container display_hidden">
+                    <div class="vehs-title">Vehicles</div>
+                    <div class="vehs-holder"></div>
+                </div>
+                <div class="manage-profile-tags-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="tags-title">Tags</div>
+                        <div class="tags-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="tags-holder"></div>
+                </div>
+                <div class="manage-profile-houses-container display_hidden">
+                    <div class="houses-title">Properties</div>
+                    <div class="houses-holder"></div>
+                </div>
+                <div class="manage-profile-gallery-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="gallery-title">Gallery</div>
+                        <div class="gallery-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="gallery-upload-input"><input id="gallery-upload-input" placeholder="Upload URL...">
+                    </div>
+                    <div class="gallery-inner-container"></div>
+                </div>
+                <div class="convictions-title"><span class="fas fa-eye"></span> Show Convictions</div>
+                <div class="profile-incidents-title"><span class="fas fa-eye"></span> Show Incidents</div>
+            </div>
+        </div>
+    </div>
+    <div class="incidents-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item active-nav" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="incidents-container">
+                <div style="display: flex;" class="reports-search-title-holder">
+                    <div class="incidents-title"> <span class="fas fa-search"></span> Incidents</div>
+                    <div class="incidents-search-refresh">Refresh</div>
+                </div>
+                <div class="incidents-search-input"><input id="incidents-search-input" placeholder="Search Incident...">
+                </div>
+                <div class="modify-charges-label"><span class="fas fa-solid fa-info"></span> Right click below to delete incident.</div>
+                <div class="incidents-items">
+                </div>
+            </div>
+            <div class="manage-incidents-container">
+                <div style="display: flex;" class="manage-incidents-title-holder">
+                    <div class="manage-incidents-title">Manage Incident</div>
+                        <div class="manage-incidents-create"> <span class="fas fa-plus" style="margin-top: 3.5px;"></span>
+                    </div>
+                    <!-- <div class="manage-incidents-save"><span class="fas fa-save" style="margin-top: 3.5px;"></span></div> -->
+                </div>
+                <div class="manage-incidents-editing-title" data-id=0>You are currently creating a new Incident</div>
+                <div class="manage-incidents-title-tag">Title</div>
+                <div class="manage-incidents-title-input"><span class="fas fa-tags"></span> <input placeholder="Place title here..." class="manage-incidents-title-input" id="manage-incidents-title-input"></div>
+                <textarea class="manage-incidents-reports-content"
+                    placeholder="Incident report content goes here..."></textarea>
+                <div class="manage-incidents-tags-container">
+                    <div style="display: flex; align-items: center; width: 95%;">
+                        <div class="manage-incidents-tags-title">Tags</div>
+                        <div class="manage-incidents-tags-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="manage-incidents-tags-holder">
+                    </div>
+                </div>
+                <div class="manage-incidents-evidence-container">
+                    <div style="display: flex; align-items: center; width: 95%;">
+                        <div class="manage-incidents-evidence-title">Evidence</div>
+                        <div class="manage-incidents-evidence-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="incidents-upload-input"><input id="incidents-upload-input" placeholder="Upload URL...">
+                    </div>
+                    <div class="manage-incidents-evidence-holder">
+                    </div>
+                </div>
+            </div>
+            <div class="associated-incidents-container">
+                <div class="associated-incidents-title">Associated</div>
+                <div class="manage-incidents-officers-container">
+                    <div style="display: flex; align-items: center; width: 95%;">
+                        <div class="manage-incidents-officers-title">Officers Involved</div>
+                        <div class="manage-incidents-officers-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="manage-incidents-officers-holder">
+
+                    </div>
+                </div>
+                <div class="manage-incidents-civilians-container">
+                    <div style="display: flex; align-items: center; width: 95%;">
+                        <div class="manage-incidents-civilians-title">Civilians Involved</div>
+                        <div class="manage-incidents-civilians-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="manage-incidents-civilians-holder">
+
+                    </div>
+                </div>
+                <div class="associated-incidents-tags-container">
+                    <div style="display: flex; align-items: center; width: 95%;">
+                        <div class="associated-incidents-tags-title">Criminals Involved</div>
+                        <div class="associated-incidents-tags-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="associated-incidents-tags-holder">
+                    </div>
+                </div>
+                <div class="incidents-ghost-holder">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="reports-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item  active-nav" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="reports-container">
+
+                <div style="display: flex;" class="reports-search-title-holder">
+                    <div class="reports-search-title"> <span class="fas fa-search"></span> Reports</div>
+                    <div class="reports-search-refresh">Refresh</div>
+                </div>
+                <div class="reports-search-input"><input id="reports-search-input" placeholder="Search Report..."> </div>
+                <div class="modify-charges-label"><span class="fas fa-solid fa-info"></span> Right click below to delete report.</div>
+                <div class="reports-items">
+                </div>
+            </div>
+            <div class="manage-reports-container">
+                <div style="display: flex;" class="manage-reports-title-holder">
+                    <div class="manage-reports-title">Manage Report</div>
+                    <div class="manage-reports-new">New</div>
+                    <div class="manage-reports-save">Save</div>
+                </div>
+                <div class="manage-reports-editing-title" data-id=0>You are currently creating a new report</div>
+                <div class="manage-reports-input-tag">Title</div>
+                <div class="manage-reports-input-title">
+                    <span class="fas fa-tags"></span>
+                    <input placeholder="Place title here..." id="reporttitle" class="manage-reports-input-title">
+                </div>
+
+                <div class="manage-reports-input-tag">Type</div>
+                <div class="manage-reports-input-type"><span class="fas fa-folder"></span> <input placeholder="Place report type here..." id="reporttype" class="manage-reports-input-type"></div>
+
+                <textarea class="manage-reports-reports-content" id="reportdetail" placeholder="Report detail goes here..."></textarea>
+            </div>
+
+            <div class="manage-reports-right-container">
+                <div class="manage-reports-tags-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="manage-reports-title-tag">Tags</div>
+                        <div class="manage-reports-tags-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="manage-reports-tags-holder"></div>
+                </div>
+                <div class="reports-officers-tags-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="tags-title" id="reports-officers-involved-tag-title">Officers Involved</div>
+                        <div class="reports-officers-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="reports-officers-tags-holder"></div>
+                </div>
+                <div class="reports-civilians-tags-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="tags-title">Civilians Involved</div>
+                        <div class="reports-civilians-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="reports-civilians-tags-holder"></div>
+                </div>
+                <div class="manage-reports-gallery-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="gallery-title">Gallery</div>
+                        <div class="reports-gallery-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="reports-gallery-upload-input"><input id="reports-gallery-upload-input" placeholder="Upload URL...">
+                    </div>
+                    <div class="reports-gallery-inner-container"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="bolos-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item active-nav" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="bolos-container">
+
+                <div style="display: flex;" class="bolos-search-title-holder">
+                    <div class="bolos-search-title"> <span class="fas fa-search"></span> Bolos</div>
+                    <div class="bolos-search-refresh">Refresh</div>
+                </div>
+                <div class="bolos-search-input"><input id="bolos-search-input" placeholder="Search Bolo..."> </div>
+                <div class="bolos-items">
+                </div>
+            </div>
+            <div class="manage-bolos-container">
+                <div style="display: flex;" class="manage-bolos-title-holder">
+                    <div class="manage-bolos-title">Manage Bolo</div>
+                    <div class="manage-bolos-new">New</div>
+                    <div class="manage-bolos-save">Save</div>
+                </div>
+                <div class="manage-bolos-editing-title" data-id=0>You are currently creating a new BOLO</div>
+                <div class="manage-bolos-input-tag bolotitle-title">Title</div>
+                <div class="manage-bolos-input-title">
+                    <span class="fas fa-tags"></span>
+                    <input placeholder="Place title here..." id="bolotitle" class="manage-bolos-input-title">
+                </div>
+
+                <div class="manage-bolos-input-tag boloplate-title">Plate</div>
+                <div class="manage-bolos-input-plate"><span class="fas fa-address-card"></span> <input placeholder="Place plate here..." id="boloplate" class="manage-bolos-input-plate"></div>
+
+                <div class="manage-bolos-input-tag boloowner-title">Owner</div>
+                <div class="manage-bolos-input-owner"><span class="fas fa-bookmark"></span> <input placeholder="Place vehicle owner here..." id="boloowner" class="manage-bolos-input-owner"></div>
+
+                <div class="manage-bolos-input-tag boloindividual-title">Individual</div>
+                <div class="manage-bolos-input-individual"><span class="fas fa-user"></span> <input placeholder="Place individual here..." id="boloindividual" class="manage-bolos-input-individual"></div>
+
+                <textarea class="manage-bolos-reports-content" id="bolodetail" placeholder="Bolo detail goes here..."></textarea>
+            </div>
+
+            <div class="manage-bolos-right-container">
+                <div class="manage-bolos-tags-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="manage-bolos-title-tag">Tags</div>
+                        <div class="manage-bolos-tags-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="manage-bolos-tags-holder"></div>
+                </div>
+                <div class="manage-officers-tags-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="tags-title" id="bolos-officers-involved-tag-title">Officers Involved</div>
+                        <div class="officers-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="manage-officers-tags-holder"></div>
+                </div>
+                <div class="manage-bolos-gallery-container">
+                    <div style="display: flex; align-items: center;">
+                        <div class="gallery-title">Gallery</div>
+                        <div class="bolo-gallery-add-btn fas fa-plus"></div>
+                    </div>
+                    <div class="bolo-gallery-upload-input"><input id="bolo-gallery-upload-input" placeholder="Upload URL...">
+                    </div>
+                    <div class="bolo-gallery-inner-container"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="penalcode-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item active-nav" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="penalcode-embed" style="border:none;">
+                <iframe class="roster-iframe" src="" target="_blank"></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="sop-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item active-nav" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="sop-embed" style="border:none;">
+                <iframe class="sop-iframe" src="" target="_blank"></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="dmv-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item active-nav" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="dmv-container">
+                <div class="dmv-search-title"> <span class="fas fa-search"></span> Vehicles</div>
+                <div class="dmv-search-input"><input id="dmv-search-input" placeholder="Search Vehicles..."> </div>
+                <div class="dmv-items">
+
+                </div>
+            </div>
+            <div class="vehicle-information-container">
+                <div style="display: flex;" class="vehicle-information-title-holder" data-dbid=0>
+                    <div class="vehicle-information-title">Vehicle Information</div>
+                    <div class="vehicle-information-save">Save</div>
+                </div>
+                <div class="vehicle-info-stuff">
+                    <img src="https://pbs.twimg.com/media/EYF7l2GXYAAuDZI?format=jpg&name=large" class="vehicle-info-image" onerror="this.src='img/not-found.webp'">
+                    <div class="vehicle-info-inner-container">
+                        <div class="vehicle-info-plate">Registration Plate</div>
+                        <div><span class="fas fa-address-card vehicle-info-icon"></span><input type="text" readonly class="vehicle-info-plate-input"></div>
+                        <div class="vehicle-info-line"></div>
+                        <div class="vehicle-info-owner">Owner</div>
+                        <div><span class="fas fa-bookmark vehicle-info-icon"></span><input type="text" readonly class="vehicle-info-owner-input"></div>
+                        <div class="vehicle-info-line"></div>
+                        <div class="vehicle-info-class">Class</div>
+                        <div><span class="fas fa-folder vehicle-info-icon"></span><input type="text" readonly class="vehicle-info-class-input"></div>
+                        <div class="vehicle-info-line"></div>
+                        <div class="vehicle-info-model">Make/Model</div>
+                        <div><span class="fas fa-car vehicle-info-icon"></span><input type="text" readonly class="vehicle-info-model-input"></div>
+                        <div class="vehicle-info-line"></div>
+                        <div class="vehicle-info-imageurl">Image URL</div>
+                        <div><span class="fas fa-images vehicle-info-icon"></span><input type="text" class="vehicle-info-imageurl-input"></div>
+                        <div class="vehicle-info-line" style="margin-bottom: 0px;"></div>
+                        <div class="vehicle-info-points">Vehicle Points: <span id="vehiclePointsSliderValue">0</span></div>
+                        <div><span class="fa-solid fa-scale-balanced vehicle-info-icon"></span><input id="vehiclePointsSlider" type="range" value="0" min="0" max="30" class="vehicle-info-points-input"/></div>
+                    </div>
+                </div>
+                <div class="vehicle-info-tags-container">
+                    <div class="vehicle-info-tags-title">Known Information</div>
+                    <div class="vehicle-info-tags-holder">
+                        <div class="vehicle-tags">
+                            <div class="vehicle-tag red-tag">Paint</div>
+                            <div class="vehicle-tag red-tag">Impound</div>
+                            <div class="vehicle-tag red-tag">BOLO</div>
+                            <div class="vehicle-tag red-tag">Code 5</div>
+                            <div class="vehicle-tag red-tag">Stolen</div>
+                        </div>
+                    </div>
+                </div>
+                <textarea class="vehicle-info-content" placeholder="Place vehicle notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="weapons-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item active-nav" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="weapons-container">
+                <div class="weapons-search-title"> <span class="fas fa-search"></span> Weapons</div>
+                <div class="weapons-search-input"><input id="weapons-search-input" placeholder="Search Weapons..."> </div>
+                <div class="weapons-items">
+
+                </div>
+            </div>
+            <div class="weapon-information-container">
+                <div style="display: flex;" class="weapon-information-title-holder" data-dbid=0>
+                    <div class="weapon-information-title">Weapon Information</div>
+                    <div class="weapon-information-new">New</div>
+                    <div class="weapon-information-save">Save</div>
+                </div>
+                <div class="weapon-info-stuff">
+                    <img src="img/weapons.webp" class="weapon-info-image" onerror="this.src='img/not-found.webp'">
+                    <div class="weapon-info-inner-container">
+                        <div class="weapon-info-serial">Serial Number</div>
+                        <div><span class="fas fa-address-card weapon-info-icon"></span><input type="text" class="weapon-info-serial-input" ></div>
+                        <div class="weapon-info-line"></div>
+                        <div class="vehicle-info-owner">Registered To</div>
+                        <div><span class="fas fa-bookmark weapon-info-icon"></span><input type="text" class="weapon-info-owner-input"></div>
+                        <div class="weapon-info-line"></div>
+                        <div class="weapon-info-model">Model</div>
+                        <div><span class="fa-solid fa-gun weapon-info-icon"></span><input type="text" class="weapon-info-model-input" ></div>
+                        <div class="weapon-info-line"></div>
+                        <div class="weapon-info-class">Class</div>
+                        <div><span class="fas fa-folder weapon-info-icon"></span><input type="text" class="weapon-info-class-input"></div>
+                        <div class="weapon-info-line"></div>
+                        <div class="vehicle-info-imageurl">Image URL</div>
+                        <div><span class="fas fa-images weapon-info-icon"></span><input type="text" class="weapon-info-imageurl-input"></div>
+                        <div class="weapon-info-line" style="margin-bottom: 0px;"></div>
+                    </div>
+                </div>
+                <textarea class="weapon-info-content" placeholder="Place weapon notes here..."></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="stafflogs-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item active-nav" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="stafflogs-container">
+                <div class="stafflogs-box-title">Logs</div>
+                <div class="stafflogs-box"></div>
+            </div>
+            <div class="leaderboard-container">
+                <div class="leaderboard-title">Officers Activity</div>
+                <div class="leaderboard-box">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cams-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item active-nav" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="cams-container">
+                <div class="cams-item">
+                                
+                    <div class="cams-items" id="1"><img class="cams-image" src="img/pacific1.webp">Pacific Bank CAM 1</div>
+                    <div class="cams-items" id="2"><img class="cams-image" src="img/pacific2.webp">Pacific Bank CAM 2</div>
+                    <div class="cams-items" id="3"><img class="cams-image" src="img/pacific3.webp">Pacific Bank CAM 3</div>
+                    <div class="cams-items" id="4"><img class="cams-image" src="img/247Back.webp">Limited Ltd Grove St.</div>
+                    <div class="cams-items" id="5"><img class="cams-image" src="img/liquor.webp">Rob's Liqour Prosperity St.</div>
+                    <div class="cams-items" id="6"><img class="cams-image" src="img/liquor.webp">Rob's Liqour San Andreas Ave.</div>
+                    <div class="cams-items" id="7"><img class="cams-image" src="img/247Back.webp">Limited Ltd Ginger St.</div>
+                    <div class="cams-items" id="8"><img class="cams-image" src="img/247SmallFront.webp">24/7 Supermarkt Innocence Blvd.</div>
+                    <div class="cams-items" id="9"><img class="cams-image" src="img/liquor.webp">Rob's Liqour El Rancho Blvd.</div>
+                    <div class="cams-items" id="10"><img class="cams-image" src="img/247SmallBack.webp">Limited Ltd West Mirror Drive</div>
+                    <div class="cams-items" id="11"><img class="cams-image" src="img/247Back.webp">24/7 Supermarkt Clinton Ave</div>
+                    <div class="cams-items" id="12"><img class="cams-image" src="img/247Back.webp">Limited Ltd Banham Canyon Dr</div>
+                    <div class="cams-items" id="13"><img class="cams-image" src="img/liquor.webp">Rob's Liqour Great Ocean Hwy</div>
+                    <div class="cams-items" id="14"><img class="cams-image" src="img/247SmallBack.webp">24/7 Supermarkt Ineseno Road</div>
+                    <div class="cams-items" id="15"><img class="cams-image" src="img/247SmallBack.webp">24/7 Supermarkt Barbareno Rd.</div>
+                    <div class="cams-items" id="16"><img class="cams-image" src="img/247SmallBack.webp">24/7 Supermarkt Route 68</div>
+                    <div class="cams-items" id="17"><img class="cams-image" src="img/liquor.webp">Rob's Liqour Route 68</div>
+                    <div class="cams-items" id="18"><img class="cams-image" src="img/247SmallFront.webp">24/7 Supermarkt Senora Fwy CAM 1</div>
+                    <div class="cams-items" id="19"><img class="cams-image" src="img/247SmallBack.webp">24/7 Supermarkt Alhambra Dr.</div>
+                    <div class="cams-items" id="20"><img class="cams-image" src="img/247SmallFront.webp">24/7 Supermarkt Senora Fwy CAM 2</div>
+                    <div class="cams-items" id="21"><img class="cams-image" src="img/fleeca.webp">Fleeca Bank Hawick Ave CAM 1</div>
+                    <div class="cams-items" id="22"><img class="cams-image" src="img/fleeca.webp">Fleeca Bank Hawick Ave CAM 2</div>
+                    <div class="cams-items" id="23"><img class="cams-image" src="img/fleeca.webp">Fleeca Bank Legion Square</div>
+                    <div class="cams-items" id="24"><img class="cams-image" src="img/fleeca.webp">Fleeca Bank Del Perro Blvd</div>
+                    <div class="cams-items" id="25"><img class="cams-image" src="img/fleeca.webp">Fleeca Bank Great Ocean Hwy</div>
+                    <div class="cams-items" id="26"><img class="cams-image" src="img/paleto.webp">Paleto Bank</div>
+                    <div class="cams-items" id="27"><img class="cams-image" src="img/liquor.webp">Del Vecchio </br> Liquor Paleto Bay</div>
+                    <div class="cams-items" id="28"><img class="cams-image" src="img/247Back.webp">Don's Country Store Paleto Bay CAM 1</div>
+                    <div class="cams-items" id="29"><img class="cams-image" src="img/247SmallFront.webp">Don's Country Store Paleto Bay CAM 2</div>
+                    <div class="cams-items" id="30"><img class="cams-image" src="img/247SmallBack.webp">Don's Country Store Paleto Bay CAM 3</div>
+                    <div class="cams-items" id="31"><img class="cams-image" src="img/val1.webp">Vangelico Jewelery CAM 1</div>
+                    <div class="cams-items" id="32"><img class="cams-image" src="img/val2.webp">Vangelico Jewelery CAM 2</div>
+                    <div class="cams-items" id="33"><img class="cams-image" src="img/val3.webp">Vangelico Jewelery CAM 3</div>
+                    <div class="cams-items" id="34"><img class="cams-image" src="img/val4.webp">Vangelico Jewelery CAM 4</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="map-page-container close-all">
+        <div class="header">
+            <img src="img/sasp_badge.webp" class="badge-logo">
+            <div class="header-left">
+                <div class="header-title" style="color: #caa95d; font-weight: bold; font-size: 18px;">SAN ANDREAS STATE POLICE</div>
+                <div style="color: white; font-weight: lighter; font-size: 16px;">Mobile Database Terminal</div>
+            </div>
+            <div class="header-middle">
+                <div class="date">Loading...</div>
+                <div class="time">00:00</div>
+            </div>
+            <div class="header-right">
+                <div style="color: white; font-weight: lighter; font-size: 22px;" class="name-shit">Welcome, Loading...
+                </div>
+                <div style="color: lightgray; font-size: 15px;"><span class="fas fa-map-pin header-pin"></span><span class="header-location"></span></div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="nav-menu">
+                <div class="nav-item" data-page=".dashboard-page-container">Dashboard</div>
+                <div class="nav-item" data-page=".profile-page-container">Profiles</div>
+                <div class="nav-item incidents-nav-item" data-page=".incidents-page-container">Incidents</div>
+                <div class="nav-item" data-page=".reports-page-container">Reports</div>
+                <div class="nav-item map-nav-item active-nav" data-page=".map-page-container">Map</div>
+                <div class="nav-item bolo-nav-item" data-page=".bolos-page-container">BOLOs</div>
+                <div class="nav-item penalcode-nav-item" data-page=".penalcode-page-container">Roster</div>
+                <div class="nav-item sop-nav-item" data-page=".sop-page-container">SOPs</div>
+                <div class="nav-item dmv-nav-item" data-page=".dmv-page-container">DMV</div>
+                <div class="nav-item weapons-nav-item" data-page=".weapons-page-container">Weapons</div>
+                <div class="nav-item cams-nav-item" data-page=".cams-page-container">Cameras</div>
+                <div class="nav-item" data-page=".stafflogs-page-container">Staff Logs</div>
+            </div>
+            <div class="calls-container">
+                <div class="calls-search-title"> <span class="fas fa-search"></span> Dispatch Calls</div>
+                <div class="calls-search-input"><input id="calls-search-input" placeholder="Search Dispatch Calls..."> </div>
+                <div class="active-calls-list">
+                    <div class="active-calls-item">
+                        <div class="active-call-inner-container">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div style="display: flex;" class="map-title-holder" data-dbid=0>
+                    <div class="map-title">Dispatch Map</div>
+                    <div class="map-clear">Clear</div>
+                </div>
+                <div class="map-item" id="map-item"></div>
+            </div>
+        </div>
+    </div>
+    <div class="impound-form" style="display: none;">
+        <form>
+            <i class="far fa-id-card fa-lg"></i><input type="text" class="impound-plate" id="plate" name="plate" placeholder="Plate" disabled><br>
+            <i class="far fa-sticky-note fa-lg"></i><input type="text" class="impound-linkedreport" id="linkedreport" name="linkedreport" placeholder="Linked Report" required><br>
+            <i class="far fa-money-bill-alt fa-lg"></i><input type="text" class="impound-fee" id="fee" name="fee" placeholder="Fee" required><br>
+            <i class="far fa-clock fa-lg"></i><input type="text" id="time" class="impound-time" name="time" placeholder="Time (in mins)" required><br>
+        </form>
+        <div class="impound-buttons">
+            <div class="impound-cancel">Cancel</div>
+            <div class="impound-submit">Submit</div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script>
+    // Mostra il body quando la pagina è pronta
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.display = 'block';
+        // Mostra la schermata principale (esempio: dashboard)
+        var firstPage = document.querySelector('.dashboard-page-container, .container-load');
+        if (firstPage) firstPage.style.display = 'block';
+    });
+    </script>
+</body>
+
+</html>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+:root {
+    --color-1: #1E3955;
+    --color-2: #213F5F;
+    --color-3: #2C537B;
+    --color-4: #23405E;
+    --color-5: #152638;
+    --color-6: #121f2c;
+    --color-7: rgb(28, 54, 82);
+    --color-8: #2554cc;
+    --color-9: #6E707C;
+    --color-10: #8f741b;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    display: none;
+}
+
+textarea {
+    font-family: 'Montserrat', sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.dashboard-page-container  {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.badge-logo {
+    margin-left: 1vh;
+    width: 12vh;
+    height: 12vh;
+}
+
+.profile-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.incidents-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.bolos-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.reports-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.penalcode-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.sop-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.dmv-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.weapons-page-container {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.stafflogs-page-container  {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+    overflow: auto
+}
+
+.container-load {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.header {
+    height: 4vh;
+    background-color: var(--color-1);
+    border: 5px solid #393B39;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    width: 96.5%;
+    position: absolute;
+    top: 4vh;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 0px;
+}
+
+.header-middle {
+    background-color: var(--color-2);
+    border-radius: 15px;
+    border: 5px solid #393B39;
+    width: fit-content;
+    height: 3.5vh;
+    padding: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: normal;
+    color: white;
+    margin: auto;
+    margin-top: -10px;
+    font-size: 15px;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin: auto;
+    margin-right: 35px;
+    margin-left: 0px;
+}
+
+.main-container {
+    border-top: 5px solid var(--color-3);
+    width: 100%;
+    height: 86%;
+    position: absolute;
+    display: flex;
+    bottom: 0;
+}
+
+.nav-menu {
+    background-color: var(--color-1);
+    border-right: 5px solid var(--color-3);
+    min-width: 22.5vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    border-bottom-left-radius: 15px;
+}
+
+.nav-item {
+    background-color: var(--color-4);
+    margin-top: 10px;
+    padding: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.nav-item:hover {
+    background-color: var(--color-3);
+}
+
+.active-nav {
+    background-color: var(--color-3);
+}
+
+.warrants-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.warrants-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.fa-search {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.warrants-items {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    height: 55vh;
+}
+
+.warrants-item {
+    background-color: var(--color-5);
+    width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    display: flex;
+    user-select: none;
+}
+
+.warrants-item:hover {
+    background-color: var(--color-3);
+}
+
+.warrant-image {
+    width: 9vh;
+    height: 9vh;
+    margin-left: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.warrant-title {
+    font-size: 16px;
+    font-weight: lighter;
+    color: white;
+    margin-top: 5px;
+}
+
+.warrant-item-info {
+    color: #cccccc;
+    font-size: 12px;
+}
+
+.warrant-bottom-info {
+    display: flex;
+    margin-top: 1vh;
+    margin-bottom: 0.75vh;
+    width: 100%;
+}
+
+.warrant-id {
+    color: white;
+    font-size: 12px;
+}
+
+.warrant-expiry-date {
+    color: white;
+    font-size: 12px;
+    margin: auto;
+    margin-right: 10px;
+}
+
+.quotes-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    width: 50vh;
+    height: 75px;
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.quote-title {
+    font-size: 14px;
+    background-color: var(--color-4);
+    padding: 5px;
+    margin: 10px 0px 10px 10px;
+    text-align: center;
+    color: white;
+    font-weight: bolder;
+    width: 85px;
+    /* height: 30px; */
+    text-shadow: black 1px 1px;
+}
+
+.quote {
+    margin-right: 10px;
+    margin-left: 10px;
+    /* margin-bottom: 25px; */
+    width: 100%;
+    background-color: var(--color-5);
+    height: 30px;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    font-style: italic;
+}
+
+.quote-span {
+    margin: auto;
+    color: white;
+    font-size: 16px;
+}
+
+.bulletin-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50vh;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    user-select: none;
+    overflow: hidden;
+}
+
+.bulletin-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 83.5%;
+    align-items: center;
+    user-select: none;
+}
+
+.bulletin-items-continer {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bulletin-item {
+    background-color: var(--color-5);
+    width: 45vh;
+    /* min-height: 7.7vh; */
+    /* height: 7.7vh; */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.bulletin-item:hover {
+    background-color: var(--color-3);
+}
+
+.bulletin-item-title {
+    color: white;
+    margin-left: 5px;
+    font-size: 20px;
+    text-align: left;
+}
+
+span.bulletin-item-title {
+    outline: none;
+    border: none;
+}
+
+span.bulletin-item-title[contenteditable]:empty::before {
+    content: 'Enter Title';
+}
+
+.bulletin-item-info {
+    color: #cccccc;
+    font-size: 15px;
+    margin-left: 5px;
+    margin-top: 10px;
+    text-align: left;
+    padding-bottom: 0.8vh;
+    overflow-wrap: break-word;
+}
+
+span.bulletin-item-info {
+    outline: none;
+    border: none;
+}
+
+span.bulletin-item-info[contenteditable]:empty::before {
+    content: 'Enter Bulletin Information';
+}
+
+.bulletin-bottom-info {
+    display: flex;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    color: white;
+    font-size: 12px;
+    height: 100%;
+}
+
+.bulletin-date {
+    margin: auto;
+    margin-right: 5px;
+    margin-bottom: 0px;
+}
+
+.bulletin-id {
+    margin: auto;
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+
+.dispatch-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 81.1vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.dispatch-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.active-unit-title {
+    background-color: var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 2px;
+    margin-left: 10px;
+    margin-left: 13px;
+    width: 57.5%;
+    align-items: center;
+    user-select: none;
+}
+
+.active-unit-count {
+    background-color: var(--color-3);
+    color: white;
+    font-weight: bolder;
+    font-size: 14px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 3px;
+    margin-left: 3px;
+    width: 8%;
+    align-items: center;
+    user-select: none;
+    border-radius: 5px;
+}
+
+.calls-title {
+    background-color: var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 2px;
+    margin-left: 10px;
+    margin-left: 13px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+#police-count {
+    background-color: #093095;
+}
+
+#bcso-count {
+background-color: #cc7e25;;
+}
+
+#sasp-count {
+background-color: #2589cc;
+}
+
+#ems-count {
+    background-color: #950909;
+}
+
+#doj-count {
+    background-color: #525252;
+}
+
+#doc-count {
+    background-color: #7b25cc;
+}
+
+#pa-count {
+    background-color: #008080;
+}
+
+.active-unit-list {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: auto;
+    height: 35vh;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
+
+.active-unit-item {
+    padding-top: 7.5px;
+    padding-bottom: 7.5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    /* height: 3vh; */
+    background-color: var(--color-5);
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#draggedItem {
+    position: absolute;
+    z-index: 80;
+    -webkit-transition: opacity 0.2s ease;
+    -moz-transition: opacity 0.2s ease;
+    -ms-transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+
+    padding: 10px;
+    height: 3vh;
+    background-color: var(--color-5);
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 45vh;
+}
+
+.unit-status {
+    width: fit-content;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;  
+    color: white;
+    font-size: 12px;
+    font-weight: bolder;
+    margin: auto;
+    margin-left: 5px;
+    margin-right: 0px;
+    background-color: #0B9509;
+    border-radius: 10px;
+}
+
+.green-status {
+    background-color: #099517;
+}
+
+.yellow-status {
+    background-color: #958F09;
+}
+
+.unit-job {
+    width: fit-content;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;    
+    color: white;
+    font-size: 12px;
+    font-weight: bolder;
+    margin: auto;
+    margin-left: 5px;
+    margin-right: 0px;
+    background-color: #093095;
+    border-radius: 10px;
+}
+
+.unit-police {
+    background-color: #093095;
+}
+
+.unit-ems {
+    background-color: #950909;
+}
+
+.unit-doc {
+    background-color: #7b25cc;
+}
+
+.unit-pa {
+    background-color: #008080;
+}
+
+.unit-name {
+    margin: auto;
+    margin-left: 10px;
+    margin-right: 0px;
+    font-size: 12px;
+    font-weight: bolder;
+    color: white;
+}
+
+.unit-radio {
+    margin: auto;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: bolder;
+    color: white;
+    background-color: var(--color-3);
+    padding: 5px;
+    padding-left: 12.5px;
+    padding-right: 12.5px;
+    border-radius: 5px;
+}
+
+.active-calls-list {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
+
+.active-calls-item {
+    height: fit-content;
+    background-color: var(--color-5);
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.active-call-inner-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.red-call {
+    background-color: #381515;
+}
+
+.call-item-top {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    margin-top: .5vh;
+}
+
+.call-number {
+    background-color: #950909;
+    color: white;
+    font-size: 15px;
+    font-weight: bolder;
+    padding: 2.5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto;
+    margin-left: .75vh;
+    margin-right: 0;
+}
+
+.call-code {
+    background-color: #097C95;
+    color: white;
+    font-size: 15px;
+    font-weight: bolder;
+    padding: 2.5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto;
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+.call-title {
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    padding: 2.5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto;
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+.call-radio {
+    margin: auto;
+    margin-left: auto;
+    margin-right: .5vh;
+    font-size: 15px;
+    font-weight: bolder;
+    color: white;
+    background-color: var(--color-3);
+    padding: 5px;
+    padding-left: 12.5px;
+    padding-right: 12.5px;
+    border-radius: 5px;
+}
+
+.call-item-bottom {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    margin-top: 0vh;
+    margin-left: .75vh;
+    padding-bottom: .75vh;
+}
+
+.call-bottom-info {
+    color: white;
+    font-size: 15px;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    margin-left: 0.3vh;
+    overflow:wrap;
+    white-space:normal;
+}
+
+.dispatch-line {
+    background-color: rgba(128, 128, 128, 0.1);
+    height: 0.05vh;
+    width: 100%;
+    margin-top: 0.1vh;
+    margin-bottom: 0.1vh
+}
+
+.call-bottom-info > .far {
+    margin-right: .1vh;
+}
+
+.call-bottom-information {
+    margin-top: 0.5vh;
+}
+
+.call-victim {
+    color: white;
+    font-size: 15px;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.profile-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+
+
+.profile-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.profile-title:hover {
+    background-color: var(--color-3);
+}
+
+.profile-search-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#profile-search-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#profile-search-input::placeholder {
+    color: white;
+}
+
+.profile-items {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.profile-item {
+    background-color: var(--color-5);
+    width: 100%;
+    height: 12vh;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    display: flex;
+    user-select: none;
+
+}
+
+.profile-item:hover {
+    background-color: var(--color-3);
+}
+
+.profile-image {
+    width: 10vh;
+    height: 10vh;
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    object-fit: cover;
+}
+
+.profile-item-title {
+    font-size: 16px;
+    font-weight: lighter;
+    color: white;
+    padding-top: 2px;
+}
+
+.profile-tags {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.profile-criminal-tags {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.profile-tag {
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 6px;
+    padding: 4px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: bolder;
+    background-color: #956E09;
+}
+
+.profile-bottom-info {
+    display: flex;
+    margin: auto;
+    width: 100%;
+}
+
+.profile-id {
+    color: white;
+    font-size: 13px;
+}
+
+.manage-profile-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.manage-profile-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-profile-editing-title {
+    background-color: var(--color-3);
+    color: white;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 80%;
+    align-items: center;
+    user-select: none;
+    display: block;
+}
+
+.manage-profile-save {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #1b8f25;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+    display: block;
+}
+
+.manage-profile-save:hover {
+    background-color: #1caa28;
+}
+
+.manage-profile-info-container {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.manage-profile-pic {
+    width: 45%;
+    object-fit: cover;
+}
+
+.manage-profile-info-inner-container {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+
+.manage-profile-citizenid {
+    color: white;
+    margin-left: 10px;
+    font-size: 14px;
+    user-select: none;
+}
+
+.manage-profile-citizenid-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-cid-pic {
+    color: white;
+    font-size: 16px;
+    margin-left: 10px
+}
+
+.line {
+    background-color: var(--color-3);
+    height: 2px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.manage-profile-name {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.manage-profile-name-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-profile-dob {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.manage-profile-dob-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-profile-fingerprint {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.manage-profile-fingerprint-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-profile-phonenumber {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.manage-profile-phonenumber-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-profile-job {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.manage-profile-job-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-profile-url {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.manage-profile-url-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    width: 21.75vh;
+}
+
+.manage-profile-info {
+    width: 92.5%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+    height: 100%;
+    resize: none;
+    background-color: var(--color-5);
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.manage-profile-active-warrant {
+    display: none;
+    margin: auto;
+    padding: 8px;
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.manage-profile-right-container {
+    display: flex;
+    flex-direction: column;
+    height: 97.9%;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.manage-profile-licenses-container {
+    background-color: var(--color-1);
+    width: 100%;
+    border: 2px solid var(--color-3);
+    height: 20%;
+}
+
+.license-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.licenses-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 5px;
+    width: 95%;
+    user-select: none;
+}
+
+.license-tag {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    padding: 4px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+}
+
+.manage-profile-tags-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    height: 20%;
+    border: 2px solid var(--color-3);
+    margin-top: 5px;
+    min-height: 100px;
+    max-height: 200px;
+    overflow: scroll;
+}
+
+.tags-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 84%;
+    align-items: center;
+    user-select: none;
+}
+
+.tags-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.tags-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.tags-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 5px;
+    width: 95%;
+    user-select: none;
+}
+
+.tag {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+}
+
+span.tag-input[contenteditable]:empty::before {
+    content: 'Input Tag';
+}
+
+.tag-input {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+    outline: none;
+    border: none;
+}
+
+.manage-profile-vehs-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    height: 20%;
+    border: 2px solid var(--color-3);
+    margin-top: 5px;
+    max-height: 150px;
+    overflow: scroll;
+}
+
+.vehs-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.vehs-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 5px;
+    width: 95%;
+    user-select: none;
+}
+
+.veh-tag {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+}
+
+.manage-profile-houses-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    height: 20%;
+    border: 2px solid var(--color-3);
+    margin-top: 5px;
+    max-height: 150px;
+    overflow: scroll;
+}
+
+.houses-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.houses-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 5px;
+    width: 95%;
+    user-select: none;
+}
+
+.houses-tag {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: bolder;
+    background-color: white;
+    user-select: none;
+}
+
+.manage-profile-gallery-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    border: 2px solid var(--color-3);
+    margin-top: 5px;
+    height: 18vh;
+    overflow: scroll;
+}
+
+.gallery-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    width: 84%;
+    align-items: center;
+    user-select: none;
+}
+
+.gallery-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.gallery-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.gallery-inner-container {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.gallery-img {
+    width: 10vh;
+    filter: blur(5px);
+    object-fit: cover;
+}
+
+.convictions-known, .incidents-known {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.convictions-known-container, .incidents-known-container {
+    background-color: var(--color-5);
+    width: 95vh;
+    height: 45vh;
+    margin: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 9998;
+    display: none;
+}
+
+.convictions-known-title, .incidents-known-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 95%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    user-select: none;
+}
+
+.convictions-title {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    width: 100%;
+    align-items: center;
+    user-select: none;
+}
+
+.convictions-title:hover {
+    background-color: var(--color-3);
+}
+
+.convictions-holder {
+    overflow: scroll;
+    max-height: 87%;
+    margin: auto;
+    margin-top: 5px;
+    width: 95%;
+    user-select: none;
+}
+
+.profile-incidents-title {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    width: 100%;
+    align-items: center;
+    user-select: none;
+}
+
+.profile-incidents-title:hover {
+    background-color: var(--color-3);
+}
+
+.profile-incidents-holder {
+    overflow: scroll;
+    max-height: 87%;
+    margin: auto;
+    margin-top: 5px;
+    width: 95%;
+    user-select: none;
+}
+
+.incident-number {
+    padding-right: 8px;
+}
+
+.incident-timestamp {
+    color: #303030;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    border: 12px solid var(--color-1);
+    border-radius: 50%;
+    border-top: 12px solid var(--color-3);
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+.profile-loader {
+    margin-top: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    border: 12px solid var(--color-4);
+    border-radius: 50%;
+    border-top: 12px solid var(--color-3);
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.gallery-image-enlarged {
+    width: 40vh;
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    display: none;
+    z-index: 999;
+}
+
+/* Context Menu */
+
+.contextmenu {
+    position: absolute;
+    width: fit-content;
+    padding: 2px;
+    margin: 0;
+    border: 1px solid var(--color-3);
+    background: var(--color-5);
+    z-index: 9999;
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.2);
+    opacity: 0;
+    transform: translate(0, 15px) scale(.95);
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+    pointer-events: none;
+}
+
+.contextmenu-item {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.contextmenu-btn { 
+    display: block;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 8px;
+    border-radius: 3px;
+}
+
+.contextmenu-btn {
+    outline: 0 none;
+    text-decoration: none;
+}
+
+.contextmenu-text {
+    margin-left: 5px;
+}
+
+.contextmenu-btn .fa {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.contextmenu-item-disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.contextmenu-item-disabled .contextmenu-btn {
+    cursor: default;
+}
+
+.contextmenu-item-submenu::after {
+    content: "";
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left-color: #808080; 
+}
+
+.contextmenu-item-submenu:hover::after {
+    border-left-color: #fff;
+}
+
+.contextmenu-show,
+.contextmenu-item:hover > .contextmenu {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    pointer-events: auto;
+}
+
+.contextmenu-item:hover > .contextmenu {
+    transition-delay: 300ms;
+}
+
+.revoke-licence:hover {
+    background-color: #950909;
+}
+
+.give-licence:hover {
+    background-color: #099517;
+}
+
+.remove-image:hover {
+    background-color: #950909;
+}
+
+.expand-image:hover {
+    background-color: #099517;
+}
+
+.copy-image-link:hover {
+    background-color: #099517;
+}
+
+.view-incident:hover {
+    background-color: var(--color-3);
+}
+
+.view-incident2:hover {
+    background-color: var(--color-3);
+}
+
+.make-waypoint:hover {
+    background-color: var(--color-3);
+}
+
+.view-profile:hover {
+    background-color: var(--color-3);
+}
+
+.gallery-upload-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#gallery-upload-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#gallery-upload-input::placeholder {
+    color: white;
+}
+
+.penalcode-embed {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 96.5%;
+    width: 85%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.penalcode-embed iframe {
+    height: 96.5%;
+    width: 98%;
+    margin: auto;
+    border: none;
+    outline: none;
+}
+
+.sop-embed {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 96.5%;
+    width: 85%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.sop-embed iframe {
+    height: 96.5%;
+    width: 98%;
+    margin: auto;
+    border: none;
+    outline: none;
+}
+
+.incidents-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.incidents-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.incidents-title:hover {
+    background-color: var(--color-3);
+}
+
+.incidents-search-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#incidents-search-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#incidents-search-input::placeholder {
+    color: white;
+}
+
+.incidents-items {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.incidents-item {
+    background-color: var(--color-5);
+    width: 100%;
+    height: 5.5vh;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    display: flex;
+    user-select: none;
+    flex-direction: column;
+}
+
+.incidents-item:hover {
+    background-color: var(--color-3);
+}
+
+.incidents-top-holder {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.incidents-item-title {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 5px;
+    max-width: 25vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.incedent-report-name {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.incidents-bottom-holder {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.incedent-report-id {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.incedent-report-time-ago {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.manage-incidents-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    max-height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+    overflow: auto;
+}
+
+.manage-incidents-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: auto;
+    width: 80%;
+    /* width: 66%; */
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-title:hover {
+    background-color: var(--color-3);
+}
+
+.manage-incidents-create {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+    background-color: var(--color-4);
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    /* margin-right: 0px; */
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.manage-incidents-create:hover {
+    background-color: var(--color-3);
+}
+
+.manage-incidents-save {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #1b8f25;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.manage-incidents-save:hover {
+    background-color: #1caa28;
+}
+
+.manage-incidents-title-tag {
+    font-size: 16px;
+    font-weight: lighter;
+    color: white;
+    width: 95%;
+    margin: auto;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.manage-incidents-title-input {
+    color: white;
+    font-weight: lighter;
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    align-items: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.manage-incidents-title-input input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-incidents-reports-content {
+    width: 91%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    border: none;
+    outline: none;
+    min-height: 30vh;
+    resize: none;
+    background-color: var(--color-5);
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.manage-incidents-tags-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 94%;
+    height: fit-content;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-tags-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-tags-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.manage-incidents-tags-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7.25px;
+    padding-bottom: 7.25px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.manage-incidents-tags-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.manage-incidents-tag {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+}
+
+.manage-incidents-officers-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 94%;
+    height: fit-content;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-officers-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-officers-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7.25px;
+    padding-bottom: 7.25px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 0px;
+    width: 10%;
+    text-align: center;
+    pointer-events: none;
+}
+
+.manage-incidents-officers-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.manage-incidents-officers-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.manage-incidents-civilians-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 94%;
+    height: fit-content;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-civilians-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-civilians-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7.25px;
+    padding-bottom: 7.25px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 0px;
+    width: 10%;
+    text-align: center;
+    pointer-events: none;
+}
+
+.manage-incidents-civilians-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.manage-incidents-civilians-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.manage-incidents-evidence-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 94%;
+    height: fit-content;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-evidence-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-incidents-evidence-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7.25px;
+    padding-bottom: 7.25px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 0px;
+    width: 10%;
+    text-align: center;
+    pointer-events: none;
+}
+
+.manage-incidents-evidence-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.manage-incidents-evidence-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.manage-incidents-evidence {
+    width: 10vh;
+    filter: blur(5px);
+}
+
+span.tag-incident-input[contenteditable]:empty::before {
+    content: 'Input Tag';
+}
+
+.tag-incident-input {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+    outline: none;
+    border: none;
+}
+
+.associated-incidents-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.associated-incidents-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.associated-incidents-title:hover {
+    background-color: var(--color-3);
+}
+
+.associated-incidents-tags-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 94%;
+    height: fit-content;
+    align-items: center;
+    user-select: none;
+}
+
+.associated-incidents-tags-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.associated-incidents-tags-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.associated-incidents-tags-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7.25px;
+    padding-bottom: 7.25px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.associated-incidents-tags-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.associated-incidents-tag {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+}
+
+.incidents-upload-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#incidents-upload-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#incidents-upload-input::placeholder {
+    color: white;
+}
+
+.incidents-img {
+    width: 10vh;
+    filter: blur(5px);
+    object-fit: cover;
+}
+
+.bulletin-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.bulletin-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.associated-incidents-user-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-3);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    width: 94%;
+    height: fit-content;
+    align-items: center;
+    user-select: none;
+}
+
+.associated-incidents-user-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.associated-incidents-user-tags-holder {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    min-height: 3.5vh;
+    max-height: 14vh;
+    user-select: none;
+    display: flex;
+    background-color: var(--color-5);
+}
+
+.modify-charges-label {
+    color: white;
+    font-size: 13px;
+    font-weight: bolder;
+    border-bottom: 2px solid #2C537B;
+    padding: 2px;
+    margin: auto;
+    margin-top: 4px;
+    margin-bottom: -3px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.associated-incidents-user-tag {
+    text-decoration: none;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: black;
+    user-select: none;
+    width: fit-content;
+}
+
+.associated-incidents-user-holder {
+    padding: 10px;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 92%;
+    min-height: 3.5vh;
+    max-height: 37vh;
+    user-select: none;
+}
+
+.associated-incidents-user {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+}
+
+.associated-incidents-fine-input {
+    color: white;
+    font-weight: lighter;
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    align-items: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.associated-incidents-fine-input input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.associated-incidents-sentence-input {
+    color: white;
+    font-weight: lighter;
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    align-items: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.associated-incidents-sentence-input input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.associated-incidents-controls {
+    justify-content: inherit;
+    width: 90%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.control-button {
+    text-align: center;
+    background-color: var(--color-4);
+    border: 2px solid var(--color-3);
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.control-button span {
+    padding-right: 8px;
+}
+
+.control-button:hover {
+       background-color: var(--color-3);
+    cursor: pointer;
+}
+
+.incidents-person-search {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin-top: 32.5vh;
+}
+
+.incidents-person-search-container {
+    background-color: var(--color-5);
+    width: 95vh;
+    height: 45vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 9998;
+    display: none;
+}
+
+.incidents-person-search-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 95%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    user-select: none;
+}
+
+.incidents-person-search-name-title {
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    font-size: 15px;
+    text-align: left;
+    user-select: none;
+}
+
+.incidents-person-search-name-input {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    color: white;
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    text-align: left;
+    padding-bottom: 2.5px;
+}
+
+.incidents-person-search-holder {
+    overflow: auto;
+    height: 30vh;
+    width: 95%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.incidents-person-search-item {
+    width: 100%;
+    height: 12.5vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.incidents-person-search-item:hover {
+    background-color: var(--color-3);
+}
+
+.incidents-person-search-item-pfp {
+    width: 11vh;
+    height: 11vh;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+}
+
+.incidents-person-search-item-right {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+    height: 11vh;
+}
+
+.incidents-person-search-item-right-cid-title {
+    width: 100%;
+    margin: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: white;
+    font-size: 16px;
+    text-align: left;
+    user-select: none;
+}
+
+.incidents-person-search-item-right-cid-input {
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: auto;
+    color: white;
+    font-size: 16px;
+    text-align: left;
+    padding-bottom: 2.5px;
+    border-bottom: 2px solid var(--color-3);
+    user-select: none;
+}
+
+.incidents-person-search-item-right-name-title {
+    width: 100%;
+    margin: auto;
+    margin-top: auto;
+    margin-bottom: 0px;
+    color: white;
+    font-size: 16px;
+    text-align: left;
+    user-select: none;
+}
+
+.incidents-person-search-item-right-name-input {
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: white;
+    font-size: 16px;
+    text-align: left;
+    padding-bottom: 2.5px;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.bolos-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.bolos-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.bolos-title:hover {
+    background-color: var(--color-3);
+}
+
+.bolos-search-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#bolos-search-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#bolos-search-input::placeholder {
+    color: white;
+}
+
+.bolos-items {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.bolo-item {
+    background-color: var(--color-5);
+    width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    display: flex;
+    user-select: none;
+    flex-direction: column;
+}
+
+.bolo-item:hover {
+    background-color: var(--color-3);
+}
+
+.bolo-top-holder {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.bolo-item-title {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.bolo-report-name {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.bolo-bottom-holder {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    margin-top: 5px
+}
+
+.bolo-report-id {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.bolo-report-time-ago {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.bolos-search-refresh {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: var(--color-10);
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.bolos-search-refresh:hover {
+    background-color: #aa891c;
+}
+
+.bolos-search-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 80%;
+    /* width: 66%; */
+    align-items: center;
+    user-select: none;
+}
+
+.bolos-search-title:hover {
+    background-color: var(--color-3);
+}
+
+.manage-bolos-tags-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.manage-bolos-tags-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+span.tag-bolo-input[contenteditable]:empty::before {
+    content: 'Input Tag';
+}
+
+.tag-bolo-input {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+    outline: none;
+    border: none;
+}
+
+span.officer-tag-bolo-input[contenteditable]:empty::before {
+    content: 'Input Tag';
+}
+
+.officer-tag-bolo-input {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+    outline: none;
+    border: none;
+}
+
+.bolo-gallery-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.bolo-gallery-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.bolo-gallery-upload-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#bolo-gallery-upload-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#bolo-gallery-upload-input::placeholder {
+    color: white;
+}
+
+.bolo-img {
+    width: 10vh;
+    filter: blur(5px);
+    object-fit: cover;
+}
+
+.bolo-gallery-inner-container {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.manage-bolos-editing-title {
+    background-color: var(--color-3);
+    color: white;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 10px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.reports-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#home-reports-container {
+    height: 50%;
+}
+
+#home-warrants-container {
+    height: 50%;
+}
+
+.dispatch-comms-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 46.5%;
+    width: 50vh;
+    margin-top: 1vh;
+    margin-left: 10px;
+}
+
+.reports-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.reports-title:hover {
+    background-color: var(--color-3);
+}
+
+.reports-search-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#reports-search-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#reports-search-input::placeholder {
+    color: white;
+}
+
+.reports-items {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.dispatch-item {
+    height: auto;
+    padding: auto;
+    margin-top: 1vh;
+}
+
+.dispatch-item:hover {
+    background-color: var(--color-7);
+}
+
+.dispatch-items {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    width: 94%;
+    height: 100%;
+}
+
+.dispatch-message-profilepic {
+    width: 2.8vh;
+    height: 2.8vh;
+    object-fit: cover;
+    float: left;
+    border-radius: 50%;
+}
+
+.dispatch-item-info {
+    float:left;
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 0.75vh;
+    color: var(--color-8);
+}
+
+.dispatch-info-job-lspd {
+    color: #2554cc;
+}
+
+.dispatch-info-job-bcso {
+    color: #cc7e25;
+}
+
+.dispatch-info-job-sast {
+    color: #2589cc;
+}
+
+.dispatch-info-job-sasp {
+    color: #2589cc;
+}
+
+.dispatch-info-job-doc {
+    color: #7b25cc;
+}
+
+.dispatch-info-job-sapr {
+    color: #5acc25;
+}
+
+.dispatch-info-job-pa {
+    color: #008080;
+}
+
+.dispatch-info-job-ambulance {
+    color: #cc2525;
+}
+
+.dispatch-info-job-doj {
+    color: #FFEAB9;
+}
+
+.active-info-job-lspd {
+    background-color: #2554cc;
+}
+
+.active-info-job-bcso {
+    background-color: #cc7e25;
+}
+
+.active-info-job-sast {
+    background-color: #2589cc;
+}
+
+.active-info-job-sasp {
+    background-color: #2589cc;
+}
+
+.active-info-job-doc {
+    background-color: #7b25cc;
+}
+
+.active-info-job-sapr {
+    background-color: #5acc25;
+}
+
+.active-info-job-pa {
+    background-color: #008080;
+}
+
+.active-info-job-ambulance {
+    background-color: #cc2525;
+}
+
+.active-info-job-doj {
+    background-color: #525252;
+}
+
+.active-info-job-unk {
+    background-color: #6E707C;
+}
+
+.dispatch-item-message {
+    float:left;
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    width: 100%;
+    overflow:wrap;
+    white-space:normal;
+    padding-left: 0.80vh;
+    padding-top: 0.2vh;
+}
+
+.dispatch-item-msg {
+    padding-left: 2.8vh;
+    padding-bottom: 0vh;
+}
+
+.dispatch-item-msg:hover {
+    background-color: var(--color-7);
+}
+
+.dispatch-item-grid {
+    display:grid;
+}
+
+.dispatch-input {
+    min-width: 90%;
+    max-width: 90%;
+    min-height: 0.1vh;
+    margin-left: 1.1vh;
+    margin-bottom: 1vh;
+    border: none;
+    padding: 12px 20px;
+    background-color: var(--color-7);
+    color: #bebec2;
+}
+
+.dispatch-input:focus {
+    outline:none!important;
+}
+
+.reports-search-refresh {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: var(--color-10);
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.reports-search-refresh:hover {
+    background-color: #aa891c;
+}
+
+.dispatch-comms-refresh {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: var(--color-10);
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.dispatch-comms-refresh:hover {
+    background-color: #aa891c;
+}
+
+.reports-search-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 80%;
+    /* width: 66%; */
+    align-items: center;
+    user-select: none;
+}
+
+.reports-search-title:hover {
+    background-color: var(--color-3);
+}
+
+.manage-reports-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    max-height: 80.7vh;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+    overflow: auto;
+}
+
+.manage-reports-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: auto;
+    margin-left: 10px;
+    width: 80%;
+    /* width: 66%; */
+    align-items: center;
+    user-select: none;
+}
+
+.manage-reports-title-tag {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    width: 84%;
+    align-items: center;
+    user-select: none;
+}
+
+.manage-reports-title:hover {
+    background-color: var(--color-3);
+}
+
+
+
+.manage-reports-create {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+    background-color: var(--color-4);
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    /* margin-right: 0px; */
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.manage-reports-create:hover {
+    background-color: var(--color-3);
+}
+
+.manage-reports-input-tag {
+    font-size: 16px;
+    font-weight: lighter;
+    color: white;
+    width: 95%;
+    margin: auto;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.manage-reports-input-title {
+    color: white;
+    font-weight: lighter;
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    align-items: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.manage-reports-input-title input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-reports-input-type {
+    color: white;
+    font-weight: lighter;
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    align-items: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.manage-reports-input-type input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-reports-input-owner {
+    color: white;
+    font-weight: lighter;
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    align-items: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.manage-reports-input-owner input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-reports-input-individual {
+    color: white;
+    font-weight: lighter;
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    align-items: center;
+    display: flex;
+    border-bottom: 2px solid var(--color-3);
+}
+
+.manage-reports-input-individual input {
+    border: none;
+    outline: none;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.manage-reports-save {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #1b8f25;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-right: 13px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+    display: block;
+}
+
+.manage-reports-save:hover {
+    background-color: #1caa28;
+}
+
+.manage-reports-new {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #8f1b1b;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+    display: block;
+}
+
+.manage-reports-new:hover {
+    background-color: #aa1c1c;
+}
+
+.incidents-remove-normal-tag:hover {
+    background-color: #aa1c1c;
+}
+
+.incidents-remove-normal-civ:hover {
+    background-color: #aa1c1c;
+}
+
+.incidents-remove-tag:hover {
+    background-color: #aa1c1c;
+}
+
+.incidents-remove-officer-tag:hover {
+    background-color: #aa1c1c;
+}
+
+.remove-tag:hover {
+    background-color: #aa1c1c;
+}
+
+.manage-reports-editing-title {
+    background-color: var(--color-3);
+    color: white;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 10px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: block;
+}
+
+.manage-reports-reports-content {
+    width: 91%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+    height: 100%;
+    resize: none;
+    background-color: var(--color-5);
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.manage-reports-right-container {
+    display: flex;
+    flex-direction: column;
+    height: 95.7%;
+    width: 50vh;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.manage-reports-tags-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    border: 2px solid var(--color-3);
+    max-height: 150px;
+    overflow: scroll;
+}
+
+.manage-reports-gallery-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    border: 2px solid var(--color-3);
+    margin-top: 10px;
+    height: 18vh;
+    overflow: scroll;
+}
+
+.manage-reports-tags-holder {
+    overflow: auto;
+    margin: auto;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.reports-officers-tags-holder {
+    overflow: auto;
+    margin: auto;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+    margin-top: 10px;
+}
+
+.reports-officers-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.reports-officers-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.reports-officers-tags-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    border: 2px solid var(--color-3);
+    max-height: 150px;
+    margin-top: 10px;
+    overflow: scroll;
+}
+
+.reports-gallery-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.reports-gallery-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.reports-gallery-upload-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#reports-gallery-upload-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#reports-gallery-upload-input::placeholder {
+    color: white;
+}
+
+.reports-img {
+    width: 10vh;
+    filter: blur(5px);
+    object-fit: cover;
+}
+
+.reports-gallery-inner-container {
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+}
+
+.manage-reports-tags-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.manage-reports-tags-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.reports-civilians-tags-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-1);
+    width: 100%;
+    border: 2px solid var(--color-3);
+    max-height: 150px;
+    margin-top: 10px;
+    overflow: scroll;
+}
+
+.reports-civilians-add-btn {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-bottom: 0px;
+    width: 10%;
+    text-align: center;
+}
+
+.reports-civilians-add-btn:hover {
+    background-color: var(--color-3);
+}
+
+.reports-civilians-tags-holder {
+    overflow: auto;
+    margin: auto;
+    width: 95%;
+    max-height: 14vh;
+    user-select: none;
+    margin-top: 10px;
+}
+
+.reports-item {
+    background-color: var(--color-5);
+    width: 100%;
+    height: 9vh;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    display: flex;
+    user-select: none;
+    flex-direction: column;
+}
+
+.reports-item:hover {
+    background-color: var(--color-3);
+}
+
+.reports-top-holder {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.reports-item-title {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 5px;
+    max-width: 25vh;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.reports-report-name {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.reports-bottom-holder {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.reports-report-id {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.reports-report-time-ago {
+    font-size: 14px;
+    font-weight: lighter;
+    color: white;
+    margin: auto;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+span.tag-reports-input[contenteditable]:empty::before {
+    content: 'Input Tag';
+}
+
+.tag-reports-input {
+    display: inline-block;
+    text-decoration: none;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 10px;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 10px;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: white;
+    user-select: none;
+    width: fit-content;
+    outline: none;
+    border: none;
+}
+
+
+.dmv-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50%;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.dmv-search-refresh {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: var(--color-10);
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.dmv-search-refresh:hover {
+    background-color: #aa891c;
+}
+
+.dmv-search-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.dmv-search-title:hover {
+    background-color: var(--color-3);
+}
+
+.dmv-search-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#dmv-search-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#dmv-search-input::placeholder {
+    color: white;
+}
+
+.dmv-items {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.vehicle-information-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 50%;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.vehicle-information-save {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #1b8f25;
+    margin: auto;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.vehicle-information-save:hover {
+    background-color: #1caa28;
+}
+
+.add-charge:hover {
+    background-color: #1caa28;
+}
+
+.vehicle-information-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    width: 81%;
+    /* width: 66%; */
+    align-items: center;
+    user-select: none;
+}
+
+.vehicle-info-stuff {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.vehicle-info-image {
+    width: 444px;
+    height: 269px;
+    object-fit: cover;
+}
+
+.vehicle-info-imageurl {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.vehicle-info-imageurl-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    width: 80%;
+}
+
+.vehicle-info-inner-container {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+
+.vehicle-info-serial {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.vehicle-info-serial-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    width: 80%;
+}
+
+.vehicle-info-icon {
+    color: white;
+    font-size: 16px;
+    margin-left: 10px
+}
+
+.vehicle-info-line {
+    background-color: var(--color-3);
+    height: 2px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.vehicle-info-model {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.vehicle-info-model-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    width: 80%;
+}
+
+.vehicle-info-owner {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.vehicle-info-owner-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    width: 80%;
+}
+
+.vehicle-info-class {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.vehicle-info-class-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    width: 80%;
+}
+
+.vehicle-info-imageurl {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.vehicle-info-imageurl-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.vehicle-info-content {
+    width: 93%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    border: none;
+    outline: none;
+    min-height: 30.9vh;
+    resize: none;
+    background-color: var(--color-5);
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.weapons-item-title {
+    font-size: 16px;
+    font-weight: lighter;
+    color: white;
+    padding-top: 2px;
+}
+
+.weapons-image {
+    width: 7vh;
+    height: 7vh;
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    object-fit: cover;
+}
+
+.weapons-item-title {
+    font-size: 16px;
+    font-weight: lighter;
+    color: white;
+    padding-top: 2px;
+}
+
+.weapons-bottom-info {
+    display: flex;
+    margin: auto;
+    width: 100%;
+}
+
+.weapons-id {
+    color: white;
+    font-size: 13px;
+}
+
+.vehicle-info-points {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+    margin-top: 5px;
+}
+
+input[type="range"].vehicle-info-points-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 5px;
+    color: white;
+    width: 80%;
+}
+
+input[type="range"].vehicle-info-points-input::-moz-range-thumb {
+    box-shadow: none;
+    border: 2px solid grey;
+    height: 16px;
+    width: 16px;
+    border-radius: 16px;
+    background: white;
+}
+
+input[type="range"].vehicle-info-points-input::-moz-range-track {
+    width: 100%;
+    height: 2px;
+    box-shadow: none;
+    background: var(--color-8);
+    border-radius: 0px;
+    border: 0px;
+}
+
+.manage-profile-apartment {
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    user-select: none;
+}
+
+.manage-profile-apartment-input {
+    border: none;
+    outline: none;
+    margin-left: 2.5px;
+    font-size: 16px;
+    margin-top: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* Charges Hover */
+
+.ccontextmenu {
+    position: absolute;
+    width: fit-content;
+    padding: 2px;
+    margin: 0;
+    border: 1px solid var(--color-3);
+    background: var(--color-5);
+    z-index: 100;
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.2);
+    opacity: 0;
+    transform: translate(0, 15px) scale(.95);
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+    pointer-events: none;
+}
+
+.ccontextmenu-item {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    /* white-space: nowrap; */
+    max-width: 34ch;
+    word-wrap:break-word;
+}
+
+.ccontextmenu-text { 
+    display: block;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    /* white-space: nowrap; */
+    padding: 6px 8px;
+    border-radius: 3px;
+    max-width: 34ch;
+    word-wrap:break-word;
+}
+
+.ccontextmenu-text {
+    outline: 0 none;
+    text-decoration: none;
+}
+
+.ccontextmenu-text .fa {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.ccontextmenu-item-disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.ccontextmenu-item-disabled .ccontextmenu-text {
+    cursor: default;
+}
+
+.ccontextmenu-item-submenu::after {
+    content: "";
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left-color: #808080; 
+}
+
+.ccontextmenu-item-submenu:hover::after {
+    border-left-color: #fff;
+}
+
+.ccontextmenu-show,
+.ccontextmenu-item:hover > .ccontextmenu {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    pointer-events: auto;
+    z-index: 9999;
+}
+
+.map-page-container  {
+    background-color: var(--color-9);
+    border-radius: 15px;
+    position: absolute; 
+    width: 96.5%;
+    height: 96.5%;
+    left: 2.0%;
+    top: 1.5%;
+    display: none;
+}
+
+.calls-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 30%;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.calls-search-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+}
+
+.calls-search-title:hover {
+    background-color: var(--color-3);
+}
+
+.calls-search-input {
+    background-color: var(--color-3);
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width: 95%;
+    align-items: center;
+    user-select: none;
+    display: none;
+}
+
+#calls-search-input {
+    outline: none;
+    border: none;
+    width: 95%;
+    color: white;
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0);
+    margin: auto;
+}
+
+#calls-search-input::placeholder {
+    color: white;
+}
+
+.map-container {
+    background-color: var(--color-1);
+    border: 2px solid var(--color-3);
+    display: flex;
+    flex-direction: column;
+    height: 80.7vh;
+    width: 70%;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.map-clear {
+    width: 13.7%;
+    font-size: 15px;
+    font-weight: lighter;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #8f1b1b;
+    margin: auto;
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    text-align: center;
+    user-select: none;
+    display: block;
+}
+
+.map-clear:hover {
+    background-color: #aa1c1c;
+}
+
+.map-title {
+    background-color: var(--color-4);
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    margin-right: 5px;
+    width: 98%;
+    align-items: center;
+    user-select: none;
+}
+
+.map-item {
+    border: 2px solid var(--color-3);
+    position: absolute;
+    width: 58%;
+    height: 88.5%;
+    left: 40.6%;
+    top: 8%;
+    margin-bottom: 15px;
+}
+
+.leaflet-marker-pane {
+	z-index: 600;
+}
+
+.leaflet-tooltip-pane {
+	z-index: 650;
+}
+
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+
+</style>

@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FiveM Phone Demo</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/notifications.css">
+  <link rel="stylesheet" href="styles/lockscreen.css">
+  <link rel="stylesheet" href="styles/maps.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a0a13 0%, #181c23 100%);
+      font-family: 'SF Pro Display', 'Inter', 'Roboto', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .phone-wrapper {
+      position: relative;
+      width: 410px;
+      height: 870px;
+      perspective: 1000px;
+      /* 3D effect container */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .frame-base {
+      width: 390px;
+      height: 844px;
+      background: linear-gradient(145deg, #fefefe 70%, #eaeaea 100%);
+      border-radius: 60px;
+      border: 12px solid #1a1a1a;
+      box-shadow:
+        0 16px 40px 0 rgba(0,0,0,0.38),
+        0 2px 8px 0 #fff2 inset,
+        0 0.5px 0 #fff2 inset,
+        0 0 0 2px #23243a inset,
+        0 0 0 8px #23243a22 inset,
+        0 0 0 1.5px #fff3 inset,
+        0 0 0 0.5px #fff4;
+      overflow: hidden;
+      position: relative;
+      transform: rotateX(2deg) rotateY(-2deg) scale(1.01);
+      transition: transform 0.3s cubic-bezier(.4,1.2,.4,1), box-shadow 0.3s;
+      margin: 0 auto;
+      display: block;
+      z-index: 2;
+      /* Subtle glass reflection */
+      background-image:
+        linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 100%),
+        linear-gradient(145deg, #fefefe 70%, #eaeaea 100%);
+    }
+    .frame-base:hover {
+      transform: rotateX(0deg) rotateY(0deg) scale(1.025);
+      box-shadow:
+        0 24px 64px 0 rgba(0,0,0,0.45),
+        0 2px 8px 0 #fff2 inset,
+        0 0.5px 0 #fff2 inset,
+        0 0 0 2px #23243a inset,
+        0 0 0 8px #23243a22 inset,
+        0 0 0 1.5px #fff3 inset,
+        0 0 0 0.5px #fff4;
+    }
+    /* Subtle highlight on top edge */
+    .frame-base::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 38px;
+      border-radius: 60px 60px 0 0;
+      background: linear-gradient(180deg,rgba(255,255,255,0.18) 0%,rgba(255,255,255,0.01) 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    /* Subtle shadow on bottom edge */
+    .frame-base::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 38px;
+      border-radius: 0 0 60px 60px;
+      background: linear-gradient(0deg,rgba(0,0,0,0.13) 0%,rgba(0,0,0,0.01) 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    /* Bottoni fisici stile iOS */
+    .button {
+      position: absolute;
+      width: 3px;
+      background: #444;
+      border-radius: 2px;
+      z-index: 100;
+    }
+    .volume-up {
+      left: -7px;
+      top: 110px;
+      height: 38px;
+    }
+    .volume-down {
+      left: -7px;
+      top: 170px;
+      height: 38px;
+    }
+    .power {
+      right: -7px;
+      top: 160px;
+      height: 60px;
+    }
+    /* Notch stile iOS */
+    .ios-notch {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92px;
+      height: 28px;
+      background: #000;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px #000a, 0 1px 0 #fff2 inset;
+      z-index: 22;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid rgba(255,255,255,0.04);
+    }
+    .ios-notch-camera {
+      width: 14px;
+      height: 14px;
+      background: #181c23;
+      border-radius: 50%;
+      margin-left: 2px;
+      margin-right: 2px;
+      box-shadow: 0 0 2px #000a, 0 1px 4px #0008;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ios-notch-camera::after {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      background: #222b;
+      border-radius: 50%;
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      box-shadow: 0 0 2px #fff4;
+    }
+    /* Dock stile iOS */
+    .dock {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 260px;
+      height: 62px;
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(20px);
+      border-radius: 22px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 4px 24px #000a;
+      z-index: 2;
+      font-weight: 500;
+      padding: 0 10px;
+      border: 1.5px solid #23243a;
+    }
+    .dock-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      transition: background 0.18s, transform 0.18s;
+    }
+    .dock-icon img {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #222;
+      box-shadow: 0 2px 8px #0003;
+    }
+    .dock-icon:hover {
+      background: rgba(255,255,255,0.13);
+      transform: scale(1.08);
+    }
+    .dock-icon:active {
+      transform: scale(0.95);
+    }
+    /* Home indicator stile iOS */
+    .indicator-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12px;
+      display: flex;
+      justify-content: center;
+      z-index: 50;
+    }
+    .home-indicator {
+      width: 120px;
+      height: 6px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 4px;
+      margin: 0 auto;
+      box-shadow: 0 1px 8px #0005;
+      opacity: 0.85;
+    }
+    /* Griglia app stile iOS */
+    .pages {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 200px);
+      overflow: hidden;
+      margin-top: 0;
+      z-index: 2;
+    }
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      gap: 18px 0;
+      width: 100%;
+      height: 100%;
+      justify-items: center;
+      align-items: start;
+      padding: 10px 10px 0 10px;
+      margin: 0 auto;
+      background: transparent;
+      margin-top: 0;
+    }
+    .app-icon {
+      width: 64px;
+      height: 82px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      border-radius: 18px;
+      transition: box-shadow 0.18s, transform 0.18s;
+      cursor: pointer;
+      pointer-events: auto;
+      background: none;
+      box-shadow: none;
+    }
+    .app-icon img {
+      width: 56px;
+      height: 56px;
+      border-radius: 15px;
+      margin-bottom: 4px;
+      background: #23243a;
+      box-shadow: 0 2px 8px #0003;
+      object-fit: cover;
+    }
+    .app-icon span {
+      font-size: 13px;
+      color: #fff;
+      text-shadow: 0 1px 2px #000;
+      font-weight: 500;
+      text-align: center;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.1;
+      transition: transform 0.18s ease;
+    }
+    .app-icon:hover, .app-icon.hovered {
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 8px 24px 0 #0005, 0 2px 8px #0002;
+      transform: scale(1.13) translateY(-5px);
+      z-index: 2;
+    }
+    .app-icon:active {
+      transform: scale(0.95);
+    }
+    /* Dots stile iOS */
+    .dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 100px;
+      height: 22px;
+      z-index: 20;
+      gap: 8px;
+      pointer-events: auto;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.35);
+      border-radius: 50%;
+      transition: background 0.22s, transform 0.22s;
+      cursor: pointer;
+      box-shadow: 0 1px 4px #0002;
+      border: none;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .dot.active {
+      background: #fff;
+      transform: scale(1.35);
+      box-shadow: 0 2px 8px #4defff33;
+    }
+    /* Status bar stile iOS */
+    .status-bar {
+      height: 44px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      z-index: 5;
+      position: relative;
+    }
+    /* App icon stile 3D */
+    .app-icon {
+      width: 64px;
+      height: 82px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      border-radius: 18px;
+      transition: box-shadow 0.18s, transform 0.18s;
+      cursor: pointer;
+      pointer-events: auto;
+      background: none;
+      box-shadow: none;
+    }
+    .app-icon img {
+      width: 56px;
+      height: 56px;
+      border-radius: 15px;
+      margin-bottom: 4px;
+      background: #23243a;
+      box-shadow: 0 2px 8px #0003;
+      object-fit: cover;
+    }
+    .app-icon span {
+      font-size: 13px;
+      color: #fff;
+      text-shadow: 0 1px 2px #000;
+      font-weight: 500;
+      text-align: center;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.1;
+      transition: transform 0.18s ease;
+    }
+    .app-icon:hover, .app-icon.hovered {
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 8px 24px 0 #0005, 0 2px 8px #0002;
+      transform: scale(1.13) translateY(-5px);
+      z-index: 2;
+    }
+    .app-icon:active {
+      transform: scale(0.95);
+    }
+    /* Wrapper per la griglia */
+    .pages {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 200px);
+      overflow: hidden;
+      margin-top: 0;
+      z-index: 2;
+    }
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      gap: 18px 0;
+      width: 100%;
+      height: 100%;
+      justify-items: center;
+      align-items: start;
+      padding: 10px 10px 0 10px;
+      margin: 0 auto;
+      background: transparent;
+      margin-top: 0;
+    }
+    /* Dots */
+    .dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 100px;
+      height: 22px;
+      z-index: 20;
+      gap: 8px;
+      pointer-events: auto;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.35);
+      border-radius: 50%;
+      transition: background 0.22s, transform 0.22s;
+      cursor: pointer;
+      box-shadow: 0 1px 4px #0002;
+      border: none;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .dot.active {
+      background: #fff;
+      transform: scale(1.35);
+      box-shadow: 0 2px 8px #4defff33;
+    }
+    /* Animazioni di chiusura per tutte le app */
+    .maps-screen.closing,
+    .settings-screen.closing,
+    .integrali-app-screen.closing {
+      animation: closeApp 0.35s ease-out forwards;
+    }
+
+    @keyframes closeApp {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+    }
+    /* Landscape mode per MDT */
+    .phone-wrapper.landscape {
+      width: 870px !important;
+      height: 410px !important;
+      transform: rotate(-90deg) scale(1.01);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: width 0.4s, height 0.4s, transform 0.4s;
+    }
+    .phone-wrapper.landscape .frame-base {
+      width: 844px !important;
+      height: 390px !important;
+      border-radius: 60px;
+      transition: width 0.4s, height 0.4s;
+      transform: rotate(90deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Permetti lo scroll verticale del contenuto MDT */
+      overflow-y: auto !important;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: #4defff #23243a;
+    }
+    .phone-wrapper.landscape .frame-base::-webkit-scrollbar {
+      width: 8px;
+      background: #23243a;
+    }
+    .phone-wrapper.landscape .frame-base::-webkit-scrollbar-thumb {
+      background: #4defff;
+      border-radius: 8px;
+    }
+    /* Nascondi overflow per evitare scroll */
+    body, html {
+      overflow: hidden;
+    }
+    /* iPad modal overlay */
+    .ipad-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(10,14,26,0.93);
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s;
+    }
+    .ipad-modal.active {
+      display: flex;
+    }
+    .ipad-frame {
+      width: 1024px;
+      height: 720px;
+      background: #222;
+      border-radius: 38px;
+      box-shadow: 0 8px 48px #000a, 0 2px 8px #fff2 inset;
+      border: 10px solid #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow: hidden;
+    }
+    .ipad-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 28px;
+      background: #0a0e1a;
+    }
+    .ipad-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 28px;
+      background: #fff;
+      color: #222;
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0003;
+      z-index: 10;
+      transition: background 0.18s;
+    }
+    .ipad-close-btn:hover {
+      background: #4defff;
+      color: #0a0e1a;
+    }
+    /* Popup errore MDT */
+    .mdt-error-modal {
+      display: none;
+      position: fixed;
+      z-index: 9998;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: rgba(10,14,26,0.82);
+      align-items: center;
+      justify-content: center;
+    }
+    .mdt-error-modal.active {
+      display: flex;
+    }
+    .mdt-error-box {
+      background: #181c23;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #000a;
+      padding: 38px 32px 28px 32px;
+      color: #fff;
+      text-align: center;
+      max-width: 340px;
+      font-family: 'Inter', Arial, sans-serif;
+      border: 2px solid #4defff;
+    }
+    .mdt-error-box h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #4defff;
+    }
+    .mdt-error-box p {
+      font-size: 16px;
+      margin-bottom: 24px;
+      color: #b6c3e0;
+    }
+    .mdt-error-btn {
+      background: #4defff;
+      color: #181c23;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 600;
+      padding: 10px 32px;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .mdt-error-btn:hover {
+      background: #1e90ff;
+      color: #fff;
+    }
+    @media (max-width: 1100px) {
+      .ipad-frame {
+        width: 98vw;
+        height: 80vh;
+      }
+    }
+    @media (max-width: 700px) {
+      .ipad-frame {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        border-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-stars"></canvas>
+  <div class="phone-wrapper">
+    <div class="button volume-up"></div>
+    <div class="button volume-down"></div>
+    <div class="button power"></div>
+    <div class="frame-base">
+      <!-- Notch stile 3D -->
+      <div class="ios-notch"></div>
+      <div class="mask">
+        <div class="speaker"></div>
+        <div class="camera">
+          <div class="lenz"></div>
+        </div>
+      </div>
+      <div class="screen">
+        <!-- Lock Screen Overlay -->
+        <div id="lockscreen" class="lockscreen active">
+          <div id="lockscreen-main" class="lockscreen-main active">
+            <div class="lockscreen-statusbar">
+              <span class="lockscreen-carrier">
+                <svg width="16" height="16" viewBox="0 0 16 16" style="margin-right:3px;vertical-align:middle;">
+                  <circle cx="8" cy="8" r="7" fill="#4defff" opacity="0.18"/>
+                  <circle cx="8" cy="8" r="3" fill="#4defff" opacity="0.35"/>
+                </svg>
+                Vodafone IT 
+              </span>
+              <span class="lockscreen-status-icons">
+                <img src="assets/ios-signal.svg" class="status-icon" alt="Segnale">
+                <span class="wifi-icon"></span>
+                <img src="assets/" class="status-icon" alt="Batteria">
+              </span>
+            </div>
+            <div class="lockscreen-lockicon">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <div class="lockscreen-date" id="lockscreen-date"></div>
+            <div class="lockscreen-time" id="lockscreen-time"></div>
+          </div>
+          <div class="notifications-container">
+            <div class="notification message">
+              <img src="assets/Messages.jpg" class="notification-icon" alt="Messages">
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Prof. Giannini</span>
+                  <span class="notification-time">ora</span>
+                </div>
+                <div class="notification-text">📚 Per domani dovete studiare i capitoli 4 e 5. Buono studio! 📝</div>
+              </div>
+            </div>
+            <div class="notification">
+              <img src="assets/InstaPic.jpg" class="notification-icon" alt="Instagram">
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">Instagram</span>
+                  <span class="notification-time">2m fa</span>
+                </div>
+                <div class="notification-text">marco_rossi e altri 5 hanno messo mi piace al tuo post</div>
+              </div>
+            </div>
+            <div class="notification">
+              <img src="assets/tiktok.jpg" class="notification-icon" alt="TikTok">
+              <div class="notification-content">
+                <div class="notification-header">
+                  <span class="notification-title">TikTok</span>
+                  <span class="notification-time">5m fa</span>
+                </div>
+                <div class="notification-text">Il tuo video ha raggiunto 1000 visualizzazioni! 🎉</div>
+              </div>
+            </div>
+          </div>
+          <div class="lockscreen-bottom">
+            <button class="lockscreen-btn lockscreen-flashlight">
+              <img src="assets/flash.jpg" alt="flash">
+            </button>
+            <div class="lockscreen-homebar" id="lockscreen-homebar"></div>
+            <button class="lockscreen-btn lockscreen-camera">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15.2C13.7674 15.2 15.2 13.7674 15.2 12C15.2 10.2326 13.7674 8.8 12 8.8C10.2326 8.8 8.8 10.2326 8.8 12C8.8 13.7674 10.2326 15.2 12 15.2Z" fill="white"/>
+                <path d="M9 2L7.17 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4H16.83L15 2H9ZM12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17Z" fill="white"/>
+              </svg>
+            </button>
+          </div>
+          <div class="lockscreen-passcode" id="lockscreen-passcode">
+            <div class="lockscreen-icons">
+              <i class="fa-solid fa-lock lockscreen-lockicon"></i>
+            </div>
+            <div class="lockscreen-title">Inserisci codice</div>
+            <div class="lockscreen-keypad" id="lockscreen-keypad">
+              <div class="keypad-dots" id="keypad-dots">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="keypad-nums">
+                <button>1</button><button>2</button><button>3</button>
+                <button>4</button><button>5</button><button>6</button>
+                <button>7</button><button>8</button><button>9</button>
+                <button id="keypad-del">⌫</button><button>0</button><button id="keypad-ok">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Settings Screen -->
+        <div id="settings-screen" class="settings-screen">
+          <div class="settings-statusbar">
+            <span class="settings-time" id="settings-time"></span>
+            <div class="settings-icons">
+              <img src="assets/ios-signal.svg" class="status-icon" alt="">
+              <img src="assets/ios-wifi-2.png" class="status-icon" alt="">
+              <img src="assets/ios-battery.svg" class="status-icon" alt="">
+            </div>
+          </div>
+          <div class="settings-content">
+            <div class="settings-title">Impostazioni</div>
+            <div class="settings-search">
+              <input type="text" placeholder="Cerca" disabled>
+            </div>
+            <div class="settings-list">
+              <div class="settings-item"><span class="settings-icon general"></span><span class="settings-item-title">Generali</span></div>
+              <div class="settings-item"><span class="settings-icon display"></span><span class="settings-item-title">Display</span></div>
+              <div class="settings-item"><span class="settings-icon sound"></span><span class="settings-item-title">Suoni</span></div>
+              <div class="settings-item"><span class="settings-icon notifications"></span><span class="settings-item-title">Notifiche</span></div>
+            </div>
+          </div>
+          <div class="app-homebar" id="settings-close"></div>
+        </div>
+
+        <!-- Integrali App (fullscreen stile iOS, non più modal) -->
+        <div id="integrali-app-screen" class="integrali-app-screen">
+          <div class="integrali-header">
+            <button class="integrali-back" id="integrali-close-btn">
+              <svg width="28" height="28" viewBox="0 0 24 24"><path fill="#4defff" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <span class="integrali-title">Integral Calculator</span>
+          </div>
+          <div class="integrali-content">
+            <div class="integrali-form-block">
+              <form id="integrali-form" autocomplete="off">
+                <input class="integrali-math-input" id="integrali-fx" type="text" placeholder="f(x) es: sin(x)/x^2" required>
+                <input class="integrali-math-var" id="integrali-var" type="text" placeholder="Variabile es: x" value="x" required>
+                <input class="integrali-math-lim" id="integrali-a" type="text" placeholder="Limite inferiore (opzionale)">
+                <input class="integrali-math-lim" id="integrali-b" type="text" placeholder="Limite superiore (opzionale)">
+                <button class="integrali-calc-btn" id="integrali-calc-btn" type="submit">Calcola</button>
+              </form>
+            </div>
+            <div class="integrali-section">
+              <div class="integrali-section-title">Risultato</div>
+              <div class="integrali-result-math" id="integrali-result-math"></div>
+            </div>
+            <div class="integrali-section">
+              <div class="integrali-section-title">Nota</div>
+              <div class="integrali-steps-list" id="integrali-steps-list" style="font-size:15px;color:#b0b8c9;">
+                Usa <b>f(x)</b> e la variabile, puoi lasciare i limiti vuoti per l'integrale indefinito.<br>
+                Esempi:<br>
+                <code>sin(x)/x^2</code> &nbsp; <code>e^(-x^2)</code> &nbsp; <code>1/(1+x^2)</code>
+              </div>
+            </div>
+          </div>
+          <div class="app-homebar" id="integrali-homebar"></div>
+        </div>
+
+        <!-- Maps Screen (custom world map) -->
+        <div id="maps-screen" class="maps-screen">
+          <div class="maps-header">
+            <div class="maps-searchbar">
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path fill="#666" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              </svg>
+              <input type="text" placeholder="Cerca qui" id="maps-search">
+            </div>
+            <div class="maps-categories">
+              <button class="maps-category">
+                <img src="assets/restaurant.png" alt=""> Ristoranti
+              </button>
+              <button class="maps-category">
+                <img src="assets/shop.png" alt=""> Alimentari
+              </button>
+              <button class="maps-category">
+                <img src="assets/hospital.png" alt=""> Ospedali
+              </button>
+            </div>
+          </div>
+          <div class="maps-content">
+            <div id="map"></div>
+          </div>
+          <div class="maps-homebar"></div>
+        </div>
+
+        <!-- MDT App Screen (NUOVA) -->
+        <div id="mdt-app-screen" class="mdt-app-screen" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#181c23; z-index:100;">
+          <div style="display:flex; align-items:center; background:#1E3955; color:#fff; height:48px; border-bottom:1px solid #2C537B;">
+            <button id="mdt-close-btn" style="background:none;border:none;color:#fff;font-size:22px;margin:0 18px 0 10px;cursor:pointer;"><i class="fa fa-chevron-left"></i></button>
+            <span style="font-size:18px;font-weight:500;">MDT</span>
+          </div>
+          <iframe id="mdt-iframe" src="mdt.html" style="width:100%;height:calc(100% - 48px);border:2px solid red;"></iframe>
+        </div>
+
+        <!-- Schermata App PCTO -->
+        <div id="pcto-app-screen" class="pcto-app-screen">
+          <div class="pcto-hero">
+            <div class="pcto-bg-anim"></div>
+            <div class="pcto-logo">
+              <img src="assets/pcto.png" alt="PCTO" />
+            </div>
+            <h1 class="pcto-title">PCTO Hackathon Coding Girls</h1>
+            <h2 class="pcto-subtitle">Un viaggio creativo nel coding e nell'innovazione</h2>
+            <div class="pcto-badge">2024</div>
+            <div class="pcto-cta">Scorri per scoprire <i class="fa fa-arrow-down"></i></div>
+          </div>
+          <div class="pcto-content">
+            <section class="pcto-section pcto-section1">
+              <h3>Cos'è il PCTO Hackathon?</h3>
+              <p>
+                Un'esperienza immersiva di <b>coding</b>, <b>teamwork</b> e <b>creatività</b> dedicata alle ragazze delle scuole superiori.<br>
+                <span class="pcto-highlight">Obiettivo:</span> sviluppare un progetto digitale innovativo in sole 24 ore!
+              </p>
+            </section>
+            <section class="pcto-section pcto-section2">
+              <h3>La mia esperienza</h3>
+              <ul>
+                <li><span class="pcto-emoji">👩‍💻</span> Ho lavorato in team con ragazze di altre scuole</li>
+                <li><span class="pcto-emoji">💡</span> Abbiamo ideato una web app per la sostenibilità</li>
+                <li><span class="pcto-emoji">🚀</span> Presentazione finale davanti a una giuria</li>
+                <li><span class="pcto-emoji">🏆</span> Tanta soddisfazione e nuove amicizie!</li>
+              </ul>
+            </section>
+            <section class="pcto-section pcto-section3">
+              <h3>Skills sviluppate</h3>
+              <div class="pcto-skills">
+                <span class="pcto-skill pcto-anim-bounce">HTML</span>
+                <span class="pcto-skill pcto-anim-bounce">CSS</span>
+                <span class="pcto-skill pcto-anim-bounce">JavaScript</span>
+                <span class="pcto-skill pcto-anim-bounce">Teamwork</span>
+                <span class="pcto-skill pcto-anim-bounce">Problem Solving</span>
+                <span class="pcto-skill pcto-anim-bounce">Creatività</span>
+              </div>
+            </section>
+            <section class="pcto-section pcto-section4">
+              <h3>Il momento più bello</h3>
+              <div class="pcto-moment">
+                <span class="pcto-emoji pcto-anim-heartbeat">🎉</span>
+                <span>La demo finale, tra applausi, emozioni e... <b>tanta energia positiva!</b></span>
+              </div>
+            </section>
+            <section class="pcto-section pcto-section5">
+              <h3>Consiglio?</h3>
+              <p>
+                <span class="pcto-emoji pcto-anim-shake">✨</span>
+                Se hai l'opportunità, <b>partecipa!</b> È un'esperienza che ti cambia e ti fa scoprire il bello della tecnologia.
+              </p>
+            </section>
+          </div>
+          <div class="app-homebar pcto-close"></div>
+        </div>
+      </div>
+      <!-- Fuori da .screen: status-bar, pages, dots, dock, indicator-container -->
+      <div class="status-bar">
+        <span class="time" id="statusbar-time"></span>
+        <span class="notch" tabindex="0" id="notch"></span>
+        <span class="status-icons">
+          <span class="battery-icon">
+            <svg viewBox="0 0 26 12">
+              <rect x="0.5" y="1.5" width="20" height="9" rx="3" fill="#222" stroke="#fff" stroke-width="1"/>
+              <rect x="2" y="3" width="16" height="6" rx="2" fill="#fff"/>
+              <rect x="21.5" y="4" width="3" height="4" rx="1" fill="#fff"/>
+            </svg>
+          </span>
+          <span class="battery-percent">100%</span>
+        </span>
+      </div>
+      <div class="ios-statusbar">
+        <span class="ios-time" id="ios-statusbar-time">09:41</span>
+        <span class="ios-icons">
+          <img src="assets/ios-signal.svg" class="ios-signal" alt="Segnale" width="22" height="18">
+          <img src="assets/ios-wifi-2.png" class="ios-wifi" alt="WiFi" width="22" height="18">
+          <span class="ios-battery">
+            <svg width="26" height="12" viewBox="0 0 26 12">
+              <rect x="0.5" y="1.5" width="20" height="9" rx="3" fill="#222" stroke="#fff" stroke-width="1"/>
+              <rect x="2" y="3" width="16" height="6" rx="2" fill="#fff"/>
+              <rect x="21.5" y="4" width="3" height="4" rx="1" fill="#fff"/>
+            </svg>
+            <span style="margin-left:2px;">100%</span>
+          </span>
+        </span>
+      </div>
+      <!-- Notch iOS Dynamic Island style -->
+      <div class="ios-notch">
+        <div class="ios-notch-camera"></div>
+      </div>
+      <div class="pages" id="pages-container">
+        <div class="apps-grid page active" data-page="0">
+          <!-- Ordine: Phone, Messages, Maps, Browser, Mail, Weather, Calculator, Notes, Clock, Settings, Integrali, Garage, Wallet, Home, VoiceMemo, Music, MarketPlace, YellowPages, Trendy, Spark, InstaPic, Birdy, Services -->
+          <div class="app-icon" id="phone-app"><img src="assets/Phone.jpg" alt=""><span>Phone</span></div>
+          <div class="app-icon" id="messages-app"><img src="assets/Messages.jpg" alt=""><span>Messages</span></div>
+          <div class="app-icon"><img src="assets/Maps.jpg" alt=""><span>Maps</span></div>
+          <div class="app-icon"><img src="assets/browser.jpg" alt=""><span>Browser</span></div>
+          <div class="app-icon"><img src="assets/Mail.jpg" alt=""><span>Mail</span></div>
+          <div class="app-icon"><img src="assets/Weather.jpg" alt=""><span>Weather</span></div>
+          <div class="app-icon"><img src="assets/Calculator.jpg" alt=""><span>Calculator</span></div>
+          <div class="app-icon"><img src="assets/Notes.jpg" alt=""><span>Notes</span></div>
+          <div class="app-icon"><img src="assets/Clock.jpg" alt=""><span>Clock</span></div>
+          <div class="app-icon" id="settings-app"><img src="assets/Settings.jpg" alt=""><span>Settings</span></div>
+          <div class="app-icon" id="integrali-app"><img src="assets/integral.png" alt=""><span>Integrali</span></div>
+          <div class="app-icon" id="mdt-app"><img src="assets/mdt.jpg" alt=""><span>MDT</span></div>
+          <div class="app-icon"><img src="assets/Wallet.jpg" alt=""><span>Wallet</span></div>
+          <div class="app-icon"><img src="assets/Home.jpg" alt=""><span>Home</span></div>
+          <div class="app-icon"><img src="assets/VoiceMemo.jpg" alt=""><span>Voice Memos</span></div>
+          <div class="app-icon"><img src="assets/Music.jpg" alt=""><span>Music</span></div>
+          <div class="app-icon"><img src="assets/MarketPlace.jpg" alt=""><span>MarketPlace</span></div>
+          <div class="app-icon"><img src="assets/YellowPages.jpg" alt=""><span>Pages</span></div>
+          <div class="app-icon"><img src="assets/Trendy.jpg" alt=""><span>Trendy</span></div>
+          <div class="app-icon"><img src="assets/Spark.jpg" alt=""><span>Spark</span></div>
+          <div class="app-icon"><img src="assets/InstaPic.jpg" alt=""><span>InstaPic</span></div>
+          <div class="app-icon"><img src="assets/Birdy.jpg" alt=""><span>Birdy</span></div>
+          <div class="app-icon"><img src="assets/unknown.jpg" alt=""><span>Services</span></div>
+        </div>
+        <div class="apps-grid page" data-page="1">
+          <div class="app-icon" id="clash-royale-app"><img src="assets/ClashRoyale.jpg" alt=""><span>Clash Royale</span></div>
+          <div class="app-icon"><img src="assets/BrawlStars.jpg" alt=""><span>Brawl Stars</span></div>
+          <div class="app-icon"><img src="assets/KFC.png" alt=""><span>KFC</span></div>
+          <div class="app-icon" id="pcto-app"><img src="assets/pcto.png" alt=""><span>PCTO</span></div>
+          <!-- Puoi aggiungere altre app qui -->
+        </div>
+      </div>
+      <div class="dots" id="home-dots">
+        <span class="dot active" data-page="0"></span>
+        <span class="dot" data-page="1"></span>
+      </div>
+      <div class="dock">
+        <div class="dock-icon"><img src="assets/Phone.jpg" alt=""></div>
+        <div class="dock-icon"><img src="assets/Messages.jpg" alt=""></div>
+        <div class="dock-icon"><img src="assets/Camera.jpg" alt=""></div>
+        <div class="dock-icon"><img src="assets/Photos.jpg" alt=""></div>
+      </div>
+      <div class="indicator-container">
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Add these modals before the scripts -->
+  <!-- iPad Modal -->
+  <div class="ipad-modal" id="ipad-modal">
+    <div class="ipad-frame">
+      <button class="ipad-close-btn" id="ipad-close-btn">&times;</button>
+      <!-- Fix: usa il path corretto per l'iframe MDT -->
+      <iframe src="fivem-phone-demo2/mdt.html"></iframe>
+    </div>
+  </div>
+  
+  <!-- Error Modal -->
+  <div class="mdt-error-modal" id="mdt-error-modal">
+    <div class="mdt-error-box">
+      <h2>Accesso MDT Bloccato</h2>
+      <p>Per una migliore esperienza, è necessario utilizzare il tablet di servizio per accedere al sistema MDT.<br><br>Vuoi aprire il tablet ora?</p>
+      <button class="mdt-error-btn" id="mdt-error-confirm">Apri Tablet</button>
+    </div>
+  </div>
+
+  <script>
+    // Replace the existing MDT click handler with this one
+    document.addEventListener('DOMContentLoaded', function() {
+      const mdtApp = document.getElementById('mdt-app');
+      const errorModal = document.getElementById('mdt-error-modal');
+      const ipadModal = document.getElementById('ipad-modal');
+      const confirmBtn = document.getElementById('mdt-error-confirm');
+      const closeBtn = document.getElementById('ipad-close-btn');
+
+      mdtApp.addEventListener('click', function() {
+        errorModal.classList.add('active');
+      });
+
+      confirmBtn.addEventListener('click', function() {
+        errorModal.classList.remove('active');
+        ipadModal.classList.add('active');
+      });
+
+      closeBtn.addEventListener('click', function() {
+        ipadModal.classList.remove('active');
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          errorModal.classList.remove('active');
+          ipadModal.classList.remove('active');
+        }
+      });
+    });
+  </script>
+  <!-- Usa SOLO math.js per il calcolo integrali, rimuovi nerdamer -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+  <script src="scripts/phone.js"></script>
+  <!-- Sfondo stelle animato -->
+  <script>
+  (() => {
+    const canvas = document.getElementById('bg-stars');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let w = window.innerWidth, h = window.innerHeight;
+    let stars = [];
+    function resize() {
+      w = window.innerWidth; h = window.innerHeight;
+      canvas.width = w; canvas.height = h;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    function genStars() {
+      stars = [];
+      for (let i = 0; i < 120; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 1.2 + 0.3,
+          o: Math.random() * 0.5 + 0.5,
+          s: Math.random() * 0.3 + 0.05
+        });
+      }
+    }
+    genStars();
+    function animate() {
+      ctx.clearRect(0,0,w,h);
+      for (let s of stars) {
+        ctx.globalAlpha = s.o * (0.7 + 0.3 * Math.sin(Date.now()/700 + s.x));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, 2 * Math.PI);
+        ctx.fillStyle = "#fff";
+        ctx.shadowColor = "#fff";
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        s.x += s.s;
+        if (s.x > w + 2) s.x = -2;
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+  </script>
+  <script>
+  // MDT APP LOGIC
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleziona l'icona MDT in modo robusto (anche se ci sono più .app-icon)
+    var mdtAppIcon = document.querySelector('.app-icon#mdt-app');
+    var mdtErrorModal = document.getElementById('mdt-error-modal');
+    var mdtErrorConfirm = document.getElementById('mdt-error-confirm');
+    var ipadModal = document.getElementById('ipad-modal');
+    var ipadCloseBtn = document.getElementById('ipad-close-btn');
+    // Rendi l'icona MDT sempre cliccabile
+    if (mdtAppIcon) {
+      mdtAppIcon.style.pointerEvents = "auto";
+      mdtAppIcon.tabIndex = 0;
+    }
+    if (mdtAppIcon && mdtErrorModal && mdtErrorConfirm && ipadModal && ipadCloseBtn) {
+      // Rimuovi eventuali altri listener precedenti
+      mdtAppIcon.onclick = null;
+      mdtAppIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        mdtErrorModal.classList.add('active');
+      });
+      mdtAppIcon.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          mdtErrorModal.classList.add('active');
+        }
+      });
+      mdtErrorConfirm.onclick = function() {
+        mdtErrorModal.classList.remove('active');
+        ipadModal.classList.add('active');
+      };
+      ipadCloseBtn.onclick = function() {
+        ipadModal.classList.remove('active');
+      };
+      // Chiudi anche con ESC
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          mdtErrorModal.classList.remove('active');
+          ipadModal.classList.remove('active');
+        }
+      });
+    }
+  });
+  </script>
+</body>
+</html>

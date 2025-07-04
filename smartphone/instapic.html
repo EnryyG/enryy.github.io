@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InstaPic</title>
+  <meta name="viewport" content="width=430, initial-scale=1.0">
+  <link rel="stylesheet" href="instapic.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+</head>
+<body>
+  <div class="instapic-app">
+    <div class="instapic-header">
+      <span class="instapic-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="InstaPic" style="height:28px;vertical-align:middle;">
+        <span class="instapic-verified"><i class="fa fa-check-circle"></i></span>
+      </span>
+      <span class="instapic-dm" id="open-dm"><i class="fa fa-paper-plane"></i></span>
+    </div>
+    <div class="instapic-stories" id="instapic-stories">
+      <div class="instapic-story add-story" data-story="your">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Your Story">
+        <span>Your Story</span>
+      </div>
+      <div class="instapic-story" data-story="lb">
+        <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="lb">
+        <span>lb</span>
+      </div>
+      <div class="instapic-story active" data-story="breze">
+        <img src="https://randomuser.me/api/portraits/men/34.jpg" alt="breze">
+        <span>breze</span>
+      </div>
+      <div class="instapic-story" data-story="loaf">
+        <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="loaf">
+        <span>loaf</span>
+      </div>
+      <div class="instapic-story" data-story="giulia">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="giulia">
+        <span>giulia</span>
+      </div>
+    </div>
+    <div class="instapic-feed" id="instapic-feed">
+      <div class="instapic-post" data-post="1">
+        <div class="instapic-post-header">
+          <img src="https://randomuser.me/api/portraits/men/34.jpg" class="instapic-post-avatar" alt="breze">
+          <div>
+            <span class="instapic-post-user">breze <i class="fa fa-check-circle instapic-verified"></i></span>
+            <span class="instapic-post-location">Sandy Shores</span>
+          </div>
+          <span class="instapic-post-menu"><i class="fa fa-ellipsis-h"></i></span>
+        </div>
+        <div class="instapic-post-img">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="post">
+        </div>
+        <div class="instapic-post-actions">
+          <span class="instapic-like-btn"><i class="fa fa-heart"></i></span>
+          <span class="instapic-comment-btn"><i class="fa fa-comment"></i></span>
+          <span class="instapic-share-btn"><i class="fa fa-paper-plane"></i></span>
+          <span class="instapic-save-btn"><i class="fa fa-bookmark"></i></span>
+        </div>
+        <div class="instapic-post-likes"><span class="likes-count">2</span> Likes</div>
+        <div class="instapic-post-caption"><b>breze</b> sunsets are the best</div>
+        <div class="instapic-post-comments" id="instapic-comments-1"></div>
+        <form class="instapic-comment-form" data-post="1">
+          <input type="text" placeholder="Add a comment..." maxlength="80" autocomplete="off">
+          <button type="submit">Post</button>
+        </form>
+      </div>
+      <div class="instapic-post" data-post="2">
+        <div class="instapic-post-header">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" class="instapic-post-avatar" alt="giulia">
+          <div>
+            <span class="instapic-post-user">giulia</span>
+            <span class="instapic-post-location">Los Santos</span>
+          </div>
+          <span class="instapic-post-menu"><i class="fa fa-ellipsis-h"></i></span>
+        </div>
+        <div class="instapic-post-img">
+          <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="post">
+        </div>
+        <div class="instapic-post-actions">
+          <span class="instapic-like-btn"><i class="fa fa-heart"></i></span>
+          <span class="instapic-comment-btn"><i class="fa fa-comment"></i></span>
+          <span class="instapic-share-btn"><i class="fa fa-paper-plane"></i></span>
+          <span class="instapic-save-btn"><i class="fa fa-bookmark"></i></span>
+        </div>
+        <div class="instapic-post-likes"><span class="likes-count">5</span> Likes</div>
+        <div class="instapic-post-caption"><b>giulia</b> new adventure!</div>
+        <div class="instapic-post-comments" id="instapic-comments-2"></div>
+        <form class="instapic-comment-form" data-post="2">
+          <input type="text" placeholder="Add a comment..." maxlength="80" autocomplete="off">
+          <button type="submit">Post</button>
+        </form>
+      </div>
+    </div>
+    <div class="instapic-bottom-bar">
+      <span class="instapic-bottom-btn active"><i class="fa fa-home"></i></span>
+      <span class="instapic-bottom-btn"><i class="fa fa-search"></i></span>
+      <span class="instapic-bottom-btn" id="instapic-add-btn"><i class="fa fa-plus-square"></i></span>
+      <span class="instapic-bottom-btn"><i class="fa fa-user-circle"></i></span>
+      <span class="instapic-bottom-btn"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" style="height:22px;"></span>
+    </div>
+    <div class="instapic-homebar app-homebar" id="instapic-homebar"></div>
+  </div>
+  <!-- Storie Modal -->
+  <div class="instapic-story-modal" id="story-modal">
+    <div class="story-modal-content">
+      <img id="story-modal-img" src="" alt="story" />
+      <div class="story-modal-user" id="story-modal-user"></div>
+    </div>
+  </div>
+  <!-- DM Modal -->
+  <div class="instapic-dm-modal" id="dm-modal">
+    <div class="dm-modal-content">
+      <div class="dm-modal-header">
+        <span>Direct</span>
+      </div>
+      <div class="dm-list">
+        <div class="dm-item">
+          <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="lb">
+          <div>
+            <div class="dm-user">lb</div>
+            <div class="dm-last">Hey, ci sei?</div>
+          </div>
+        </div>
+        <div class="dm-item">
+          <img src="https://randomuser.me/api/portraits/men/34.jpg" alt="breze">
+          <div>
+            <div class="dm-user">breze</div>
+            <div class="dm-last">Guarda che tramonto!</div>
+          </div>
+        </div>
+        <div class="dm-item">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="giulia">
+          <div>
+            <div class="dm-user">giulia</div>
+            <div class="dm-last">Nuova foto postata!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="instapic.js"></script>
+</body>
+</html>

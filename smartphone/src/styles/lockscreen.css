@@ -1,0 +1,382 @@
+.lockscreen {
+  /* Sfondo sfocato con effetto parallax */
+  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%), 
+              url('../assets/lockscreen.jpg') no-repeat center/cover;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Aggiungi padding per evitare che il contenuto tocchi i bordi */
+  padding: 0 0 0 0;
+  min-height: 100%;
+  box-sizing: border-box;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.3s, visibility 0.3s;
+  visibility: visible;
+}
+
+.lockscreen:not(.active) {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.lockscreen-main {
+  /* Centra verticalmente e orizzontalmente */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1 1 auto;
+  padding: 0 0 0 0;
+  gap: 0;
+  background: none;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.lockscreen-statusbar {
+  margin-top: 18px;
+  padding: 0 18px 0 18px;
+  height: 32px;
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(180deg, rgba(0,0,0,0.32) 0%, transparent 100%);
+  backdrop-filter: blur(8px);
+  border-radius: 18px 18px 12px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  max-width: 92%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 2px 12px 0 #0002;
+  position: relative;
+  z-index: 2;
+}
+
+.lockscreen-carrier {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-shadow: 0 1px 4px #0008;
+  padding-left: 2px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lockscreen-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 2px;
+}
+
+.status-icon {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 1px 2px #0008) brightness(1.15);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.07);
+  padding: 2px;
+  box-sizing: content-box;
+  transition: background 0.2s;
+}
+
+.status-icon:hover {
+  background: rgba(77,239,255,0.12);
+}
+
+.wifi-icon {  /* Stile iOS-like per l'icona wifi FontAwesome */
+  font-size: 18px;
+  color: #4defff;
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  padding: 2px 3px 2px 3px;
+  margin: 0 2px;
+  box-sizing: content-box;
+  filter: drop-shadow(0 1px 2px #0008) brightness(1.15);
+  transition: background 0.2s, color 0.2s;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wifi-icon:hover,
+.wifi-icon:focus {
+  background: rgba(77,239,255,0.12);
+  color: #fff;
+  outline: none;
+}
+
+.lockscreen-lockicon {
+  margin: 32px auto 0 auto;
+  text-align: center;
+  /* Per centrare meglio l'icona */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lockscreen-lockicon i.fa-lock {
+  font-size: 22px;
+  color: #fff;
+  background: rgba(77,239,255,0.13);
+  border-radius: 50%;
+  padding: 7px 9px 7px 9px;
+  box-shadow: 0 2px 8px #0004;
+  border: 1.5px solid rgba(77,239,255,0.22);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.lockscreen-lockicon i.fa-lock:active,
+.lockscreen-lockicon i.fa-lock:focus {
+  background: rgba(77,239,255,0.22);
+  color: #4defff;
+  box-shadow: 0 4px 16px #4defff44;
+}
+
+/* Per la versione piccola nella passcode */
+.lockscreen-passcode .lockscreen-lockicon.fa-lock {
+  font-size: 18px;
+  padding: 5px 7px 5px 7px;
+  margin-bottom: 8px;
+}
+
+.lockscreen-date {
+  font-size: 17px;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  color: rgba(255,255,255,0.92);
+  margin-top: 28px;
+  margin-bottom: 0;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.lockscreen-time {
+  font-size: 54px;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 200;
+  letter-spacing: -1px;
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  text-align: center;
+  line-height: 1.05;
+}
+
+.notifications-container {
+  padding: 0 10px;
+  margin-top: 28px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 340px;
+  box-sizing: border-box;
+}
+
+.notification {
+  background: rgba(255,255,255,0.13);
+  backdrop-filter: blur(16px);
+  border-radius: 14px;
+  margin: 0 0 8px 0;
+  transition: transform 0.2s ease;
+  animation: slideIn 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
+  filter: blur(10px);
+  animation: notification-appear 1.2s cubic-bezier(.4,1.2,.4,1) forwards;
+  display: flex;
+  align-items: flex-start;
+  min-height: 56px;
+  box-sizing: border-box;
+  padding: 10px 14px;
+}
+
+.notification .notification-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  margin-right: 12px;
+  object-fit: cover;
+  margin-top: 2px;
+}
+
+.notification-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.notification-header {
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4defff;
+  margin-right: 8px;
+}
+
+.notification-time {
+  color: rgba(77,239,255,0.8);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.notification-text {
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.92;
+  color: #fff;
+  margin-top: 2px;
+  word-break: break-word;
+}
+
+.lockscreen-bottom {
+  position: absolute;
+  bottom: 24px;
+  width: 100%;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.lockscreen-btn {
+  width: 38px;
+  height: 38px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(16px);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 4px #0002;
+}
+
+.lockscreen-btn img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(1.1);
+}
+
+.lockscreen-homebar {
+  width: 90px;
+  height: 4px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 2px;
+  transition: all 0.2s;
+  margin: 0 18px;
+}
+
+/* Animazione apparizione passcode stile iOS */
+.lockscreen-passcode {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.98) translateY(40px);
+  filter: blur(8px);
+  transition: opacity 0.3s, transform 0.4s cubic-bezier(.4,1.2,.4,1), filter 0.4s cubic-bezier(.4,1.2,.4,1);
+  z-index: 20;
+  animation: none;
+}
+
+.lockscreen-passcode.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  animation: passcode-appear 0.55s cubic-bezier(.4,1.2,.4,1) both;
+}
+
+@keyframes passcode-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.98) translateY(40px);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-8px);
+    filter: blur(1.5px);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(0.99) translateY(2px);
+    filter: blur(0.3px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (max-width: 430px) {
+  .lockscreen {
+    border-radius: 24px;
+  }
+  .lockscreen-main {
+    padding: 0;
+  }
+  .notifications-container {
+    max-width: 98vw;
+    padding: 0 2vw;
+  }
+  .lockscreen-bottom {
+    padding: 0 12px;
+  }
+}
+
+@keyframes notification-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    filter: blur(10px);
+  }
+  40% {
+    opacity: 0.7;
+    transform: translateY(-8px) scale(1.04);
+    filter: blur(2px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(2px) scale(0.99);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Ritardo progressivo per ogni notifica */
+.notifications-container .notification:nth-child(1) {
+  animation-delay: 0.25s;
+}
+.notifications-container .notification:nth-child(2) {
+  animation-delay: 0.65s;
+}
+.notifications-container .notification:nth-child(3) {
+  animation-delay: 1.05s;
+}
