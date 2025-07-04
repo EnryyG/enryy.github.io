@@ -8,13 +8,14 @@
     <!-- GSAP, ScrollTrigger, Anime.js, ScrollMagic CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- SplitText plugin (FREE version from official GSAP CDN) -->
-    <script src="https://assets.codepen.io/16327/SplitText3.min.js"></script>
+    <!-- RIMUOVI SplitText trial e NON usare plugin trial o file gsap-trial.js -->
+    <!-- <script src="https://assets.codepen.io/16327/SplitText3.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js"></script>
-    <!-- Particles.js for animated background -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Vanta.js & three.js for animated background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
     <!-- AOS for scroll animations -->
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
@@ -503,28 +504,6 @@
         left: 80%;
         top: 60%;
       }
-      /* Animated gradient background fallback for mobile/performance */
-      body.animated-bg {
-        background: linear-gradient(120deg, #10131a 0%, #1976d2 100%);
-        background-size: 200% 200%;
-        animation: gradientMove 8s ease-in-out infinite;
-      }
-      @keyframes gradientMove {
-        0% {background-position: 0% 50%;}
-        50% {background-position: 100% 50%;}
-        100% {background-position: 0% 50%;}
-      }
-      /* Particles.js container */
-      #particles-js {
-        position: fixed;
-        top: 0; left: 0; width: 100vw; height: 100vh;
-        z-index: 0;
-        pointer-events: none;
-      }
-      /* Loading screen styles (already present, just ensure it's above everything) */
-      #loading-screen {
-        z-index: 99999;
-      }
       /* Loading screen styles */
       #loading-screen {
         position: fixed;
@@ -856,9 +835,9 @@
       }
     </style>
   </head>
-  <body data-theme="dark" class="loading animated-bg">
-    <!-- Animated background (Particles.js) -->
-    <div id="particles-js"></div>
+  <body data-theme="dark" class="loading">
+    <!-- Animated background (Vanta.js) -->
+    <div id="vanta-bg"></div>
     <!-- Cinematic Loading screen -->
     <div id="loading-screen">
       <div id="loading-cinematic-logo">MyPortfolio</div>
@@ -1079,107 +1058,117 @@ Web Developer con una forte passione per UI moderne, animazioni fluide e svilupp
         ease: "sine.inOut"
       });
 
-      // 1. SplitText FREE version usage example (for animated titles)
-      document.addEventListener('DOMContentLoaded', function() {
-        if (window.SplitText) {
-          // Animate hero title
-          const heroTitle = document.querySelector('#home h1');
-          if (heroTitle) {
-            const split = new SplitText(heroTitle, { type: "words,chars" });
-            gsap.from(split.chars, {
-              opacity: 0,
-              y: 60,
-              rotateX: 90,
-              stagger: 0.04,
-              duration: 0.7,
-              ease: "back.out(1.7)",
-              delay: 0.3
-            });
-          }
-        }
-      });
-
-      // 2. GSAP scroll reveal & section transitions
-      document.querySelectorAll('section').forEach((section, i) => {
-        gsap.fromTo(section, {
-          opacity: 0,
-          y: 60,
-          scale: 0.98,
-          filter: "blur(12px)"
-        }, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: "blur(0px)",
-          duration: 0.7,
-          delay: 0.08 + i * 0.07,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
-          }
-        });
-      });
-
-      // 3. Elegant hover for project cards (GSAP only, no Anime.js needed)
+      // Animazioni hover sulle card progetto con Anime.js + GSAP
       document.querySelectorAll('.project-card').forEach(card => {
         card.addEventListener('mouseenter', () => {
+          anime({
+            targets: card,
+            scale: 1.09,
+            rotateZ: [0, 4],
+            boxShadow: '0 0 0 6px #ffb6c1',
+            backgroundColor: 'rgba(255,182,193,0.10)',
+            duration: 320,
+            easing: 'easeOutBack'
+          });
           gsap.to(card, {
-            scale: 1.06,
-            rotateZ: -2,
-            boxShadow: "0 0 0 8px #1976d2, 0 12px 40px 0 #1565c0",
-            background: "linear-gradient(120deg, #1976d2 0%, #1565c0 100%)",
-            duration: 0.25,
+            y: -8,
+            boxShadow: "0 8px 32px 0 #ffb6c1",
+            duration: 0.22,
             ease: "power2.out"
           });
         });
         card.addEventListener('mouseleave', () => {
-          gsap.to(card, {
+          anime({
+            targets: card,
             scale: 1,
             rotateZ: 0,
-            boxShadow: "0 4px 32px 0 rgba(25,118,210,0.13), 0 1.5px 24px 0 rgba(25,118,210,0.10)",
-            background: "linear-gradient(120deg, rgba(25,118,210,0.13) 0%, var(--card-bg) 100%)",
-            duration: 0.25,
+            boxShadow: '',
+            backgroundColor: '',
+            duration: 320,
+            easing: 'easeOutExpo'
+          });
+          gsap.to(card, {
+            y: 0,
+            boxShadow: "0 4px 24px rgba(26,34,56,0.18)",
+            duration: 0.22,
             ease: "power2.out"
           });
         });
       });
 
-      // 4. Particles.js animated background (lightweight, mobile-friendly)
-      particlesJS("particles-js", {
-        "particles": {
-          "number": { "value": 38, "density": { "enable": true, "value_area": 800 } },
-          "color": { "value": "#1976d2" },
-          "shape": { "type": "circle" },
-          "opacity": { "value": 0.18, "random": true },
-          "size": { "value": 4, "random": true },
-          "line_linked": { "enable": true, "distance": 120, "color": "#1976d2", "opacity": 0.13, "width": 1 },
-          "move": { "enable": true, "speed": 1.2, "direction": "none", "random": false, "straight": false, "out_mode": "out" }
-        },
-        "interactivity": {
-          "detect_on": "canvas",
-          "events": {
-            "onhover": { "enable": true, "mode": "repulse" },
-            "onclick": { "enable": false }
-          },
-          "modes": {
-            "repulse": { "distance": 80, "duration": 0.4 }
-          }
-        },
-        "retina_detect": true
+      // Animazione hover pulsanti CTA e form
+      document.querySelectorAll('.cta-btn, #contact button').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          anime({
+            targets: btn,
+            scale: 1.11,
+            duration: 180,
+            easing: 'easeOutBack'
+          });
+          gsap.to(btn, {
+            boxShadow: "0 0 0 4px #ffb6c1",
+            duration: 0.18
+          });
+        });
+        btn.addEventListener('mouseleave', () => {
+          anime({
+            targets: btn,
+            scale: 1,
+            duration: 180,
+            easing: 'easeOutExpo'
+          });
+          gsap.to(btn, {
+            boxShadow: "var(--shadow)",
+            duration: 0.18
+          });
+        });
       });
 
-      // 5. Loading screen animation (already present, but add fade-out for smoothness)
-      window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-          const loading = document.getElementById('loading-screen');
-          document.body.classList.remove('loading');
-          loading.style.opacity = '0';
-          loading.style.visibility = 'hidden';
-          setTimeout(() => loading.remove(), 900);
-        }, 1800);
+      // Tema dark/light toggle animato
+      const themeToggle = document.getElementById('themeToggle');
+      themeToggle.addEventListener('click', () => {
+        const body = document.body;
+        const isDark = body.getAttribute('data-theme') === 'dark';
+        body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        themeToggle.textContent = isDark ? '☀️' : '🌙';
+        anime({
+          targets: 'body',
+          backgroundColor: isDark ? '#fff' : '#10131a',
+          color: isDark ? '#10131a' : '#fff',
+          duration: 350,
+          easing: 'easeInOutQuad'
+        });
       });
+
+      // Evidenziazione sezione attiva nel menu
+      const navLinks = document.querySelectorAll('nav a');
+      window.addEventListener('scroll', () => {
+        let fromTop = window.scrollY + 70;
+        navLinks.forEach(link => {
+          const section = document.querySelector(link.getAttribute('href'));
+          if (
+            section.offsetTop <= fromTop &&
+            section.offsetTop + section.offsetHeight > fromTop
+          ) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+          }
+        });
+      });
+
+      // ScrollMagic per effetti di parallasse avanzati sulle sezioni (opzionale, puoi rimuovere se usi solo GSAP)
+      const controller = new ScrollMagic.Controller();
+      document.querySelectorAll('section').forEach(section => {
+        new ScrollMagic.Scene({
+          triggerElement: section,
+          triggerHook: 0.8,
+          reverse: true
+        })
+        .setTween(gsap.fromTo(section, {opacity:0, y:60}, {opacity:1, y:0, duration:1}))
+        .addTo(controller);
+      });
+
+      // Versionamento: Ricorda di usare Git e pubblicare su GitHub Pages!
 
       // Chatbot open/close logic fix + Q&A logic (tutto in index.html)
       document.addEventListener('DOMContentLoaded', function() {
