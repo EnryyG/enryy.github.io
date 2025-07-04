@@ -11,34 +11,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js"></script>
+    <!-- Vanta.js & three.js for animated background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+    <!-- AOS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <link rel="stylesheet" href="style.css">
     <style>
       :root {
-        --bg: #181622;
+        --bg: #10131a;
+        --accent: #1976d2;
         --text: #fff;
-        --accent: #ff5e62;
-        --accent2: #ff9966;
-        --card-bg: #23272f;
-        --header-bg: rgba(24,22,34,0.95);
-        --shadow: 0 4px 24px rgba(0,0,0,0.18);
-        --transition: 0.3s cubic-bezier(.77,0,.18,1);
-        --gta-gradient: linear-gradient(90deg, #ff5e62 0%, #ff9966 100%);
-        --gta-gradient2: linear-gradient(90deg, #ff5e62 0%, #ff9966 60%, #fbc2eb 100%);
-        --gta-glow: 0 0 24px #ff5e62, 0 0 48px #ff9966;
+        --accent2: #1565c0;
+        --card-bg: #181c26;
+        --header-bg: rgba(16,19,26,0.97);
+        --shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
+        --transition: 0.18s cubic-bezier(.77,0,.18,1);
+        --gta-gradient: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
+        --gta-gradient2: linear-gradient(90deg, #1976d2 0%, #1565c0 60%, #10131a 100%);
+        --gta-glow: 0 0 16px #1976d2, 0 0 32px #1565c0;
       }
       [data-theme="light"] {
         --bg: #fff;
-        --text: #181622;
-        --accent: #ff5e62;
-        --accent2: #ff9966;
-        --card-bg: #f3f4f6;
-        --header-bg: rgba(255,255,255,0.95);
-        --shadow: 0 4px 24px rgba(255,94,98,0.08);
+        --text: #10131a;
+        --accent: #1976d2;
+        --accent2: #1565c0;
+        --card-bg: #f7f7fa;
+        --header-bg: rgba(255,255,255,0.97);
+        --shadow: 0 4px 24px rgba(25,118,210,0.08);
       }
-      html, body {
+      html {
         height: 100%;
-        margin: 0;
-        padding: 0;
-        background: radial-gradient(ellipse at 60% 40%, #181622 60%, #2d193c 100%);
+        min-height: 100%;
+        background: var(--bg);
+        background: radial-gradient(ellipse at 60% 40%, #10131a 60%, #1565c0 100%);
         color: var(--text);
         font-family: 'Inter', 'Poppins', Arial, sans-serif;
         scroll-behavior: smooth;
@@ -46,7 +53,13 @@
       }
       body {
         min-height: 100vh;
+        background: transparent;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        z-index: 1;
       }
+      /* Header */
       header {
         position: fixed;
         top: 0; left: 0; right: 0;
@@ -57,20 +70,20 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 2rem;
-        height: 64px;
+        height: 70px;
         transition: background var(--transition);
       }
       .logo {
         font-family: 'Montserrat', Arial, sans-serif;
         font-weight: 900;
-        font-size: 2rem;
+        font-size: 2.1rem;
         letter-spacing: 2px;
-        color: #fff;
+        color: var(--accent);
         text-shadow: var(--gta-glow);
       }
       nav {
         display: flex;
-        gap: 2rem;
+        gap: 2.2rem;
       }
       nav a {
         color: var(--text);
@@ -80,13 +93,13 @@
         position: relative;
         transition: color var(--transition);
         padding: 4px 0;
+        font-size: 1.08rem;
       }
       nav a.active, nav a:hover {
         background: var(--gta-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        text-fill-color: transparent;
         text-shadow: var(--gta-glow);
       }
       nav a.active::after, nav a:hover::after {
@@ -104,195 +117,288 @@
         border: none;
         cursor: pointer;
         font-size: 1.7rem;
-        color: #fff;
+        color: var(--accent);
         text-shadow: var(--gta-glow);
         transition: transform 0.3s;
       }
       .theme-toggle:active {
         transform: rotate(30deg) scale(1.1);
       }
+      /* Main and Section Layout */
       main {
-        padding-top: 64px;
-      }
-      /* Migliorato: layout responsive con CSS Grid */
-      main {
+        padding-top: 90px;
         display: flex;
         flex-direction: column;
         gap: 0;
+        min-height: 100vh;
       }
       section {
-        min-height: 100vh;
-        padding: 4rem 2rem;
+        min-height: 70vh;
+        padding: 3rem 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         position: relative;
         opacity: 0;
-        transform: translateY(60px);
+        transform: translateY(40px) scale(0.98);
+        width: 100vw;
+        box-sizing: border-box;
       }
       .container {
         width: 100%;
-        max-width: 1100px;
+        max-width: 900px;
         margin: 0 auto;
+        padding: 0 1.2rem;
+        box-sizing: border-box;
       }
       /* Hero */
       #home {
-        background: linear-gradient(120deg, var(--accent) 0%, var(--bg) 100%);
+        background: rgba(25, 118, 210, 0.10);
         color: #fff;
         text-align: center;
-        border-radius: 0 0 60px 60px;
+        border-radius: 0 0 48px 48px;
         box-shadow: var(--shadow);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        min-height: 60vh;
+        margin-bottom: 2.5rem;
+        width: 100vw;
       }
       #home h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        font-weight: 700;
+        font-size: 2.7rem;
+        margin-bottom: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        line-height: 1.1;
       }
       #home p {
-        font-size: 1.3rem;
-        margin-bottom: 2rem;
+        font-size: 1.15rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+        color: #e3eaf7;
       }
       .cta-btn {
         background: var(--accent);
-        color: #fff;
+        color: #10131a;
         border: none;
         padding: 0.9rem 2.2rem;
         border-radius: 32px;
-        font-size: 1.1rem;
-        font-weight: 600;
+        font-size: 1.13rem;
+        font-weight: 700;
         cursor: pointer;
         box-shadow: var(--shadow);
-        transition: background 0.2s, transform 0.2s;
-        margin-top: 1rem;
+        transition: background 0.18s, transform 0.18s;
+        margin-top: 0.7rem;
+        letter-spacing: 0.5px;
       }
       .cta-btn:hover {
-        background: #4f46e5;
-        transform: scale(1.07) rotate(-2deg);
+        background: #fff;
+        color: var(--accent);
+        transform: scale(1.08) rotate(-2deg);
+        box-shadow: 0 0 0 3px var(--accent2);
       }
       /* About */
       #about {
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 80vh;
-        background: rgba(24,22,34,0.7);
+        min-height: 55vh;
+        background: none;
         border-radius: 32px;
-        margin: 3rem 0;
-        box-shadow: 0 8px 48px 0 rgba(255,94,98,0.08);
+        margin: 2.5rem 0;
+        box-shadow: none;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
+        width: 100vw;
       }
       #about .about-content {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 2.5rem;
+        gap: 1.2rem;
         width: 100%;
         max-width: 700px;
-        padding: 3rem 2rem;
-        background: rgba(24,22,34,0.85);
-        border-radius: 24px;
-        box-shadow: 0 2px 24px 0 rgba(255,94,98,0.10);
+        padding: 2.5rem 2.2rem 2.5rem 2.2rem;
+        background: rgba(10,18,38,0.92);
+        border-radius: 28px;
+        box-shadow: 0 8px 40px 0 rgba(25,118,210,0.18), 0 1.5px 24px 0 rgba(25,118,210,0.10);
         position: relative;
         z-index: 2;
+        border: 1.5px solid rgba(25,118,210,0.18);
+        backdrop-filter: blur(2.5px);
       }
       #about h2 {
         font-family: 'Montserrat', Arial, sans-serif;
-        font-size: 2.7rem;
+        font-size: 2.3rem;
         font-weight: 900;
         margin-bottom: 1.2rem;
-        background: var(--gta-gradient2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        text-shadow: var(--gta-glow);
-        letter-spacing: 1px;
+        color: #1e90ff;
+        letter-spacing: 1.5px;
         text-align: center;
+        text-shadow: 0 0 16px #1976d2, 0 0 32px #1565c0, 0 2px 16px #1976d2;
+        filter: brightness(1.3);
       }
       #about p {
-        font-size: 1.25rem;
+        font-size: 1.13rem;
         font-family: 'Inter', Arial, sans-serif;
         font-weight: 600;
         line-height: 1.7;
         text-align: center;
-        background: var(--gta-gradient2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        text-shadow: 0 2px 16px #ff5e6240;
+        color: #3ea6ff;
+        text-shadow: 0 2px 16px #1976d2a0;
         margin-bottom: 0;
+        margin-top: 0;
+        letter-spacing: 0.01em;
+      }
+      #about p strong {
+        color: #fff;
+        text-shadow: 0 0 8px #1976d2, 0 0 16px #1565c0;
+        font-weight: 900;
       }
       #about a {
         font-weight: 700;
-        background: var(--gta-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
+        color: #1e90ff;
         text-decoration: underline;
-        text-shadow: var(--gta-glow);
+        text-shadow: 0 0 8px #1976d2, 0 0 16px #1565c0;
+        transition: color 0.2s;
       }
-      /* Projects - Migliorato con CSS Grid */
+      #about a:hover {
+        color: #fff;
+        text-shadow: 0 0 16px #1976d2, 0 0 32px #1565c0;
+      }
+      /* Icona link GitHub */
+      #about p .about-github-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        font-size: 1.08em;
+      }
+      #about p .about-github-link svg {
+        width: 1.1em;
+        height: 1.1em;
+        vertical-align: middle;
+        fill: #1e90ff;
+        filter: drop-shadow(0 0 6px #1976d2);
+        margin-right: 0.2em;
+      }
+      /* Projects */
       #projects .projects-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
         gap: 2rem;
         justify-content: center;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+        width: 100%;
       }
       .project-card {
-        background: var(--card-bg);
-        border-radius: 24px;
-        box-shadow: var(--shadow);
-        padding: 2rem 1.5rem;
-        min-height: 260px;
+        background: linear-gradient(120deg, rgba(25,118,210,0.13) 0%, var(--card-bg) 100%);
+        border-radius: 22px;
+        box-shadow: 0 4px 32px 0 rgba(25,118,210,0.13), 0 1.5px 24px 0 rgba(25,118,210,0.10);
+        padding: 1.7rem 1.3rem 1.4rem 1.3rem;
+        min-height: 220px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        transition: background 0.3s;
+        transition:
+          background 0.22s cubic-bezier(.77,0,.18,1),
+          transform 0.22s cubic-bezier(.77,0,.18,1),
+          box-shadow 0.22s cubic-bezier(.77,0,.18,1);
         cursor: pointer;
         position: relative;
         overflow: hidden;
-        will-change: transform;
+        will-change: transform, box-shadow, background;
+        border: 1.5px solid rgba(25,118,210,0.16);
       }
       .project-card h3 {
-        margin: 0 0 0.7rem 0;
-        font-size: 1.3rem;
+        margin: 0 0 0.5rem 0;
+        font-size: 1.22rem;
         color: var(--accent);
+        font-weight: 900;
+        letter-spacing: 0.5px;
+        text-shadow: 0 0 8px #1976d2, 0 0 16px #1565c0;
+        filter: brightness(1.2);
+        transition: color 0.18s;
       }
       .project-card p {
-        font-size: 1rem;
-        margin-bottom: 1.2rem;
+        font-size: 1.05rem;
+        margin-bottom: 1.1rem;
+        color: #b3d1f7;
+        text-shadow: 0 2px 12px #1976d240;
+        line-height: 1.6;
+        transition: color 0.18s;
       }
       .project-card a {
-        color: var(--accent);
+        color: #1e90ff;
         text-decoration: underline;
-        font-weight: 500;
+        font-weight: 700;
+        font-size: 1.01rem;
+        text-shadow: 0 0 8px #1976d2, 0 0 16px #1565c0;
+        transition: color 0.18s;
+      }
+      .project-card a:hover {
+        color: #fff;
+        text-shadow: 0 0 16px #1976d2, 0 0 32px #1565c0;
+      }
+      .project-card::before {
+        content: '';
+        position: absolute;
+        top: -40px; left: -40px;
+        width: 80px; height: 80px;
+        background: radial-gradient(circle, #1976d2 0%, transparent 80%);
+        opacity: 0.18;
+        filter: blur(8px);
+        z-index: 0;
+        pointer-events: none;
+        transition: opacity 0.22s;
+      }
+      .project-card::after {
+        content: '';
+        position: absolute;
+        bottom: -30px; right: -30px;
+        width: 60px; height: 60px;
+        background: radial-gradient(circle, #1565c0 0%, transparent 80%);
+        opacity: 0.13;
+        filter: blur(8px);
+        z-index: 0;
+        pointer-events: none;
+        transition: opacity 0.22s;
+      }
+      .project-card:hover, .project-card:focus {
+        background: linear-gradient(120deg, #1976d2 0%, #1565c0 100%);
+        box-shadow: 0 0 0 5px #1976d2, 0 8px 32px 0 #1565c0;
+        transform: scale(1.06) rotate(-2deg);
+        z-index: 2;
+      }
+      .project-card:hover h3,
+      .project-card:hover p,
+      .project-card:hover a {
+        color: #fff;
+        filter: brightness(1.25);
+      }
+      .project-card:hover::before,
+      .project-card:hover::after {
+        opacity: 0.28;
       }
       /* Contact */
       #contact form {
         display: flex;
         flex-direction: column;
-        gap: 1.2rem;
+        gap: 1rem;
         width: 100%;
-        max-width: 400px;
-        margin: 2rem auto 0 auto;
+        max-width: 350px;
+        margin: 1.5rem auto 0 auto;
       }
       #contact input, #contact textarea {
-        padding: 0.8rem 1rem;
-        border-radius: 12px;
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
         border: 1px solid #ccc;
         font-size: 1rem;
         background: var(--card-bg);
         color: var(--text);
-        transition: border 0.2s;
+        transition: border 0.18s;
       }
       #contact input:focus, #contact textarea:focus {
         border: 1.5px solid var(--accent);
@@ -300,55 +406,129 @@
       }
       #contact button {
         background: var(--accent);
-        color: #fff;
+        color: #10131a;
         border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 24px;
-        font-size: 1.1rem;
-        font-weight: 600;
+        padding: 0.7rem 1.2rem;
+        border-radius: 18px;
+        font-size: 1.05rem;
+        font-weight: 700;
         cursor: pointer;
         box-shadow: var(--shadow);
-        transition: background 0.2s, transform 0.2s;
+        transition: background 0.18s, transform 0.18s;
       }
       #contact button:hover {
-        background: #4f46e5;
-        transform: scale(1.05);
+        background: #fff;
+        color: var(--accent);
+        transform: scale(1.07);
       }
       /* Parallax decor */
       .parallax-decor {
         position: absolute;
         z-index: 0;
         pointer-events: none;
-        opacity: 0.18;
+        opacity: 0.13;
       }
       .parallax-circle {
-        width: 180px;
-        height: 180px;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
         background: var(--accent);
-        filter: blur(20px);
-        left: -80px;
-        top: 40px;
+        filter: blur(18px);
+        left: -60px;
+        top: 30px;
       }
       .parallax-rect {
-        width: 120px;
-        height: 60px;
-        border-radius: 32px;
-        background: linear-gradient(90deg, #ff5e62 0%, #ff9966 100%);
+        width: 80px;
+        height: 40px;
+        border-radius: 20px;
+        background: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
         opacity: 0.13;
         left: 80%;
         top: 60%;
       }
-      /* Migliorato: Responsive e mobile-first */
+      /* Loading screen styles */
+      #loading-screen {
+        position: fixed;
+        z-index: 9999;
+        inset: 0;
+        background: linear-gradient(120deg, #10131a 60%, #1976d2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition: opacity 1.1s cubic-bezier(.77,0,.18,1), visibility 1.1s;
+        overflow: hidden;
+        min-height: 100vh;
+        min-width: 100vw;
+      }
+      #loading-cinematic-logo {
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-size: 3.2rem;
+        font-weight: 900;
+        letter-spacing: 4px;
+        color: #fff;
+        text-shadow: 0 0 32px #1976d2, 0 0 64px #1565c0;
+        opacity: 0;
+        transform: scale(0.8) translateY(60px);
+        animation: cinematicLogoIn 1.1s cubic-bezier(.77,0,.18,1) 0.2s forwards;
+        background: none;
+        margin-bottom: 0;
+      }
+      @keyframes cinematicLogoIn {
+        0% { opacity: 0; transform: scale(0.8) translateY(60px);}
+        60% { opacity: 1; transform: scale(1.08) translateY(-10px);}
+        100% { opacity: 1; transform: scale(1) translateY(0);}
+      }
+      #loading-cinematic-bar {
+        width: 0;
+        height: 5px;
+        margin: 2.2rem 0 0 0;
+        border-radius: 3px;
+        background: linear-gradient(90deg, #1976d2 0%, #1565c0 100%);
+        box-shadow: 0 0 24px #1976d2, 0 0 48px #1565c0;
+        animation: cinematicBarGrow 1.1s cubic-bezier(.77,0,.18,1) 0.9s forwards;
+      }
+      @keyframes cinematicBarGrow {
+        0% { width: 0; opacity: 0.2;}
+        60% { width: 120px; opacity: 1;}
+        100% { width: 180px; opacity: 1;}
+      }
+      #loading-cinematic-fade {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 60%, rgba(25,118,210,0.18) 0%, transparent 80%);
+        opacity: 0;
+        animation: fadeInBg 1.1s cubic-bezier(.77,0,.18,1) 0.7s forwards;
+        pointer-events: none;
+      }
+      @keyframes fadeInBg {
+        0% { opacity: 0;}
+        100% { opacity: 1;}
+      }
+      body.loading {
+        overflow: hidden;
+      }
+      /* Responsive */
+      @media (max-width: 1100px) {
+        .container {
+          max-width: 98vw;
+        }
+        #projects .projects-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
       @media (max-width: 900px) {
+        .container {
+          max-width: 98vw;
+        }
         #about .about-content {
-          padding: 2rem 1rem;
+          padding: 1.2rem 0.5rem;
         }
         #about h2 {
-          font-size: 2rem;
+          font-size: 1.4rem;
         }
         #about p {
-          font-size: 1.05rem;
+          font-size: 0.98rem;
         }
         #projects .projects-grid {
           grid-template-columns: 1fr;
@@ -367,25 +547,36 @@
           gap: 1rem;
         }
         section {
-          padding: 3rem 0.5rem;
+          padding: 1.2rem 0.2rem;
         }
         #about {
-          margin: 1.5rem 0;
-          border-radius: 18px;
+          margin: 1rem 0;
+          border-radius: 12px;
         }
         #about .about-content {
-          padding: 1.2rem 0.5rem;
+          padding: 0.7rem 0.2rem;
         }
         #about h2 {
-          font-size: 1.3rem;
+          font-size: 1.1rem;
         }
         #about p {
-          font-size: 0.98rem;
+          font-size: 0.89rem;
+        }
+        #projects .projects-grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
-  <body data-theme="dark">
+  <body data-theme="dark" class="loading">
+    <!-- Animated background (Vanta.js) -->
+    <div id="vanta-bg"></div>
+    <!-- Cinematic Loading screen -->
+    <div id="loading-screen">
+      <div id="loading-cinematic-logo">MyPortfolio</div>
+      <div id="loading-cinematic-bar"></div>
+      <div id="loading-cinematic-fade"></div>
+    </div>
     <!-- Header fisso con menu e toggle tema -->
     <header>
       <span class="logo">MyPortfolio</span>
@@ -401,10 +592,20 @@
     </header>
     <main>
       <!-- Hero/Home -->
-      <section id="home">
+      <section id="home" data-aos="fade-up" data-aos-duration="1200">
         <div class="container">
           <h1>Ciao, sono <span style="color:var(--accent)">Giovanni Enrique Polimeni</span></h1>
-          <p>Web Developer creativo, appassionato di animazioni e UI moderne.<br>
+          <p>👋 Ciao, sono Giovanni Enrique Polimeni
+Web Developer con una forte passione per UI moderne, animazioni fluide e sviluppo front-end.
+<br>
+💡 Lavoro con HTML, CSS e JavaScript, ma sono sempre curioso di scoprire nuovi framework, tecnologie e modi di lavorare nel mondo IT.
+
+<br>
+
+🚀 Sono alla ricerca di uno stage formativo e stimolante, dove poter crescere, imparare e mettere le basi per una carriera solida come sviluppatore.
+<br>
+
+🎯 Dai un’occhiata ai miei progetti<br>
           Esplora il mio portfolio per scoprire i miei progetti!</p>
           <button class="cta-btn" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
             Guarda i Progetti
@@ -413,7 +614,7 @@
         <div class="parallax-decor parallax-circle"></div>
       </section>
       <!-- About -->
-      <section id="about">
+      <section id="about" data-aos="fade-up" data-aos-duration="1200">
         <div class="container about-content">
           <h2>Chi sono</h2>
           <p>
@@ -423,13 +624,13 @@
             Cerco un’opportunità per crescere sul campo, imparare e costruire il mio futuro nella tecnologia.<br><br>
             <strong>Obiettivo:</strong> inserirmi in un contesto lavorativo o stage tech dove possa crescere come sviluppatore e imparare sul campo.<br><br>
             🔗 Per consultare i progetti realizzati durante il percorso scolastico, visita il mio profilo 
-            <a href="https://github.com/" target="_blank">GitHub</a>.
+            <a href="https://github.com/EnryyG" target="_blank">GitHub</a>.
           </p>
         </div>
         <div class="parallax-decor parallax-rect"></div>
       </section>
       <!-- Projects -->
-      <section id="projects">
+      <section id="projects" data-aos="fade-up" data-aos-duration="1200">
         <div class="container">
           <h2 style="text-align:center;">Progetti</h2>
           <div class="projects-grid">
@@ -452,7 +653,7 @@
         </div>
       </section>
       <!-- Contact -->
-      <section id="contact">
+      <section id="contact" data-aos="fade-up" data-aos-duration="1200">
         <div class="container">
           <h2 style="text-align:center;">Contattami</h2>
           <form>
@@ -464,7 +665,186 @@
         </div>
       </section>
     </main>
+    <!-- Chatbot Widget (Fake) -->
+    <div id="fake-chatbot-widget">
+      <button id="fake-chatbot-toggle" aria-label="Apri chatbot">
+        <span class="bot-pulse"></span>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1976d2"/><path d="M8 10h8M8 14h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div id="fake-chatbot-window" class="closed">
+        <div class="fake-chatbot-header">
+          <span>Giovanni Bot</span>
+          <button id="fake-chatbot-close" aria-label="Chiudi chatbot">&times;</button>
+        </div>
+        <div id="fake-chatbot-messages">
+          <div class="fake-chatbot-message bot">
+            👋 Ciao! Sono l’assistente personale di Giovanni Polimeni.<br>
+            Scegli una domanda qui sotto!
+          </div>
+          <div class="fake-chatbot-questions">
+            <button class="fake-chatbot-question">Chi sei?</button>
+            <button class="fake-chatbot-question">Che studi hai fatto?</button>
+            <button class="fake-chatbot-question">Quali linguaggi conosci?</button>
+            <button class="fake-chatbot-question">Quali progetti hai realizzato?</button>
+            <button class="fake-chatbot-question">Come posso contattarti?</button>
+          </div>
+        </div>
+        <div id="fake-chatbot-loading" class="hidden">
+          <div class="fake-chatbot-loader"></div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
     <script>
+      // Cinematic Loading screen logic
+      window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const loading = document.getElementById('loading-screen');
+          document.body.classList.remove('loading');
+          loading.style.opacity = '0';
+          loading.style.visibility = 'hidden';
+          setTimeout(() => loading.remove(), 1200);
+        }, 1800); // durata totale apertura cinematica
+      });
+
+      // Vanta.js animated background
+      let vantaEffect = null;
+      window.addEventListener('DOMContentLoaded', function(){
+        if (!vantaEffect) {
+          vantaEffect = VANTA.WAVES({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x1976d2, // blu principale
+            shininess: 70.00,
+            waveHeight: 28.00,
+            waveSpeed: 1.2,
+            zoom: 1.05,
+            backgroundColor: 0x10131a // nero/blu notte
+          });
+        }
+      });
+
+      // AOS scroll animations (disattivato, usiamo GSAP custom)
+      // AOS.init({
+      //   once: true,
+      //   duration: 900,
+      //   easing: 'ease-in-out-cubic'
+      // });
+
+      // GSAP: animazioni avanzate su sezioni (più veloci)
+      document.querySelectorAll('section').forEach((section, i) => {
+        gsap.fromTo(section, {
+          opacity: 0,
+          y: 40,
+          scale: 0.99,
+          filter: "blur(8px)"
+        }, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.38, // velocità aumentata
+          delay: 0.03 + i * 0.04, // meno delay tra le sezioni
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 88%",
+            toggleActions: "play none none reverse"
+          }
+        });
+      });
+
+      // Parallax decorativi più dinamici
+      gsap.to('.parallax-circle', {
+        y: 80,
+        x: 40,
+        scale: 1.15,
+        repeat: -1,
+        yoyo: true,
+        duration: 3.5,
+        ease: "sine.inOut"
+      });
+      gsap.to('.parallax-rect', {
+        y: -40,
+        x: -30,
+        scale: 1.08,
+        repeat: -1,
+        yoyo: true,
+        duration: 4.2,
+        ease: "sine.inOut"
+      });
+
+      // Animazioni hover sulle card progetto con Anime.js + GSAP
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          anime({
+            targets: card,
+            scale: 1.09,
+            rotateZ: [0, 4],
+            boxShadow: '0 0 0 6px #ffb6c1',
+            backgroundColor: 'rgba(255,182,193,0.10)',
+            duration: 320,
+            easing: 'easeOutBack'
+          });
+          gsap.to(card, {
+            y: -8,
+            boxShadow: "0 8px 32px 0 #ffb6c1",
+            duration: 0.22,
+            ease: "power2.out"
+          });
+        });
+        card.addEventListener('mouseleave', () => {
+          anime({
+            targets: card,
+            scale: 1,
+            rotateZ: 0,
+            boxShadow: '',
+            backgroundColor: '',
+            duration: 320,
+            easing: 'easeOutExpo'
+          });
+          gsap.to(card, {
+            y: 0,
+            boxShadow: "0 4px 24px rgba(26,34,56,0.18)",
+            duration: 0.22,
+            ease: "power2.out"
+          });
+        });
+      });
+
+      // Animazione hover pulsanti CTA e form
+      document.querySelectorAll('.cta-btn, #contact button').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          anime({
+            targets: btn,
+            scale: 1.11,
+            duration: 180,
+            easing: 'easeOutBack'
+          });
+          gsap.to(btn, {
+            boxShadow: "0 0 0 4px #ffb6c1",
+            duration: 0.18
+          });
+        });
+        btn.addEventListener('mouseleave', () => {
+          anime({
+            targets: btn,
+            scale: 1,
+            duration: 180,
+            easing: 'easeOutExpo'
+          });
+          gsap.to(btn, {
+            boxShadow: "var(--shadow)",
+            duration: 0.18
+          });
+        });
+      });
+
       // Tema dark/light toggle animato
       const themeToggle = document.getElementById('themeToggle');
       themeToggle.addEventListener('click', () => {
@@ -474,9 +854,9 @@
         themeToggle.textContent = isDark ? '☀️' : '🌙';
         anime({
           targets: 'body',
-          backgroundColor: isDark ? '#fff' : '#1a1a1a',
-          color: isDark ? '#1a1a1a' : '#fff',
-          duration: 500,
+          backgroundColor: isDark ? '#fff' : '#10131a',
+          color: isDark ? '#10131a' : '#fff',
+          duration: 350,
           easing: 'easeInOutQuad'
         });
       });
@@ -497,85 +877,7 @@
         });
       });
 
-      // Animazioni di ingresso sezioni con GSAP + ScrollTrigger
-      document.querySelectorAll('section').forEach((section, i) => {
-        gsap.to(section, {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          delay: 0.1 + i * 0.1,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            toggleActions: "play none none reverse"
-          }
-        });
-      });
-
-      // Parallax decorativi
-      gsap.to('.parallax-circle', {
-        y: 120,
-        x: 60,
-        repeat: -1,
-        yoyo: true,
-        duration: 6,
-        ease: "sine.inOut"
-      });
-      gsap.to('.parallax-rect', {
-        y: -60,
-        x: -40,
-        repeat: -1,
-        yoyo: true,
-        duration: 7,
-        ease: "sine.inOut"
-      });
-
-      // Animazioni hover sulle card progetto con Anime.js
-      document.querySelectorAll('.project-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          anime({
-            targets: card,
-            scale: 1.07,
-            rotateZ: [0, 3],
-            backgroundColor: 'rgba(99,102,241,0.13)',
-            duration: 400,
-            easing: 'easeOutBack'
-          });
-        });
-        card.addEventListener('mouseleave', () => {
-          anime({
-            targets: card,
-            scale: 1,
-            rotateZ: 0,
-            backgroundColor: '',
-            duration: 400,
-            easing: 'easeOutExpo'
-          });
-        });
-      });
-
-      // Animazione hover pulsanti CTA
-      document.querySelectorAll('.cta-btn, #contact button').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          anime({
-            targets: btn,
-            scale: 1.09,
-            duration: 250,
-            easing: 'easeOutBack'
-          });
-        });
-        btn.addEventListener('mouseleave', () => {
-          anime({
-            targets: btn,
-            scale: 1,
-            duration: 250,
-            easing: 'easeOutExpo'
-          });
-        });
-      });
-
-      // ScrollMagic per effetti di parallasse avanzati sulle sezioni (esempio)
-      // Puoi personalizzare ulteriormente per effetti più complessi
+      // ScrollMagic per effetti di parallasse avanzati sulle sezioni (opzionale, puoi rimuovere se usi solo GSAP)
       const controller = new ScrollMagic.Controller();
       document.querySelectorAll('section').forEach(section => {
         new ScrollMagic.Scene({
